@@ -1,12 +1,9 @@
 <resources>
-    <string name="app_name">Vodafone-fu Anti-H300s Technique</string>
+    <string name="app_name">Recover VOIP/DSL settings from H300s</string>
     <string name="loading_msg">Detecting H300s Ip...</string>
     <string name="wifi_not_found">wi-fi has not been detected</string>
     <string name="connection_instructions">
-        Have a look on the back of your router and look for the:\n
-            * Router menu url\n
-            * User name\n
-            * Router password\n
-        As image shows bellow:
+        Have a look on the back of your router and look for the information as image shows bellow (information in the red box).\n\n
+        Then fill the router menu url, username and router password in the form that will show you in the next step.
     </string>
 </resources>

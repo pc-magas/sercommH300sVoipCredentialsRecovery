@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VfuH300s">
-        <activity android:name=".screens.InstructionsActivity"></activity>
+        <activity android:name=".screens.ConnectIntoRouterActivity"></activity>
+        <activity android:name=".screens.InstructionsActivity" />
         <activity android:name=".screens.ErrorActivity" />
         <activity android:name=".screens.ConnectionIntoRouter" />
         <activity android:name=".MainActivity">

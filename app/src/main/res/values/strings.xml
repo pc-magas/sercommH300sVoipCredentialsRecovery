@@ -4,6 +4,10 @@
     <string name="wifi_not_found">wi-fi has not been detected</string>
     <string name="connection_instructions">
         Have a look on the back of your router and look for the information as image shows bellow (information in the red box).\n\n
-        Then fill the router menu url, username and router password in the form that will show you in the next step.
+        Then fill the: Router menu URL, username and router password in the form that will be shown to you in the next step.
     </string>
+    <string name="menu_url">Router menu URL:</string>
+    <string name="router_username">User name:</string>
+    <string name="password">Router password</string>
+    <string name="connect">Connect</string>
 </resources>

@@ -6,4 +6,51 @@
     android:layout_height="match_parent"
     tools:context=".screens.ConnectIntoRouterActivity">
 
+    <EditText
+        android:id="@+id/menu_url"
+        android:layout_width="409dp"
+        android:hint="@string/menu_url"
+        android:inputType="textUri"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="409dp"
+        android:hint="@string/router_username"
+        android:inputType="text"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/menu_url" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="409dp"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/connect_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
+
+    <Button
+        android:id="@+id/connect_btn"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:text="@string/connect"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

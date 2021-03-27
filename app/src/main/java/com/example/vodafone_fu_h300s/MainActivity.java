@@ -47,10 +47,9 @@ public class MainActivity extends AppCompatActivity {
 
     protected void connectScreen(String ip)
     {
-        Intent error_msg_activity = new Intent(this, InstructionsActivity.class);
+        Intent instructions_extra = new Intent(this, InstructionsActivity.class);
         String router_url=(ip==null)?"":"https://"+ip;
-        error_msg_activity.putExtra("router_url",router_url);
-        error_msg_activity.putExtra("admin_username","admin");
-        startActivity(error_msg_activity);
+        instructions_extra.putExtra("router_url",router_url);
+        startActivity(instructions_extra);
     }
 }

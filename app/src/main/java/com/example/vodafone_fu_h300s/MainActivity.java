@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         String ip = null;
         try {
             ip = H300sDetector.gateWayIp(this);
+
             if(ip == null){
                 Log.e("DetectedIP","IP is NULL");
             } else {

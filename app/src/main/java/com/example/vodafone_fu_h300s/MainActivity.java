@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     protected void connectScreen(String ip)
     {
         Intent instructions_extra = new Intent(this, InstructionsActivity.class);
-        String router_url=(ip==null)?"":"https://"+ip;
+        String router_url=(ip==null)?"":ip;
         instructions_extra.putExtra("router_url",router_url);
         startActivity(instructions_extra);
     }

@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "vfu-H300s"
+rootProject.name = "vodafone-fu-H300s"

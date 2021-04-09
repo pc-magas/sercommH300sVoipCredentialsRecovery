@@ -1,31 +1,153 @@
 package com.example.vodafone_fu_h300s.logic;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
+import java.io.IOException;
 import java.util.Scanner;
+
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+
+import com.example.vodafone_fu_h300s.exceptions.CsrfTokenNotFound;
 import com.example.vodafone_fu_h300s.logic.Η300sCredentialsRetriever;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class Η300sCredentialsRetrieverTest {
 
-//    public static String getHtml(String path) {
-//        File myObj = new File(path);
-//        Scanner myReader = new Scanner(myObj);
-//        StringBuilder responseAggregator = new StringBuilder();
-//        while (myReader.hasNextLine()) {
-//            responseAggregator.append(myReader.nextLine());
-//        }
-//
-//        return responseAggregator.toString();
-//    }
+
+    private static OkHttpClient mockCsrfHttpRequest() throws IOException {
+        File file = (new File("src/test/resources/csrfValid.html")).getAbsoluteFile();
+        String path = file.getPath();
+        System.out.println(path);
+        Scanner fileReader = new Scanner(file);
+        String contents = fileReader.useDelimiter("\\Z").next();
+
+        return mockHttpClient(contents,false,200);
+    }
+
+    private static OkHttpClient mockHttpClient(final String serializedBody, final boolean json, int code) throws IOException {
+        final OkHttpClient okHttpClient = mock(OkHttpClient.class);
+
+        final Call remoteCall = mock(Call.class);
+
+        code = code<0?200:code;
+
+        final Response response = new Response.Builder()
+                .request(new Request.Builder().url("http://url.com").build())
+                .protocol(Protocol.HTTP_1_1)
+                .code(code).message("").body(
+                        ResponseBody.create(
+                                MediaType.parse(json?"application/json":"text/html"),
+                                serializedBody
+                        ))
+                .build();
+
+        when(remoteCall.execute()).thenReturn(response);
+        when(okHttpClient.newCall(any())).thenReturn(remoteCall);
+
+        return okHttpClient;
+    }
 
     @Test
-    public void retrieveCSRFTokenReturnsCSRFToken() {
-        URL url = getClass().getResource("/sampleData/csrfValid.html");
-        System.out.println(url.toString());
-//        InputStream file = getClass().getResourceAsStream("/sampleData/csrfValid.html");
-        assert(true);
+    public void retrieveCSRFTokenFromHtmlReturnsCSRFToken() throws IOException {
+
+        File file = (new File("src/test/resources/csrfValid.html")).getAbsoluteFile();
+        String path = file.getPath();
+        Scanner fileReader = new Scanner(file);
+        String contents = fileReader.useDelimiter("\\Z").next();
+
+        Η300sCredentialsRetriever retriever = new Η300sCredentialsRetriever("https://192.168.2.1");
+        String expectedToken="HelloHowAreYou";
+
+        String csrftoken = retriever.retrieveCSRFTokenFromHtml(contents);
+        System.out.println(csrftoken);
+
+        Assert.assertTrue(expectedToken.equals(csrftoken));
+    }
+
+    @Test
+    public void retrieveCSRFTokenFromHtmlWithEmptyHtmlDoesNotReturnCsrfToken() throws IOException {
+        Η300sCredentialsRetriever retriever = new Η300sCredentialsRetriever("https://192.168.2.1");
+        String csrftoken = retriever.retrieveCSRFTokenFromHtml("");
+
+        Assert.assertTrue(csrftoken.equals(""));
+    }
+
+    @Test
+    public void retrieveCSRFTokenFromHtmlWithNoCsrfTokenInHtmlDoesNotReturnCsrfToken() throws IOException {
+        File file = (new File("src/test/resources/csrfInvalid.html")).getAbsoluteFile();
+        String path = file.getPath();
+        Scanner fileReader = new Scanner(file);
+        String contents = fileReader.useDelimiter("\\Z").next();
+
+        Η300sCredentialsRetriever retriever = new Η300sCredentialsRetriever("https://192.168.2.1");
+        String csrftoken = retriever.retrieveCSRFTokenFromHtml(contents);
+
+        Assert.assertTrue(csrftoken.equals(""));
+    }
+
+    @Test
+    public void testHttpRequest() throws Exception {
+        File file = (new File("src/test/resources/csrfInvalid.html")).getAbsoluteFile();
+        String path = file.getPath();
+        Scanner fileReader = new Scanner(file);
+        String contents = fileReader.useDelimiter("\\Z").next();
+        OkHttpClient client = this.mockHttpClient(contents,false,200);
+
+        Η300sCredentialsRetriever retriever = new Η300sCredentialsRetriever("https://192.168.2.1");
+        retriever.setHttpClient(client);
+
+        String response = retriever.retrieveUrlContents("/example.html");
+        Assert.assertTrue(contents.equals(response));
+
+    }
+
+    @Test
+    public void retrieveCsrfTokenFromUrlOn404()throws IOException{
+        OkHttpClient client = this.mockHttpClient("",false,404);
+
+        Η300sCredentialsRetriever retriever = new Η300sCredentialsRetriever("https://192.168.2.1");
+        retriever.setHttpClient(client);
+
+        Assert.assertThrows(Exception.class,()->{
+            String response = retriever.retrieveUrlContents("/example.html");
+        });
+    }
+
+    @Test
+    public void retrieveCsrfTokenFromUrlOn500()throws IOException{
+        OkHttpClient client = this.mockHttpClient("",false,500);
+
+        Η300sCredentialsRetriever retriever = new Η300sCredentialsRetriever("https://192.168.2.1");
+        retriever.setHttpClient(client);
+
+        Assert.assertThrows(Exception.class,()->{
+            String response = retriever.retrieveUrlContents("/example.html");
+        });
+    }
+
+    @Test
+    public void retrieveCsrfTokenFromUrl() throws IOException {
+        OkHttpClient client = mockCsrfHttpRequest();
+        String expectedToken="HelloHowAreYou";
+
+        Η300sCredentialsRetriever retriever = new Η300sCredentialsRetriever("https://192.168.2.1");
+        retriever.setHttpClient(client);
+        try{
+            String csrftoken = retriever.retrieveCsrfTokenFromUrl("/example.html");
+            Assert.assertTrue(expectedToken.equals(csrftoken));
+        } catch (CsrfTokenNotFound e){
+            Assert.fail("CSRF Token Not Found");
+        }
     }
 }

@@ -75,6 +75,11 @@ public class Η300sCredentialsRetriever implements Runnable {
         this.password = password.trim();
     }
 
+    public String getSessionId()
+    {
+        return this.session_id;
+    }
+
     public String retrieveCSRFTokenFromHtml(String htmlPageUrl) throws IOException {
 
         if(htmlPageUrl==null || htmlPageUrl.trim().equals("")){
@@ -102,12 +107,17 @@ public class Η300sCredentialsRetriever implements Runnable {
             // AJAX Calls also require to offer the _ with a unix timestamp alongside csrf token
             url+="?_="+unixtime+"&csrf_token="+csrfToken;
         }
-        Request request = new Request.Builder()
+        Request.Builder request = new Request.Builder()
                 .url(url)
-                .header("User-Agent","Mozila/5.0 (X11;Ubuntu; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0")
-                .build();
+                .header("User-Agent","Mozila/5.0 (X11;Ubuntu; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0");
 
-        Response response = this.httpClient.newCall(request).execute();
+        String session_id = this.session_id==null?"":this.session_id;
+
+        if(!session_id.equals("")){
+            request.header("Set-Cookie","session_id="+session_id+";login_uid="+Math.random());
+        }
+
+        Response response = this.httpClient.newCall(request.build()).execute();
 
         int code = response.code();
         if( code != 200){
@@ -141,13 +151,36 @@ public class Η300sCredentialsRetriever implements Runnable {
 
         try {
             String token = this.retrieveCsrfTokenFromUrl("/login.html");
+
+            if(token == null){
+                return false;
+            }
+
+            if(token.trim().equals("")){
+                return false;
+            }
+
             String challengeJson = this.retrieveUrlContents("/data/login.json");
 
+            if(challengeJson == null){
+                return false;
+            }
+
+            if(challengeJson.trim().equals("")){
+                return false;
+            }
 
             JSONObject json = (JSONObject) (new JSONArray(challengeJson)).get(0);
 
             String challenge = json.getString("challenge");
 
+            if(challenge == null){
+                return false;
+            }
+
+            if(challenge.trim().equals("")){
+                return false;
+            }
 
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             String stringToDigest = password+challenge;

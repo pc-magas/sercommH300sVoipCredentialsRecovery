@@ -19,7 +19,9 @@ import com.example.vodafone_fu_h300s.exceptions.CsrfTokenNotFound;
 import com.example.vodafone_fu_h300s.logic.Η300sCredentialsRetriever;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 public class Η300sCredentialsRetrieverTest {
@@ -50,6 +52,30 @@ public class Η300sCredentialsRetrieverTest {
                                 MediaType.parse(json?"application/json":"text/html"),
                                 serializedBody
                         ))
+                .build();
+
+        when(remoteCall.execute()).thenReturn(response);
+        when(okHttpClient.newCall(any())).thenReturn(remoteCall);
+
+        return okHttpClient;
+    }
+
+    private static OkHttpClient mockHttpClientWithSessionId(final String serializedBody, final boolean json, int code) throws IOException {
+        final OkHttpClient okHttpClient = mock(OkHttpClient.class);
+
+        final Call remoteCall = mock(Call.class);
+
+        code = code<0?200:code;
+
+        final Response response = new Response.Builder()
+                .request(new Request.Builder().url("http://url.com").build())
+                .protocol(Protocol.HTTP_1_1)
+                .code(code).message("").body(
+                        ResponseBody.create(
+                                MediaType.parse(json?"application/json":"text/html"),
+                                serializedBody
+                        ))
+                .addHeader("Set-Cookie","session_id=dummysession;path=/")
                 .build();
 
         when(remoteCall.execute()).thenReturn(response);
@@ -183,5 +209,26 @@ public class Η300sCredentialsRetrieverTest {
         } catch (CsrfTokenNotFound e){
             Assert.fail("CSRF Token Not Found");
         }
+    }
+
+    @Test
+    public void testLogin() throws CsrfTokenNotFound,Exception
+    {
+        final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
+        doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html");
+        doReturn("[{\"challenge\":\"Hello\"},{\"timeout\":0}]").when(retriever).retrieveUrlContents("/data/login.json");
+        retriever.setUrl("192.168.2.1");
+
+        final OkHttpClient okHttpClient = mockHttpClientWithSessionId("1",true,200);
+        retriever.setHttpClient(okHttpClient);
+
+        retriever.setUsername("admin");
+        retriever.setPassword("1234");
+        retriever.setExceptionHandler((Exception e)->{
+            Assert.assertFalse(true);
+        });
+        boolean success = retriever.login();
+        Assert.assertTrue(success);
+        Assert.assertEquals("dummysession",retriever.getSessionId());
     }
 }

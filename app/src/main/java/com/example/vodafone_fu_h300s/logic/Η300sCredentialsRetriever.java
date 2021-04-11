@@ -1,8 +1,12 @@
 package com.example.vodafone_fu_h300s.logic;
 
 import com.example.vodafone_fu_h300s.exceptions.CsrfTokenNotFound;
+import com.example.vodafone_fu_h300s.exceptions.SettingsFailedException;
 import com.example.vodafone_fu_h300s.logic.lambdas.ExceptionHandler;
 import com.example.vodafone_fu_h300s.logic.lambdas.LoginHandler;
+import com.example.vodafone_fu_h300s.logic.lambdas.RetrieveSettings;
+import com.example.vodafone_fu_h300s.logic.lambdas.RetrieveSettingsHandler;
+import com.example.vodafone_fu_h300s.logic.lambdas.SettingsRetrievalFailedHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,6 +38,8 @@ public class Η300sCredentialsRetriever implements Runnable {
 
     private LoginHandler loginHandler;
     private ExceptionHandler exceptionHandler;
+    private RetrieveSettingsHandler settingsHandler;
+    private SettingsRetrievalFailedHandler failedHandler;
 
     private String session_id;
 
@@ -41,8 +47,18 @@ public class Η300sCredentialsRetriever implements Runnable {
     {
         this.exceptionHandler = (Exception e)->{};
         this.loginHandler     = (boolean loginStatus)->{};
+        this.settingsHandler  = (H300sVoipSettings settings)->{};
+        this.failedHandler    = ()->{};
 
         this.setHttpClient(new OkHttpClient());
+    }
+
+    public void setSettingsHandler(RetrieveSettingsHandler handler){
+        this.settingsHandler = handler;
+    }
+
+    public void setFailedHandler(SettingsRetrievalFailedHandler handler){
+        this.failedHandler = handler;
     }
 
     public void setExceptionHandler(ExceptionHandler handler){
@@ -111,7 +127,8 @@ public class Η300sCredentialsRetriever implements Runnable {
                 .url(url)
                 .header("User-Agent","Mozila/5.0 (X11;Ubuntu; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0");
 
-        String session_id = this.session_id==null?"":this.session_id;
+        String session_id = this.getSessionId();
+        session_id = session_id==null?"":session_id;
 
         if(!session_id.equals("")){
             request.header("Set-Cookie","session_id="+session_id+";login_uid="+Math.random());
@@ -224,21 +241,37 @@ public class Η300sCredentialsRetriever implements Runnable {
         }
     }
 
-//    public Object retrieveVOIPSettings() {
-//        try {
-//
-//        } catch(Exception e){
-//            exceptionHandler.handle(e);
-//        }
-//    }
+    public H300sVoipSettings retrieveVOIPSettings()  throws Exception {
+        H300sVoipSettings settings;
+
+        String csrfToken = retrieveCsrfTokenFromUrl("/phone.html#sub=17&subSub=20");
+
+        if(csrfToken == null || csrfToken.trim().equals("")){
+            throw new SettingsFailedException();
+        }
+
+        String contents = retrieveUrlContents("/data/phone_voip.json",csrfToken);
+
+        if(contents == null || contents.trim().equals("")){
+            throw new SettingsFailedException();
+        }
+
+        settings = H300sVoipSettings.createFromJson(contents);
+
+        return settings;
+    }
 
     public void run() {
-        try{
+        try {
             boolean loginStatus = login();
             loginHandler.loginCallback(loginStatus);
-            if(loginStatus){
-
+            if (loginStatus) {
+                H300sVoipSettings settings = retrieveVOIPSettings();
+                settingsHandler.retrieveSettings(settings);
             }
+        } catch (SettingsFailedException f){
+            failedHandler.handler();
+            exceptionHandler.handle(f);
         } catch (Exception e){
             exceptionHandler.handle(e);
         }

@@ -2,6 +2,9 @@ package com.example.vodafone_fu_h300s.logic;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mockito;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +17,7 @@ import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okhttp3.mock.MockInterceptor;
 
 import com.example.vodafone_fu_h300s.exceptions.CsrfTokenNotFound;
 import com.example.vodafone_fu_h300s.logic.Η300sCredentialsRetriever;
@@ -25,6 +29,9 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 public class Η300sCredentialsRetrieverTest {
+
+    @Captor
+    ArgumentCaptor<Request> responseCaptor;
 
 
     private static OkHttpClient mockCsrfHttpRequest() throws IOException {
@@ -61,7 +68,7 @@ public class Η300sCredentialsRetrieverTest {
     }
 
     private static OkHttpClient mockHttpClientWithSessionId(final String serializedBody, final boolean json, int code) throws IOException {
-        final OkHttpClient okHttpClient = mock(OkHttpClient.class);
+        OkHttpClient okHttpClient = mock(OkHttpClient.class);
 
         final Call remoteCall = mock(Call.class);
 
@@ -154,7 +161,7 @@ public class Η300sCredentialsRetrieverTest {
     }
 
     @Test
-    public void testHttpRequest() throws Exception {
+    public void testRetrieveUrlContents() throws Exception {
         File file = (new File("src/test/resources/csrfInvalid.html")).getAbsoluteFile();
         String path = file.getPath();
         Scanner fileReader = new Scanner(file);

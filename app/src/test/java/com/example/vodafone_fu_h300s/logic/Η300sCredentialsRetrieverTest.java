@@ -231,4 +231,65 @@ public class Η300sCredentialsRetrieverTest {
         Assert.assertTrue(success);
         Assert.assertEquals("dummysession",retriever.getSessionId());
     }
+
+    @Test
+    public void testLoginWithoutCsrf() throws CsrfTokenNotFound,Exception
+    {
+        final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
+        doReturn("").when(retriever).retrieveCsrfTokenFromUrl("/login.html");
+        doReturn("[{\"challenge\":\"Hello\"},{\"timeout\":0}]").when(retriever).retrieveUrlContents("/data/login.json");
+        retriever.setUrl("192.168.2.1");
+
+        final OkHttpClient okHttpClient = mockHttpClientWithSessionId("1",true,200);
+        retriever.setHttpClient(okHttpClient);
+
+        retriever.setUsername("admin");
+        retriever.setPassword("1234");
+        retriever.setExceptionHandler((Exception e)->{
+            Assert.assertFalse(true);
+        });
+        boolean success = retriever.login();
+        Assert.assertFalse(success);
+        Assert.assertNotEquals("dummysession",retriever.getSessionId());
+    }
+
+    @Test
+    public void testLoginWithoutChallengeOnWrongJson() throws CsrfTokenNotFound,Exception
+    {
+        final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
+        doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html");
+        doReturn("[]").when(retriever).retrieveUrlContents("/data/login.json");
+        retriever.setUrl("192.168.2.1");
+
+        final OkHttpClient okHttpClient = mockHttpClientWithSessionId("1",true,200);
+        retriever.setHttpClient(okHttpClient);
+
+        retriever.setUsername("admin");
+        retriever.setPassword("1234");
+
+        boolean success = retriever.login();
+        Assert.assertFalse(success);
+        Assert.assertNotEquals("dummysession",retriever.getSessionId());
+    }
+
+    @Test
+    public void testLoginWithoutChallengeOnNonJson() throws CsrfTokenNotFound,Exception
+    {
+        final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
+        doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html");
+        doReturn("").when(retriever).retrieveUrlContents("/data/login.json");
+        retriever.setUrl("192.168.2.1");
+
+        final OkHttpClient okHttpClient = mockHttpClientWithSessionId("1",true,200);
+        retriever.setHttpClient(okHttpClient);
+
+        retriever.setUsername("admin");
+        retriever.setPassword("1234");
+        retriever.setExceptionHandler((Exception e)->{
+            System.out.println(e.getMessage());
+        });
+        boolean success = retriever.login();
+        Assert.assertFalse(success);
+        Assert.assertNotEquals("dummysession",retriever.getSessionId());
+    }
 }

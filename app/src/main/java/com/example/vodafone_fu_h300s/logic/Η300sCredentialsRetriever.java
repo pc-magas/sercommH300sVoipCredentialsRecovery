@@ -1,7 +1,5 @@
 package com.example.vodafone_fu_h300s.logic;
 
-import android.webkit.URLUtil;
-
 import com.example.vodafone_fu_h300s.exceptions.CsrfTokenNotFound;
 import com.example.vodafone_fu_h300s.logic.lambdas.ExceptionHandler;
 import com.example.vodafone_fu_h300s.logic.lambdas.LoginHandler;
@@ -17,16 +15,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import okhttp3.Call;
-import okhttp3.Cookie;
-import okhttp3.HttpUrl;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.FormBody.Builder;
-
-
 
 import java.security.MessageDigest;
 
@@ -61,8 +54,12 @@ public class Η300sCredentialsRetriever implements Runnable {
     }
 
     public void setUrl(String url){
-        url = URLUtil.guessUrl(url);
+        url = "http://"+url.replaceAll("http(s?)://","");
         this.url = url;
+    }
+
+    public String getUrl(){
+        return this.url;
     }
 
     public void setHttpClient(OkHttpClient client)

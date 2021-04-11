@@ -59,6 +59,36 @@ public class Η300sCredentialsRetrieverTest {
     }
 
     @Test
+    public void testSetUrl()
+    {
+        Η300sCredentialsRetriever retriever = new Η300sCredentialsRetriever();
+        retriever.setUrl("192.168.2.1");
+        String expectedUrl = "http://192.168.2.1";
+
+        Assert.assertEquals(expectedUrl, retriever.getUrl());
+    }
+
+    @Test
+    public void testSetUrlHttps()
+    {
+        Η300sCredentialsRetriever retriever = new Η300sCredentialsRetriever();
+        retriever.setUrl("https://192.168.2.1");
+        String expectedUrl = "http://192.168.2.1";
+
+        Assert.assertEquals(expectedUrl, retriever.getUrl());
+    }
+
+    @Test
+    public void testSetUrlHttp()
+    {
+        Η300sCredentialsRetriever retriever = new Η300sCredentialsRetriever();
+        retriever.setUrl("http://192.168.2.1");
+        String expectedUrl = "http://192.168.2.1";
+
+        Assert.assertEquals(expectedUrl, retriever.getUrl());
+    }
+
+    @Test
     public void retrieveCSRFTokenFromHtmlReturnsCSRFToken() throws IOException {
 
         File file = (new File("src/test/resources/csrfValid.html")).getAbsoluteFile();

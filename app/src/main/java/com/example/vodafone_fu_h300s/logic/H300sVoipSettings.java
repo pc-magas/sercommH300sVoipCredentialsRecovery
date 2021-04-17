@@ -133,15 +133,15 @@ public class H300sVoipSettings
         for (int i = 0; i < settingsJson.length(); i++) {
             JSONObject item = settingsJson.getJSONObject(i);
             if(item.getString("type").equals("provider")){
-                settings.setPrimary_registar(item.getString("primary_registar"));
-                settings.setPrimary_registar(item.getString("primary_registar_port"));
+                settings.setPrimary_registar(item.getString("primary_registrar"));
+                settings.setPrimary_registar(item.getString("primary_registrar_port"));
                 settings.setPrimary_proxy(item.getString("primary_proxy"));
                 settings.setPrimary_proxy_port(item.getString("primary_proxy_port"));
                 settings.setSip_domain(item.getString("sip_domain"));
                 settings.setSecondary_proxy(item.getString("secondary_proxy"));
                 settings.setSecondary_proxy_port(item.getString("secondary_proxy_port"));
-                settings.setSecondary_registar(item.getString("secondary_registar"));
-                settings.setSecondary_registar_port(item.getString("secondary_registar_port"));
+                settings.setSecondary_registar(item.getString("secondary_registrar"));
+                settings.setSecondary_registar_port(item.getString("secondary_registrar_port"));
             } else if(item.getString("type").equals("number")){
                 settings.setSip_number(item.getString("sip_number"));
                 settings.setUsername(item.getString("username"));

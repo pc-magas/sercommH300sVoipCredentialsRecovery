@@ -1,7 +1,8 @@
 package com.example.vodafone_fu_h300s.logic;
 
-import com.example.vodafone_fu_h300s.exceptions.CsrfTokenNotFound;
-import com.example.vodafone_fu_h300s.exceptions.SettingsFailedException;
+import com.example.vodafone_fu_h300s.logic.exceptions.CsrfTokenNotFound;
+import com.example.vodafone_fu_h300s.logic.exceptions.SettingsFailedException;
+
 import com.example.vodafone_fu_h300s.logic.lambdas.ExceptionHandler;
 import com.example.vodafone_fu_h300s.logic.lambdas.LoginHandler;
 import com.example.vodafone_fu_h300s.logic.lambdas.RetrieveSettingsHandler;

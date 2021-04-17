@@ -1,12 +1,13 @@
 package com.example.vodafone_fu_h300s.logic;
 
+import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
-import org.mockito.Mockito;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -17,10 +18,9 @@ import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import okhttp3.mock.MockInterceptor;
 
-import com.example.vodafone_fu_h300s.exceptions.CsrfTokenNotFound;
-import com.example.vodafone_fu_h300s.logic.Η300sCredentialsRetriever;
+import com.example.vodafone_fu_h300s.logic.exceptions.CsrfTokenNotFound;
+import com.example.vodafone_fu_h300s.logic.exceptions.SettingsFailedException;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -211,7 +211,7 @@ public class Η300sCredentialsRetrieverTest {
         retriever.setUrl("192.168.2.1");
         retriever.setHttpClient(client);
         try{
-            String csrftoken = retriever.retrieveCsrfTokenFromUrl("/example.html");
+            String csrftoken = retriever.retrieveCsrfTokenFromUrl("/example.html",null);
             Assert.assertTrue(expectedToken.equals(csrftoken));
         } catch (CsrfTokenNotFound e){
             Assert.fail("CSRF Token Not Found");
@@ -222,7 +222,7 @@ public class Η300sCredentialsRetrieverTest {
     public void testLogin() throws CsrfTokenNotFound,Exception
     {
         final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
-        doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html");
+        doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html",null);
         doReturn("[{\"challenge\":\"Hello\"},{\"timeout\":0}]").when(retriever).retrieveUrlContents("/data/login.json");
         retriever.setUrl("192.168.2.1");
 
@@ -243,7 +243,7 @@ public class Η300sCredentialsRetrieverTest {
     public void testLoginWithoutCsrf() throws CsrfTokenNotFound,Exception
     {
         final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
-        doReturn("").when(retriever).retrieveCsrfTokenFromUrl("/login.html");
+        doReturn("").when(retriever).retrieveCsrfTokenFromUrl("/login.html",null);
         doReturn("[{\"challenge\":\"Hello\"},{\"timeout\":0}]").when(retriever).retrieveUrlContents("/data/login.json");
         retriever.setUrl("192.168.2.1");
 
@@ -264,7 +264,7 @@ public class Η300sCredentialsRetrieverTest {
     public void testLoginWithoutChallengeOnWrongJson() throws CsrfTokenNotFound,Exception
     {
         final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
-        doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html");
+        doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html",null);
         doReturn("[]").when(retriever).retrieveUrlContents("/data/login.json");
         retriever.setUrl("192.168.2.1");
 
@@ -283,7 +283,7 @@ public class Η300sCredentialsRetrieverTest {
     public void testLoginWithoutChallengeOnNonJson() throws CsrfTokenNotFound,Exception
     {
         final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
-        doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html");
+        doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html",null);
         doReturn("").when(retriever).retrieveUrlContents("/data/login.json");
         retriever.setUrl("192.168.2.1");
 
@@ -298,5 +298,79 @@ public class Η300sCredentialsRetrieverTest {
         boolean success = retriever.login();
         Assert.assertFalse(success);
         Assert.assertNotEquals("dummysession",retriever.getSessionId());
+    }
+
+    @Test
+    public void retrieveVoipSettings() throws FileNotFoundException, JSONException,CsrfTokenNotFound,IOException,Exception
+    {
+        File file = (new File("src/test/resources/voipSettings.json")).getAbsoluteFile();
+        String path = file.getPath();
+        System.out.println(path);
+        Scanner fileReader = new Scanner(file);
+        String contents = fileReader.useDelimiter("\\Z").next();
+
+        H300sVoipSettings expectedSettings = H300sVoipSettings.createFromJson(contents);
+
+        final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
+        doReturn("fdssdfsdfsd").when(retriever).retrieveCsrfTokenFromUrl("/overview.html","http://192.168.2.1/login.html");
+        doReturn("fdsfsdfdsfsd").when(retriever).getSessionId();
+
+        OkHttpClient client = mockHttpClient(contents,true,200);
+        retriever.setHttpClient(client);
+        retriever.setUrl("192.168.2.1");
+
+        H300sVoipSettings settings = retriever.retrieveVOIPSettings();
+
+        Assert.assertTrue(expectedSettings.equals(settings));
+    }
+
+    @Test
+    public void retrieveVoipSettingsMissingCSRFToken() throws FileNotFoundException, JSONException,CsrfTokenNotFound,IOException,Exception
+    {
+        File file = (new File("src/test/resources/voipSettings.json")).getAbsoluteFile();
+        String path = file.getPath();
+        System.out.println(path);
+        Scanner fileReader = new Scanner(file);
+        String contents = fileReader.useDelimiter("\\Z").next();
+
+        final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
+        doReturn(null).when(retriever).retrieveCsrfTokenFromUrl("/overview.html","http://192.168.2.1/login.html");
+        doReturn("fdsfsdfdsfsd").when(retriever).getSessionId();
+
+        OkHttpClient client = mockHttpClient(contents,true,200);
+        retriever.setHttpClient(client);
+        retriever.setUrl("192.168.2.1");
+
+        try {
+            H300sVoipSettings settings = retriever.retrieveVOIPSettings();
+            Assert.assertTrue(false);
+        } catch(SettingsFailedException f){
+            Assert.assertTrue(true);
+        }
+    }
+
+    @Test
+    public void retrieveVoipSettingsCSRFTokenEmptyString() throws FileNotFoundException, JSONException,CsrfTokenNotFound,IOException,Exception
+    {
+        File file = (new File("src/test/resources/voipSettings.json")).getAbsoluteFile();
+        String path = file.getPath();
+        System.out.println(path);
+        Scanner fileReader = new Scanner(file);
+        String contents = fileReader.useDelimiter("\\Z").next();
+
+        final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
+        doReturn("").when(retriever).retrieveCsrfTokenFromUrl("/overview.html","http://192.168.2.1/login.html");
+        doReturn("fdsfsdfdsfsd").when(retriever).getSessionId();
+
+        OkHttpClient client = mockHttpClient(contents,true,200);
+        retriever.setHttpClient(client);
+        retriever.setUrl("192.168.2.1");
+
+        try {
+            H300sVoipSettings settings = retriever.retrieveVOIPSettings();
+            Assert.assertTrue(false);
+        } catch(SettingsFailedException f){
+            Assert.assertTrue(true);
+        }
     }
 }

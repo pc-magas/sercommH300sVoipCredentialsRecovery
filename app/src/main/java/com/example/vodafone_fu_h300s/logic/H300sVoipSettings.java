@@ -120,21 +120,27 @@ public class H300sVoipSettings
         this.sip_number = sip_number;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public static H300sVoipSettings createFromJson(String jsonString) throws IllegalArgumentException, JSONException {
         if(jsonString == null || jsonString.trim().equals("")){
             throw new IllegalArgumentException("JsonString Should not be empty");
         }
 
         JSONArray settingsJson = new JSONArray(jsonString);
-        @SuppressWarnings("unchecked")
-
         H300sVoipSettings settings = new H300sVoipSettings();
 
         for (int i = 0; i < settingsJson.length(); i++) {
             JSONObject item = settingsJson.getJSONObject(i);
             if(item.getString("type").equals("provider")){
                 settings.setPrimary_registar(item.getString("primary_registrar"));
-                settings.setPrimary_registar(item.getString("primary_registrar_port"));
+                settings.setPrimary_registar_port(item.getString("primary_registrar_port"));
                 settings.setPrimary_proxy(item.getString("primary_proxy"));
                 settings.setPrimary_proxy_port(item.getString("primary_proxy_port"));
                 settings.setSip_domain(item.getString("sip_domain"));
@@ -152,11 +158,22 @@ public class H300sVoipSettings
         return settings;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
+
+    public boolean equals(H300sVoipSettings other){
+
+        return other.getPassword().equals(this.getPassword()) &&
+               other.getUsername().equals(this.getUsername()) &&
+               other.getSip_number().equals(this.getSip_number()) &&
+               other.getSip_domain().equals(this.getSip_domain()) &&
+               other.getPrimary_proxy().equals(this.getPrimary_proxy()) &&
+               other.getPrimary_proxy_port().equals(this.getPrimary_proxy_port()) &&
+               other.getPrimary_registar().equals(this.getPrimary_registar()) &&
+               other.getPrimary_registar_port().equals(this.getPrimary_registar_port()) &&
+               other.getSecondary_proxy().equals(this.getSecondary_proxy()) &&
+               other.getSecondary_proxy_port().equals(this.getSecondary_proxy_port()) &&
+               other.getSecondary_registar().equals(this.getSecondary_registar()) &&
+               other.getSecondary_registar_port().equals(this.getSecondary_registar_port());
+
     }
 }

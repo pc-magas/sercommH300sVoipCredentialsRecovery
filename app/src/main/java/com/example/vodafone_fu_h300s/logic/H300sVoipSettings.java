@@ -1,5 +1,11 @@
 package com.example.vodafone_fu_h300s.logic;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Iterator;
+
 public class H300sVoipSettings
 {
     private String username;
@@ -23,8 +29,6 @@ public class H300sVoipSettings
     private String secondary_proxy_port;
 
     private String sip_domain;
-
-    private String sip_port;
 
     private String sip_number;
 
@@ -108,14 +112,6 @@ public class H300sVoipSettings
         this.sip_domain = sip_domain;
     }
 
-    public String getSip_port() {
-        return sip_port;
-    }
-
-    public void setSip_port(String sip_port) {
-        this.sip_port = sip_port;
-    }
-
     public String getSip_number() {
         return sip_number;
     }
@@ -124,8 +120,43 @@ public class H300sVoipSettings
         this.sip_number = sip_number;
     }
 
-    public static H300sVoipSettings createFromJson(String jsonString)
-    {
+    public static H300sVoipSettings createFromJson(String jsonString) throws IllegalArgumentException, JSONException {
+        if(jsonString == null || jsonString.trim().equals("")){
+            throw new IllegalArgumentException("JsonString Should not be empty");
+        }
 
+        JSONArray settingsJson = new JSONArray(jsonString);
+        @SuppressWarnings("unchecked")
+
+        H300sVoipSettings settings = new H300sVoipSettings();
+
+        for (int i = 0; i < settingsJson.length(); i++) {
+            JSONObject item = settingsJson.getJSONObject(i);
+            if(item.getString("type").equals("provider")){
+                settings.setPrimary_registar(item.getString("primary_registar"));
+                settings.setPrimary_registar(item.getString("primary_registar_port"));
+                settings.setPrimary_proxy(item.getString("primary_proxy"));
+                settings.setPrimary_proxy_port(item.getString("primary_proxy_port"));
+                settings.setSip_domain(item.getString("sip_domain"));
+                settings.setSecondary_proxy(item.getString("secondary_proxy"));
+                settings.setSecondary_proxy_port(item.getString("secondary_proxy_port"));
+                settings.setSecondary_registar(item.getString("secondary_registar"));
+                settings.setSecondary_registar_port(item.getString("secondary_registar_port"));
+            } else if(item.getString("type").equals("number")){
+                settings.setSip_number(item.getString("sip_number"));
+                settings.setUsername(item.getString("username"));
+                settings.setPassword(item.getString("password"));
+            }
+        }
+
+        return settings;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

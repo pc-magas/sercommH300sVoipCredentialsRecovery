@@ -4,7 +4,6 @@ import com.example.vodafone_fu_h300s.exceptions.CsrfTokenNotFound;
 import com.example.vodafone_fu_h300s.exceptions.SettingsFailedException;
 import com.example.vodafone_fu_h300s.logic.lambdas.ExceptionHandler;
 import com.example.vodafone_fu_h300s.logic.lambdas.LoginHandler;
-import com.example.vodafone_fu_h300s.logic.lambdas.RetrieveSettings;
 import com.example.vodafone_fu_h300s.logic.lambdas.RetrieveSettingsHandler;
 import com.example.vodafone_fu_h300s.logic.lambdas.SettingsRetrievalFailedHandler;
 
@@ -113,7 +112,7 @@ public class Η300sCredentialsRetriever implements Runnable {
         return "";
     }
 
-    public String retrieveUrlContents(String url, String csrfToken) throws Exception
+    public String retrieveUrlContents(String url, String csrfToken, String referer) throws Exception
     {
         url = this.url.replaceAll("/$","")+"/"+url.replaceAll("^/","");
         csrfToken=(csrfToken == null)?"":csrfToken;
@@ -125,13 +124,22 @@ public class Η300sCredentialsRetriever implements Runnable {
         }
         Request.Builder request = new Request.Builder()
                 .url(url)
-                .header("User-Agent","Mozila/5.0 (X11;Ubuntu; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0");
+                .header("User-Agent","Mozila/5.0 (X11;Ubuntu; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0")
+                .header("Accept","text/html,application/xhtml+html;application/xml;q=0.9,image/webp,*/*;q=0.8")
+                .header("Upgrade-Insecure-Requests","1")
+                .header("Sec-GPC","1");
 
         String session_id = this.getSessionId();
         session_id = session_id==null?"":session_id;
 
         if(!session_id.equals("")){
-            request.header("Set-Cookie","session_id="+session_id+";login_uid="+Math.random());
+            request.header("Cookie","login_uid="+Math.random()+"; session_id="+session_id);
+        }
+
+        referer = (referer==null)?"":referer;
+
+        if(!referer.trim().equals("")){
+            request.header("Referer",referer);
         }
 
         Response response = this.httpClient.newCall(request.build()).execute();
@@ -144,13 +152,18 @@ public class Η300sCredentialsRetriever implements Runnable {
         return responseBody;
     }
 
+    public String retrieveUrlContents(String url, String csrfToken) throws Exception
+    {
+        return retrieveUrlContents(url,csrfToken,"");
+    }
+
     public String retrieveUrlContents(String url) throws Exception {
        return retrieveUrlContents(url,"");
     }
 
-    public String retrieveCsrfTokenFromUrl(String url) throws CsrfTokenNotFound {
+    public String retrieveCsrfTokenFromUrl(String url,String referer) throws CsrfTokenNotFound {
         try {
-            String html = retrieveUrlContents(url);
+            String html = retrieveUrlContents(url,"",referer);
             return retrieveCSRFTokenFromHtml(html);
         } catch (Exception e) {
             exceptionHandler.handle(e);
@@ -167,7 +180,8 @@ public class Η300sCredentialsRetriever implements Runnable {
         }
 
         try {
-            String token = this.retrieveCsrfTokenFromUrl("/login.html");
+            this.session_id = null;
+            String token = this.retrieveCsrfTokenFromUrl("/login.html",null);
 
             if(token == null){
                 return false;
@@ -217,7 +231,7 @@ public class Η300sCredentialsRetriever implements Runnable {
 
             long unixTime = System.currentTimeMillis() / 1000L;
             Request request = new Request.Builder()
-                    .url(this.url+"data/login.json?_="+unixTime+"&csrfToken="+token)
+                    .url(this.url+"/data/login.json?_="+unixTime+"&csrfToken="+token)
                     .post(requestBody)
                     .header("Cookie","login_uid="+Math.random())
                     .header("Referer","http://192.158.2.1/login.html")
@@ -232,6 +246,9 @@ public class Η300sCredentialsRetriever implements Runnable {
 
             String responseString = response.body().string();
             String cookies = response.header("Set-Cookie");
+            if(cookies == null || cookies.trim().equals("")){
+                return false;
+            }
             cookies=cookies.replaceAll("path=/|session_id=|;","");
             this.session_id=cookies;
             return responseString.equals("1");
@@ -244,19 +261,25 @@ public class Η300sCredentialsRetriever implements Runnable {
     public H300sVoipSettings retrieveVOIPSettings()  throws Exception {
         H300sVoipSettings settings;
 
-        String csrfToken = retrieveCsrfTokenFromUrl("/phone.html#sub=17&subSub=20");
+        String csrfToken = retrieveCsrfTokenFromUrl("/overview.html",this.url+"/login.html");
 
         if(csrfToken == null || csrfToken.trim().equals("")){
             throw new SettingsFailedException();
         }
 
-        String contents = retrieveUrlContents("/data/phone_voip.json",csrfToken);
+        String contents = retrieveUrlContents("/data/phone_voip.json",csrfToken,this.url+"/phone.html");
 
         if(contents == null || contents.trim().equals("")){
             throw new SettingsFailedException();
         }
 
-        settings = H300sVoipSettings.createFromJson(contents);
+        try{
+            settings = H300sVoipSettings.createFromJson(contents);
+        } catch (Exception e){
+            this.exceptionHandler.handle(e);
+            throw new SettingsFailedException();
+        }
+
 
         return settings;
     }

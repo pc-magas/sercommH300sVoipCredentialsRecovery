@@ -10,4 +10,13 @@
     <string name="router_username">User name:</string>
     <string name="password">Router password</string>
     <string name="connect">Connect</string>
+    <string name="title_activity_display_router_settings">DisplayRouterSettings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <!--VOIP Settings -->
+    <string name="voip_settings">Voip Settings</string>
+    <string name="save_settings">Save Settings</string>
 </resources>

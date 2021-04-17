@@ -1,1 +1,39 @@
-[ { "id": "1", "type": "provider", "name": "vodafone", "primary_registrar": "ngn.hol.net", "primary_registrar_port": "5060", "primary_proxy": "ngn.hol.net", "primary_proxy_port": "5060", "sip_domain": "ngn.hol.net", "outbound": "0", "outbound_server": "", "outbound_server_port": "5060", "secondary_server": "0", "secondary_registrar": "", "secondary_registrar_port": "5060", "secondary_proxy": "", "secondary_proxy_port": "5060" }, { "id": "101", "type": "number", "provider": "1", "local_port": "5060", "sip_number": "2016528654", "username": "2016528654@ngn.hol.net", "password": "omaewamoushindeiru", "status": "1", "enable": "1", "codec": "G.711ALaw,G.729,disable,disable", "dtml_mode": "InBand", "fax_codec": "Passthrough", "packetization_time": "20", "silence_suppression": "0", "ingress_gain": "-1", "egress_gain": "-4", "echo_cancellation": "1" } ]
+[
+  {
+    "id": "1",
+    "type": "provider",
+    "name": "vodafone",
+    "primary_registrar": "ngn.hol.net",
+    "primary_registrar_port": "5060",
+    "primary_proxy": "ngn.hol.net",
+    "primary_proxy_port": "5060",
+    "sip_domain": "ngn.hol.net",
+    "outbound": "0",
+    "outbound_server": "",
+    "outbound_server_port": "5060",
+    "secondary_server": "0",
+    "secondary_registrar": "",
+    "secondary_registrar_port": "5060",
+    "secondary_proxy": "",
+    "secondary_proxy_port": "5060"
+  },
+  {
+    "id": "101",
+    "type": "number",
+    "provider": "1",
+    "local_port": "5060",
+    "sip_number": "2016528654",
+    "username": "2016528654@ngn.hol.net",
+    "password": "omaewamoushindeiru",
+    "status": "1",
+    "enable": "1",
+    "codec": "G.711ALaw,G.729,disable,disable",
+    "dtml_mode": "InBand",
+    "fax_codec": "Passthrough",
+    "packetization_time": "20",
+    "silence_suppression": "0",
+    "ingress_gain": "-1",
+    "egress_gain": "-4",
+    "echo_cancellation": "1"
+  }
+]

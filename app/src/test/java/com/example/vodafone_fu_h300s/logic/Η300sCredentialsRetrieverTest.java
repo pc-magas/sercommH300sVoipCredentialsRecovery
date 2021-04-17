@@ -3,8 +3,7 @@ package com.example.vodafone_fu_h300s.logic;
 import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,10 +28,6 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 public class Η300sCredentialsRetrieverTest {
-
-    @Captor
-    ArgumentCaptor<Request> responseCaptor;
-
 
     private static OkHttpClient mockCsrfHttpRequest() throws IOException {
         File file = (new File("src/test/resources/csrfValid.html")).getAbsoluteFile();

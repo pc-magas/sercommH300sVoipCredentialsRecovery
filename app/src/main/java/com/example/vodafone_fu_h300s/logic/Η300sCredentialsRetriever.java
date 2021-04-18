@@ -27,7 +27,7 @@ import okhttp3.FormBody.Builder;
 
 import java.security.MessageDigest;
 
-public class Η300sCredentialsRetriever implements Runnable {
+public class Η300sCredentialsRetriever {
 
     private String url;
 
@@ -285,7 +285,8 @@ public class Η300sCredentialsRetriever implements Runnable {
         return settings;
     }
 
-    public void run() {
+    public void retrieveVoipCredentials()
+    {
         try {
             boolean loginStatus = login();
             loginHandler.loginCallback(loginStatus);
@@ -300,4 +301,6 @@ public class Η300sCredentialsRetriever implements Runnable {
             exceptionHandler.handle(e);
         }
     }
+
+
 }

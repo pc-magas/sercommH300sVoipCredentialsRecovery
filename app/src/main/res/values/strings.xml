@@ -1,22 +1,32 @@
 <resources>
+
     <string name="app_name">Recover VOIP/DSL settings from H300s</string>
     <string name="loading_msg">Detecting H300s Ip...</string>
     <string name="wifi_not_found">wi-fi has not been detected</string>
+
     <string name="connection_instructions">
         Have a look on the back of your router and look for the information as image shows bellow (information in the red box).\n\n
         Then fill the: Router menu URL, username and router password in the form that will be shown to you in the next step.
     </string>
+
     <string name="menu_url">Router menu URL:</string>
     <string name="router_username">User name:</string>
     <string name="password">Router password</string>
     <string name="connect">Connect</string>
     <string name="title_activity_display_router_settings">DisplayRouterSettings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+
+
     <!--VOIP Settings -->
     <string name="voip_settings">Voip Settings</string>
     <string name="save_settings">Save Settings</string>
+    <string name="voip_username">Username:</string>
+    <string name="voip_password">Username:</string>
+    <string name="voip_phone">Voip Phone:</string>
+    <string name="primary_registar">Primary Registar</string>
+    <string name="secondary_registar">Secondary Registar</string>
+    <string name="primary_proxy">Primary Proxy</string>
+    <string name="secondary_proxy">Secondary Proxy</string>
+    <string name="sip_domain">Sip Domain</string>
+    <string name="port">Port</string>
+    <string name="na">N/A</string>
 </resources>

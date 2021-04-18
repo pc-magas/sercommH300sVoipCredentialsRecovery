@@ -27,7 +27,7 @@ import okhttp3.FormBody.Builder;
 
 import java.security.MessageDigest;
 
-public class Η300sCredentialsRetriever {
+public class Η300sCredentialsRetriever  implements Runnable {
 
     private String url;
 
@@ -42,6 +42,8 @@ public class Η300sCredentialsRetriever {
     private SettingsRetrievalFailedHandler failedHandler;
 
     private String session_id;
+
+    public static final String REDIRECT_URL="<script>top.location.href=\"/login.html\";</script>";
 
     public Η300sCredentialsRetriever()
     {
@@ -127,7 +129,6 @@ public class Η300sCredentialsRetriever {
                 .url(url)
                 .header("User-Agent","Mozila/5.0 (X11;Ubuntu; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0")
                 .header("Accept","text/html,application/xhtml+html;application/xml;q=0.9,image/webp,*/*;q=0.8")
-                .header("Upgrade-Insecure-Requests","1")
                 .header("Sec-GPC","1");
 
         String session_id = this.getSessionId();
@@ -172,6 +173,7 @@ public class Η300sCredentialsRetriever {
         }
     }
 
+
     public boolean login() {
 
         if(
@@ -181,7 +183,16 @@ public class Η300sCredentialsRetriever {
         }
 
         try {
+
+            String overviewPage = this.retrieveUrlContents("/overview.html");
+
+            // Skip Login already logged in and valid session
+            if(!overviewPage.replaceAll(" ","").equals(REDIRECT_URL)){
+                return true;
+            }
+
             this.session_id = null;
+
             String token = this.retrieveCsrfTokenFromUrl("/login.html",null);
 
             if(token == null){
@@ -230,6 +241,7 @@ public class Η300sCredentialsRetriever {
                     .add("challenge",challenge)
                     .build();
 
+
             long unixTime = System.currentTimeMillis() / 1000L;
             Request request = new Request.Builder()
                     .url(this.url+"/data/login.json?_="+unixTime+"&csrfToken="+token)
@@ -246,13 +258,18 @@ public class Η300sCredentialsRetriever {
             Response response = call.execute();
 
             String responseString = response.body().string();
+            if(responseString.equals("3")){
+                return false;
+            }
+
             String cookies = response.header("Set-Cookie");
             if(cookies == null || cookies.trim().equals("")){
                 return false;
             }
             cookies=cookies.replaceAll("path=/|session_id=|;","");
             this.session_id=cookies;
-            return responseString.equals("1");
+
+            return true;
         } catch (Exception e){
             exceptionHandler.handle(e);
             return false;
@@ -285,6 +302,12 @@ public class Η300sCredentialsRetriever {
         return settings;
     }
 
+    /**
+     * Login + Voip Settings Retrieval.
+     * The settings are retrieved via settingsHandler
+     * The login is handled via loginCallback
+     * Any exception is logged in exceptionHandler
+     */
     public void retrieveVoipCredentials()
     {
         try {
@@ -302,5 +325,7 @@ public class Η300sCredentialsRetriever {
         }
     }
 
-
+    public void run(){
+        this.retrieveVoipCredentials();
+    }
 }

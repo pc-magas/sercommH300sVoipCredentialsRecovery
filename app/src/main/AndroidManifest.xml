@@ -18,7 +18,6 @@
         <activity android:name=".screens.ConnectIntoRouterActivity" />
         <activity android:name=".screens.InstructionsActivity" />
         <activity android:name=".screens.ErrorActivity" />
-        <activity android:name=".screens.ConnectionIntoRouter" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

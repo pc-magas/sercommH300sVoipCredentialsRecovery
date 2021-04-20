@@ -17,6 +17,8 @@ public class DisplaySettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_settings);
 
         H300sVoipSettings settings = (H300sVoipSettings) getIntent().getSerializableExtra("H300sVoipSettings");
+        TextView phone = (TextView)findViewById(R.id.voip_phone);
+        phone.setText(settings.getSip_number());
 
         TextView username = (TextView)findViewById(R.id.voip_username);
         username.setText(settings.getUsername());
@@ -24,8 +26,7 @@ public class DisplaySettingsActivity extends AppCompatActivity {
         TextView password = (TextView)findViewById(R.id.voip_password);
         password.setText(settings.getPassword());
 
-        TextView phone = (TextView)findViewById(R.id.voip_phone);
-        phone.setText(settings.getSip_number());
+
 
         TextView sip_domain = (TextView)findViewById(R.id.sip_domain);
         sip_domain.setText(settings.getSip_domain());

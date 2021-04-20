@@ -25,11 +25,11 @@
         </TableRow>
         <TableRow>
             <TextView android:text="@string/voip_password"></TextView>
-            <TextView android:text="@+id/voip_password"></TextView>
+            <TextView android:id="@+id/voip_password"></TextView>
         </TableRow>
         <TableRow>
             <TextView android:text="@string/sip_domain"></TextView>
-            <TextView android:text="@+id/sip_domain"></TextView>
+            <TextView android:id="@+id/sip_domain"></TextView>
         </TableRow>
 
     </TableLayout>

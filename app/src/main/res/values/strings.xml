@@ -20,7 +20,7 @@
     <string name="voip_settings">Voip Settings</string>
     <string name="save_settings">Save Settings</string>
     <string name="voip_username">Username:</string>
-    <string name="voip_password">Username:</string>
+    <string name="voip_password">Password:</string>
     <string name="voip_phone">Voip Phone:</string>
     <string name="primary_registar">Primary Registar</string>
     <string name="secondary_registar">Secondary Registar</string>

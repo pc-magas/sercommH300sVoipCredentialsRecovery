@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class H300sVoipSettingsTest
 {
     @Test
-    public void testSerialize() throws JSONException, FileNotFoundException {
+    public void testcreateFromJson() throws JSONException, FileNotFoundException {
         File file = (new File("src/test/resources/voipSettings.json")).getAbsoluteFile();
         String path = file.getPath();
         System.out.println(path);
@@ -20,22 +20,21 @@ public class H300sVoipSettingsTest
         String contents = fileReader.useDelimiter("\\Z").next();
 
         H300sVoipSettings expectedSettings = H300sVoipSettings.createFromJson(contents);
-        Map<String,String> values = expectedSettings.serialize();
 
-        Assert.assertEquals("ngn.hol.net",values.get("primary_registar"));
-        Assert.assertEquals("5060",values.get("primary_registar_port"));
-        Assert.assertEquals("ngn.hol.net",values.get("primary_proxy"));
-        Assert.assertEquals("5060",values.get("primary_proxy_port"));
+        Assert.assertEquals("ngn.hol.net",expectedSettings.getPrimary_registar());
+        Assert.assertEquals("5060",expectedSettings.getPrimary_registar_port());
+        Assert.assertEquals("ngn.hol.net",expectedSettings.getPrimary_proxy());
+        Assert.assertEquals("5060",expectedSettings.getPrimary_proxy_port());
 
-        Assert.assertEquals("ngn.hol.net",values.get("sip_domain"));
-        Assert.assertEquals("2016528654",values.get("sip_number"));
-        Assert.assertEquals("2016528654@ngn.hol.net",values.get("username"));
-        Assert.assertEquals("omaewamoushindeiru",values.get("password"));
+        Assert.assertEquals("ngn.hol.net",expectedSettings.getSip_domain());
+        Assert.assertEquals("2016528654",expectedSettings.getSip_number());
+        Assert.assertEquals("2016528654@ngn.hol.net",expectedSettings.getUsername());
+        Assert.assertEquals("omaewamoushindeiru",expectedSettings.getPassword());
 
-        Assert.assertEquals("N/A",values.get("secondary_registar"));
-        Assert.assertEquals("5060",values.get("secondary_registar_port"));
+        Assert.assertEquals(null,expectedSettings.getSecondary_registar());
+        Assert.assertEquals("5060",expectedSettings.getSecondary_registar_port());
 
-        Assert.assertEquals("N/A",values.get("secondary_proxy"));
-        Assert.assertEquals("5060",values.get("secondary_proxy_port"));
+        Assert.assertEquals(null,expectedSettings.getSecondary_proxy());
+        Assert.assertEquals("5060",expectedSettings.getSecondary_registar_port());
     }
 }

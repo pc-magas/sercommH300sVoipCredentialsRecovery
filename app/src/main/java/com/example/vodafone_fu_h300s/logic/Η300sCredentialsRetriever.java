@@ -176,9 +176,7 @@ public class Η300sCredentialsRetriever  implements Runnable {
 
     public boolean login() {
 
-        if(
-                username == null || username.equals("") ||
-                password == null || password.equals("")){
+        if(username == null || username.equals("") || password == null || password.equals("")){
             return false;
         }
 
@@ -195,11 +193,7 @@ public class Η300sCredentialsRetriever  implements Runnable {
 
             String token = this.retrieveCsrfTokenFromUrl("/login.html",null);
 
-            if(token == null){
-                return false;
-            }
-
-            if(token.trim().equals("")){
+            if(token == null || token.trim().equals("") ){
                 return false;
             }
 

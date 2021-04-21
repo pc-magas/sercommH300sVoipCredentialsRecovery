@@ -62,7 +62,7 @@ public class Η300sCredentialsRetrieverTest {
         return okHttpClient;
     }
 
-    private static OkHttpClient mockHttpClientWithSessionId(final String serializedBody, final boolean json, int code) throws IOException {
+    private static OkHttpClient mockHttpClientWithSessionId(final String serializedBody, String url ,final boolean json, int code) throws IOException {
         OkHttpClient okHttpClient = mock(OkHttpClient.class);
 
         final Call remoteCall = mock(Call.class);
@@ -70,7 +70,7 @@ public class Η300sCredentialsRetrieverTest {
         code = code<0?200:code;
 
         final Response response = new Response.Builder()
-                .request(new Request.Builder().url("http://url.com").build())
+                .request(new Request.Builder().url(url).build())
                 .protocol(Protocol.HTTP_1_1)
                 .code(code).message("").body(
                         ResponseBody.create(
@@ -218,10 +218,11 @@ public class Η300sCredentialsRetrieverTest {
     {
         final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
         doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html",null);
+        doReturn("<script>top.location.href=\"/login.html\";</script>").when(retriever).retrieveUrlContents("/overview.html");
         doReturn("[{\"challenge\":\"Hello\"},{\"timeout\":0}]").when(retriever).retrieveUrlContents("/data/login.json");
         retriever.setUrl("192.168.2.1");
 
-        final OkHttpClient okHttpClient = mockHttpClientWithSessionId("1",true,200);
+        final OkHttpClient okHttpClient = mockHttpClientWithSessionId("1","http://192.168.2.1/data/login.json",true,200);
         retriever.setHttpClient(okHttpClient);
 
         retriever.setUsername("admin");
@@ -239,10 +240,11 @@ public class Η300sCredentialsRetrieverTest {
     {
         final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
         doReturn("").when(retriever).retrieveCsrfTokenFromUrl("/login.html",null);
+        doReturn("<script>top.location.href=\"/login.html\";</script>").when(retriever).retrieveUrlContents("/overview.html");
         doReturn("[{\"challenge\":\"Hello\"},{\"timeout\":0}]").when(retriever).retrieveUrlContents("/data/login.json");
         retriever.setUrl("192.168.2.1");
 
-        final OkHttpClient okHttpClient = mockHttpClientWithSessionId("1",true,200);
+        final OkHttpClient okHttpClient = mockHttpClientWithSessionId("1","http://192.168.2.1/data/login.json",true,200);
         retriever.setHttpClient(okHttpClient);
 
         retriever.setUsername("admin");
@@ -261,9 +263,10 @@ public class Η300sCredentialsRetrieverTest {
         final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
         doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html",null);
         doReturn("[]").when(retriever).retrieveUrlContents("/data/login.json");
+        doReturn("<script>top.location.href=\"/login.html\";</script>").when(retriever).retrieveUrlContents("/overview.html");
         retriever.setUrl("192.168.2.1");
 
-        final OkHttpClient okHttpClient = mockHttpClientWithSessionId("1",true,200);
+        final OkHttpClient okHttpClient = mockHttpClientWithSessionId("1","http://192.168.2.1/data/login.json",true,200);
         retriever.setHttpClient(okHttpClient);
 
         retriever.setUsername("admin");
@@ -280,9 +283,10 @@ public class Η300sCredentialsRetrieverTest {
         final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
         doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html",null);
         doReturn("").when(retriever).retrieveUrlContents("/data/login.json");
+        doReturn("<script>top.location.href=\"/login.html\";</script>").when(retriever).retrieveUrlContents("/overview.html");
         retriever.setUrl("192.168.2.1");
 
-        final OkHttpClient okHttpClient = mockHttpClientWithSessionId("1",true,200);
+        final OkHttpClient okHttpClient = mockHttpClientWithSessionId("1","http://192.168.2.1/data/login.json",true,200);
         retriever.setHttpClient(okHttpClient);
 
         retriever.setUsername("admin");

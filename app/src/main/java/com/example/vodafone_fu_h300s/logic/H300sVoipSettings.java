@@ -176,7 +176,7 @@ public class H300sVoipSettings implements Serializable
 
     public boolean equals(H300sVoipSettings other){
 
-        return other.getPassword().equals(this.getPassword()) &&
+        boolean truth =  other.getPassword().equals(this.getPassword()) &&
                other.getUsername().equals(this.getUsername()) &&
                other.getSip_number().equals(this.getSip_number()) &&
                other.getSip_domain().equals(this.getSip_domain()) &&
@@ -184,10 +184,18 @@ public class H300sVoipSettings implements Serializable
                other.getPrimary_proxy_port().equals(this.getPrimary_proxy_port()) &&
                other.getPrimary_registar().equals(this.getPrimary_registar()) &&
                other.getPrimary_registar_port().equals(this.getPrimary_registar_port()) &&
-               other.getSecondary_proxy().equals(this.getSecondary_proxy()) &&
                other.getSecondary_proxy_port().equals(this.getSecondary_proxy_port()) &&
-               other.getSecondary_registar().equals(this.getSecondary_registar()) &&
                other.getSecondary_registar_port().equals(this.getSecondary_registar_port());
 
+
+        truth = truth && ((other.getSecondary_proxy() == null && this.getSecondary_proxy() == null) || (other.getSecondary_proxy().equals(this.getSecondary_proxy())));
+        truth = truth &&
+                (
+                        (other.getSecondary_registar() == null && this.getSecondary_registar() == null) ||
+                                (
+                                        other.getSecondary_registar().equals(this.getSecondary_registar())
+                                )
+                );
+        return truth;
     }
 }

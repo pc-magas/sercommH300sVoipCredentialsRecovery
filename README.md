@@ -18,6 +18,7 @@ Recover VOIP Credentials and DSL settings from Sercomm H300s router.
 4. Improve UI
 5. Redetect IP if ip has not been detected.
 6. Save settings into a .txt file
+7. Set a improved Icon
 
 # Contributing
 

@@ -1,11 +1,11 @@
-package com.example.vodafone_fu_h300s.screens;
+package pc_magas.vodafone_fu_h300s.screens;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.example.vodafone_fu_h300s.R;
+import pc_magas.vodafone_fu_h300s.R;
 
 public class ErrorActivity extends AppCompatActivity {
 

@@ -1,20 +1,10 @@
-package com.example.vodafone_fu_h300s.logic;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+package pc_magas.vodafone_fu_h300s.logic;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class H300sVoipSettings implements Serializable
 {

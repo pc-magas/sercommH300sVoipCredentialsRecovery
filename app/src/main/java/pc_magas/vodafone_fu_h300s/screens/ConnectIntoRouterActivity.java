@@ -1,11 +1,10 @@
-package com.example.vodafone_fu_h300s.screens;
+package pc_magas.vodafone_fu_h300s.screens;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
@@ -14,10 +13,9 @@ import android.widget.EditText;
 import android.text.TextWatcher;
 import android.widget.TextView;
 
-import com.example.vodafone_fu_h300s.R;
-import com.example.vodafone_fu_h300s.logic.H300sVoipSettings;
-import com.example.vodafone_fu_h300s.logic.Η300sCredentialsRetriever;
-import com.example.vodafone_fu_h300s.screens.DisplaySettingsActivity;
+import pc_magas.vodafone_fu_h300s.R;
+import pc_magas.vodafone_fu_h300s.logic.H300sVoipSettings;
+import pc_magas.vodafone_fu_h300s.logic.Η300sCredentialsRetriever;
 
 public class ConnectIntoRouterActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 

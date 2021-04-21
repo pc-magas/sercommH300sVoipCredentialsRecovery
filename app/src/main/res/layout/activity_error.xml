@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.ErrorActivity">
+    tools:context="pc_magas.vodafone_fu_h300s.screens.ErrorActivity">
 
     <ImageView
         android:id="@+id/errorIcon"

@@ -1,4 +1,4 @@
-package com.example.vodafone_fu_h300s.logic;
+package pc_magas.vodafone_fu_h300s.logic;
 
 import org.json.JSONException;
 import org.junit.Assert;
@@ -18,8 +18,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-import com.example.vodafone_fu_h300s.logic.exceptions.CsrfTokenNotFound;
-import com.example.vodafone_fu_h300s.logic.exceptions.SettingsFailedException;
+import pc_magas.vodafone_fu_h300s.logic.exceptions.CsrfTokenNotFound;
+import pc_magas.vodafone_fu_h300s.logic.exceptions.SettingsFailedException;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;

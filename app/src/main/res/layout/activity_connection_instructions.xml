@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".screens.InstructionsActivity">
+    tools:context="pc_magas.vodafone_fu_h300s.screens.InstructionsActivity">
 
     <TextView
         android:id="@+id/connection_instructions"

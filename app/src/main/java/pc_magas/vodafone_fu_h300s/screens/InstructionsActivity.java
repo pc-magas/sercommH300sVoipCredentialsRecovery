@@ -1,4 +1,4 @@
-package com.example.vodafone_fu_h300s.screens;
+package pc_magas.vodafone_fu_h300s.screens;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.vodafone_fu_h300s.R;
+import pc_magas.vodafone_fu_h300s.R;
 
 public class InstructionsActivity extends AppCompatActivity {
 

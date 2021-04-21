@@ -1,4 +1,4 @@
-package com.example.vodafone_fu_h300s.exceptions;
+package pc_magas.vodafone_fu_h300s.exceptions;
 
 /**
  * @class USed for indicating that a class fails to detect a Wi-Fi Network

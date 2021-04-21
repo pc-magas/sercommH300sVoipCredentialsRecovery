@@ -1,6 +1,5 @@
-package com.example.vodafone_fu_h300s;
+package pc_magas.vodafone_fu_h300s;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -10,18 +9,19 @@ import android.net.LinkProperties;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.RouteInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.vodafone_fu_h300s.exceptions.FailedWiFiException;
-import com.example.vodafone_fu_h300s.screens.InstructionsActivity;
-import com.example.vodafone_fu_h300s.screens.ErrorActivity;
+import pc_magas.vodafone_fu_h300s.R;
+
+import pc_magas.vodafone_fu_h300s.exceptions.FailedWiFiException;
+import pc_magas.vodafone_fu_h300s.screens.InstructionsActivity;
+import pc_magas.vodafone_fu_h300s.screens.ErrorActivity;
 
 import java.net.InetAddress;
 import java.util.List;
 
-import static com.example.vodafone_fu_h300s.R.layout.activity_main;
+import static pc_magas.vodafone_fu_h300s.R.layout.activity_main;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.vodafone_fu_h300s.logic;
+package pc_magas.vodafone_fu_h300s.logic;
 
 import org.json.JSONException;
 import org.junit.Assert;
@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Map;
 import java.util.Scanner;
 
 public class H300sVoipSettingsTest

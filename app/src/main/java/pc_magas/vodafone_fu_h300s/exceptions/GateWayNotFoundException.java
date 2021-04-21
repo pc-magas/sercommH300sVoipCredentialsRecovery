@@ -1,4 +1,4 @@
-package com.example.vodafone_fu_h300s.exceptions;
+package pc_magas.vodafone_fu_h300s.exceptions;
 
 public class GateWayNotFoundException extends Exception {
     public GateWayNotFoundException() {

@@ -1,12 +1,12 @@
-package com.example.vodafone_fu_h300s.logic;
+package pc_magas.vodafone_fu_h300s.logic;
 
-import com.example.vodafone_fu_h300s.logic.exceptions.CsrfTokenNotFound;
-import com.example.vodafone_fu_h300s.logic.exceptions.SettingsFailedException;
+import pc_magas.vodafone_fu_h300s.logic.exceptions.CsrfTokenNotFound;
+import pc_magas.vodafone_fu_h300s.logic.exceptions.SettingsFailedException;
 
-import com.example.vodafone_fu_h300s.logic.lambdas.ExceptionHandler;
-import com.example.vodafone_fu_h300s.logic.lambdas.LoginHandler;
-import com.example.vodafone_fu_h300s.logic.lambdas.RetrieveSettingsHandler;
-import com.example.vodafone_fu_h300s.logic.lambdas.SettingsRetrievalFailedHandler;
+import pc_magas.vodafone_fu_h300s.logic.lambdas.ExceptionHandler;
+import pc_magas.vodafone_fu_h300s.logic.lambdas.LoginHandler;
+import pc_magas.vodafone_fu_h300s.logic.lambdas.RetrieveSettingsHandler;
+import pc_magas.vodafone_fu_h300s.logic.lambdas.SettingsRetrievalFailedHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

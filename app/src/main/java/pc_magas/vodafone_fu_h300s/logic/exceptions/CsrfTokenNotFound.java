@@ -1,4 +1,4 @@
-package com.example.vodafone_fu_h300s.logic.exceptions;
+package pc_magas.vodafone_fu_h300s.logic.exceptions;
 
 public class CsrfTokenNotFound extends Exception {
     public CsrfTokenNotFound(String url){

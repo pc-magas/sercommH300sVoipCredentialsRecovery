@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.text.TextWatcher;
+import android.widget.TextView;
 
 import com.example.vodafone_fu_h300s.R;
 import com.example.vodafone_fu_h300s.logic.H300sVoipSettings;
@@ -26,6 +27,7 @@ public class ConnectIntoRouterActivity extends AppCompatActivity implements View
     private EditText admin;
     private EditText password;
     private Button submit;
+    private TextView error_message;
 
     private Handler handler = new Handler();
 
@@ -35,8 +37,20 @@ public class ConnectIntoRouterActivity extends AppCompatActivity implements View
         setContentView(R.layout.activity_connect_into_router);
 
         Intent activityIntent = getIntent();
-
         String menu_url = activityIntent.getStringExtra("router_url");
+
+        this.url = (EditText)findViewById(R.id.menu_url);
+        url.setText(menu_url);
+        url.addTextChangedListener(this);
+
+        this.admin = (EditText)findViewById(R.id.username);
+        admin.setText("admin");
+        admin.addTextChangedListener(this);
+
+        this.password = (EditText)findViewById(R.id.password);
+        password.addTextChangedListener(this);
+
+        this.error_message = (TextView)findViewById(R.id.error_message);
 
         this.retriever = new Η300sCredentialsRetriever();
 
@@ -54,7 +68,10 @@ public class ConnectIntoRouterActivity extends AppCompatActivity implements View
                 Log.e("Η300s",ConnectIntoRouterActivity.class+" Login Failed");
                 handler.post(new Runnable() {
                     @Override
+
                     public void run() {
+                        error_message.setText(getString(R.string.login_failed));
+                        error_message.setVisibility(View.VISIBLE);
                         submit.setEnabled(true);
                     }
                 });
@@ -73,30 +90,18 @@ public class ConnectIntoRouterActivity extends AppCompatActivity implements View
                     finish();
                 }
             });
-
-
         });
 
         this.retriever.setFailedHandler(()->{
             handler.post(new Runnable() {
                 @Override
                 public void run() {
+                    error_message.setText(getString(R.string.settings_retrieval_failed));
+                    error_message.setVisibility(View.VISIBLE);
                     submit.setEnabled(true);
                 }
             });
         });
-
-
-        this.url = (EditText)findViewById(R.id.menu_url);
-        url.setText(menu_url);
-        url.addTextChangedListener(this);
-
-        this.admin = (EditText)findViewById(R.id.username);
-        admin.setText("admin");
-        admin.addTextChangedListener(this);
-
-        this.password = (EditText)findViewById(R.id.password);
-        password.addTextChangedListener(this);
     }
 
     private void onUpdateForm() {
@@ -131,7 +136,8 @@ public class ConnectIntoRouterActivity extends AppCompatActivity implements View
     @Override
     public void onClick(View v){
         submit.setEnabled(false);
-
+        error_message.setText("");
+        error_message.setVisibility(View.INVISIBLE);
         Thread retriever_thread = new Thread(this.retriever);
         retriever_thread.start();
     }

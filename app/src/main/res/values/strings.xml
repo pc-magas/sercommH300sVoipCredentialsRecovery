@@ -31,4 +31,6 @@
     <string name="na">N/A</string>
     <string name="sip_settings">Sip Settings</string>
     <string name="server_settings">Proxy and Registar Settings</string>
+    <string name="login_failed">Could not Login Into router.\nPlease try again.</string>
+    <string name="settings_retrieval_failed">Could Not Retrieve Settings</string>
 </resources>

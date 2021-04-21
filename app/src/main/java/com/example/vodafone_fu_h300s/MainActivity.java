@@ -1,5 +1,6 @@
 package com.example.vodafone_fu_h300s;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.net.LinkProperties;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.RouteInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -70,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
      *
      * @return An Object Containing the MAC address and the gateway Ip
      */
-    @SuppressWarnings("deprecation")
     public static String gateWayIp(Context context) throws FailedWiFiException {
 
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -90,13 +91,14 @@ public class MainActivity extends AppCompatActivity {
 
         List<RouteInfo> routes = linkProperties.getRoutes();
 
-        String gatewayIp=null;
-
         for(RouteInfo route : routes){
-            if(!route.hasGateway()) continue;
             InetAddress ip = route.getGateway();
-            Log.e("DetectedIP",(route.hasGateway()?"GATEWAY TRUE ":"GATEWAY FALSE ")+ip.getHostAddress());
-            return  ip.getHostAddress();
+            String ipString = ip.getHostAddress();
+            if(ipString.trim().equals("0.0.0.0")|| ipString.replaceAll("\\s|:","").equals("")){
+                continue;
+            }
+            Log.d("DetectedIP", ipString);
+            return ipString;
         }
 
         return null;

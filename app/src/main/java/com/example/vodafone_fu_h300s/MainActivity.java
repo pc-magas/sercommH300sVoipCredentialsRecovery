@@ -34,14 +34,14 @@ public class MainActivity extends AppCompatActivity {
             ip = gateWayIp(this);
 
             if(ip == null){
-                Log.e("DetectedIP","IP is NULL");
+                Log.e("H300s",MainActivity.class+" IP is NULL");
             } else {
-                Log.i("DetectedIP",ip);
+                Log.i("Η300s",MainActivity.class+" DetectedIP: "+ip);
             }
             this.connectScreen(ip);
         } catch (FailedWiFiException e) {
             e.printStackTrace();
-            Log.e("DetectedIP",e.getMessage());
+            Log.e("H300s", MainActivity.class+" "+e.getMessage());
             wiFiNotFound();
         }
     }

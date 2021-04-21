@@ -67,10 +67,10 @@ public class ConnectIntoRouterActivity extends AppCompatActivity implements View
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-
                     submit.setEnabled(true);
                     settings_activity.putExtra("H300sVoipSettings", settings);
                     startActivity(settings_activity);
+                    finish();
                 }
             });
 

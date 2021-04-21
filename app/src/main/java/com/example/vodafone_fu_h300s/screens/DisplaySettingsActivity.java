@@ -50,22 +50,26 @@ public class DisplaySettingsActivity extends AppCompatActivity {
         }
 
         String secondary_registar_port = settings.getSecondary_registar_port();
-        if(secondary_registar_port== null || secondary_registar_port.trim().equals("")){
+        if(secondary_registar_port == null || secondary_registar_port.trim().equals("")){
             TextView secondaryRegistarPort = (TextView)findViewById(R.id.secondary_registar_port);
             secondaryRegistarPort.setText(secondary_registar_port);
         }
 
         String secondary_proxy = settings.getSecondary_proxy();
-        if(secondary_proxy== null || secondary_proxy.trim().equals("")){
+        if(secondary_proxy == null || secondary_proxy.trim().equals("")){
             TextView secondaryProxy = (TextView)findViewById(R.id.secondary_proxy);
             secondaryProxy.setText(secondary_proxy);
         }
 
         String secondary_proxy_port = settings.getSecondary_proxy_port();
-        if(secondary_proxy_port== null || secondary_proxy_port.trim().equals("")){
+        if(secondary_proxy_port == null || secondary_proxy_port.trim().equals("")){
             TextView secondaryProxyPort = (TextView)findViewById(R.id.secondary_proxy_port);
             secondaryProxyPort.setText(secondary_proxy_port);
         }
+    }
 
+    @Override
+    public void onBackPressed() {
+        return;
     }
 }

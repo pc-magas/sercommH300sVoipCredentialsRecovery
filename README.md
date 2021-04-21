@@ -1,6 +1,8 @@
 # Sercomm H300s Voip and DSL Credentials Recovery
 Recover VOIP Credentials and DSL settings from Sercomm H300s router.
 
+*UNDER DEVELOPMENT: Some features may be missing*
+
 # Development Report
 
 ## Developed so far
@@ -10,10 +12,12 @@ Recover VOIP Credentials and DSL settings from Sercomm H300s router.
 
 ## Issues - Pending Development
 
-1. App is built only via android studio. No cli/console builds working via ./gradlew command
-2. Create a build pipeline
-3. Release Into F-droid
-4. Release into Play Store
+1. Create a build pipeline
+2. Release Into F-droid
+3. Release into Play Store
+4. Improve UI
+5. Redetect IP if ip has not been detected.
+6. Save settings into a .txt file
 
 # Contributing
 

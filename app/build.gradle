@@ -8,8 +8,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.vodafone_fu_h300s"
-        minSdkVersion 25
-        targetSdkVersion 28
+        minSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 

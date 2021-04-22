@@ -2,6 +2,8 @@ name: pr
 on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
+  push:
+    branches: [dev]
 
 jobs:
   test:

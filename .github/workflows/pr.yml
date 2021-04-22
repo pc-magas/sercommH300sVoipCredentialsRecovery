@@ -12,5 +12,7 @@ jobs:
         with:
           java-version: '8'
           distribution: 'adopt'
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
       - name: test
         run: ./gradlew test

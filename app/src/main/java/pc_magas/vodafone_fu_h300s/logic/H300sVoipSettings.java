@@ -188,4 +188,60 @@ public class H300sVoipSettings implements Serializable
                 );
         return truth;
     }
+
+//    public String toString()
+//    {
+//        StringBuilder txt = new StringBuilder();
+//
+//            txt.append("Phone Number: ");
+//            txt.append(this.getSip_number());
+//            txt.append("\n");
+//
+//            txt.append("Username: ");
+//            txt.append(this.getUsername());
+//            txt.append("\n");
+//
+//            txt.append("Password: ");
+//            txt.append(this.getPassword());
+//            txt.append("\n");
+//
+//            txt.append("Sip Domain: ");
+//            txt.append(this.getSip_domain());
+//            txt.append("\n");
+//
+//            txt.append("Primary proxy: ");
+//            txt.append(this.getPrimary_proxy());
+//            txt.append(" Port: ");
+//            txt.append(this.getPrimary_proxy_port());
+//            txt.append("\n");
+//
+//            txt.append("Secondary proxy: ");
+//            String secondary_proxy = this.getSecondary_proxy();
+//            secondary_proxy = (secondary_proxy == null || !secondary_proxy.trim().equals(""))?"N/A":secondary_proxy;
+//            txt.append(secondary_proxy);
+//            txt.append(" Port: ");
+//            String secondaryProxyPort = this.getSecondary_proxy_port();
+//            secondaryProxyPort=(secondaryProxyPort == null || !secondaryProxyPort.trim().equals(""))?"N/A":secondaryProxyPort;
+//            txt.append(secondaryProxyPort);
+//            txt.append("\n");
+//
+//            txt.append("Primary Registar: ");
+//            String primaryRegistar = this.getPrimary_registar();
+//            txt.append(primaryRegistar);
+//            txt.append(" Port: ");
+//            String primaryRegistarPort = this.getPrimary_registar_port();
+//            txt.append(primaryRegistarPort);
+//            txt.append("\n");
+//
+//            txt.append("Secondary Registar: ");
+//            String secondary_registar = this.getSecondary_registar();
+//            secondary_registar = (secondary_registar == null || !secondary_registar.trim().equals(""))?"N/A":secondary_registar;
+//            txt.append(secondary_registar);
+//            txt.append(" Port: ");
+//            String secondaryRegistarPort = this.getSecondary_registar();
+//            secondaryRegistarPort=(secondaryRegistarPort == null || !secondaryRegistarPort.trim().equals(""))?"N/A":secondaryRegistarPort;
+//            txt.append(secondaryRegistarPort);
+//            txt.append("\n");
+//        return txt.toString();
+//    }
 }

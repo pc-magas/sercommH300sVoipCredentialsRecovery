@@ -1,10 +1,16 @@
 package pc_magas.vodafone_fu_h300s.logic;
 
+import android.os.Environment;
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.Serializable;
+import java.util.Date;
 
 public class H300sVoipSettings implements Serializable
 {

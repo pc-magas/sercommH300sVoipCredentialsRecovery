@@ -3,7 +3,13 @@ package pc_magas.vodafone_fu_h300s.screens;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.widget.TextView;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Date;
 
 import pc_magas.vodafone_fu_h300s.R;
 import pc_magas.vodafone_fu_h300s.logic.H300sVoipSettings;
@@ -64,6 +70,32 @@ public class DisplaySettingsActivity extends AppCompatActivity {
         if(secondary_proxy_port != null && !secondary_proxy_port.trim().equals("")){
             TextView secondaryProxyPort = (TextView)findViewById(R.id.secondary_proxy_port);
             secondaryProxyPort.setText(secondary_proxy_port);
+        }
+    }
+
+    private boolean saveFile(String contents){
+        String state = Environment.getExternalStorageState();
+        if (!Environment.MEDIA_MOUNTED.equals(state)) {
+            return false;
+        }
+
+        Date date = new Date();
+        File file = new File(getExternalFilesDir(null), "voip_h300s_"+date.toString()+".txt");
+
+        FileOutputStream outputStream = null;
+        try {
+            file.createNewFile();
+
+            outputStream = new FileOutputStream(file, true);
+            outputStream.write(contents.getBytes());
+            outputStream.flush();
+            outputStream.close();
+
+            return true;
+        } catch (Exception e) {
+            Log.e("H300s",e.toString());
+            Log.e("H300s",Log.getStackTraceString(e));
+            return false;
         }
     }
 

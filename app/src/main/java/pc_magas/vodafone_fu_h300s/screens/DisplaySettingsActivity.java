@@ -43,25 +43,25 @@ public class DisplaySettingsActivity extends AppCompatActivity {
         primary_proxy_port.setText(settings.getPrimary_proxy_port());
 
         String secondary_registar = settings.getSecondary_registar();
-        if(secondary_registar== null || secondary_registar.trim().equals("")){
+        if(secondary_registar!= null && !secondary_registar.trim().equals("")){
             TextView secondaryRegistar = (TextView)findViewById(R.id.secondary_registar);
             secondaryRegistar.setText(secondary_registar);
         }
 
         String secondary_registar_port = settings.getSecondary_registar_port();
-        if(secondary_registar_port == null || secondary_registar_port.trim().equals("")){
+        if(secondary_registar_port != null && secondary_registar_port.trim().equals("")){
             TextView secondaryRegistarPort = (TextView)findViewById(R.id.secondary_registar_port);
             secondaryRegistarPort.setText(secondary_registar_port);
         }
 
         String secondary_proxy = settings.getSecondary_proxy();
-        if(secondary_proxy == null || secondary_proxy.trim().equals("")){
+        if(secondary_proxy != null && !secondary_proxy.trim().equals("")){
             TextView secondaryProxy = (TextView)findViewById(R.id.secondary_proxy);
             secondaryProxy.setText(secondary_proxy);
         }
 
         String secondary_proxy_port = settings.getSecondary_proxy_port();
-        if(secondary_proxy_port == null || secondary_proxy_port.trim().equals("")){
+        if(secondary_proxy_port != null && !secondary_proxy_port.trim().equals("")){
             TextView secondaryProxyPort = (TextView)findViewById(R.id.secondary_proxy_port);
             secondaryProxyPort.setText(secondary_proxy_port);
         }

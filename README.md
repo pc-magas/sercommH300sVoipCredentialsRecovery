@@ -2,6 +2,7 @@
 Recover VOIP Credentials and DSL settings from Sercomm H300s router.
 
 *UNDER DEVELOPMENT: Some features may be missing*
+Though feel free to contribute.
 
 # Development Report
 

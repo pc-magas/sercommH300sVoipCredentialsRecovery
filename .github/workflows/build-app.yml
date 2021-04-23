@@ -19,6 +19,6 @@ jobs:
       - name: test
         run: ./gradlew test
       - name: build
-        run: ./gradlew build
+        run: ./gradlew buildRelease
       - name: Assemble Release Bundle
         run: ./gradlew bundleRelease

@@ -14,11 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VfuH300s"
         android:usesCleartextTraffic="true">
-        <activity android:name="pc_magas.vodafone_fu_h300s.screens.DisplaySettingsActivity"></activity>
-        <activity android:name="pc_magas.vodafone_fu_h300s.screens.ConnectIntoRouterActivity" />
-        <activity android:name="pc_magas.vodafone_fu_h300s.screens.InstructionsActivity" />
-        <activity android:name="pc_magas.vodafone_fu_h300s.screens.ErrorActivity" />
-        <activity android:name="pc_magas.vodafone_fu_h300s.MainActivity">
+        <activity android:name=".screens.LicenceActivity"></activity>
+        <activity android:name=".screens.DisplaySettingsActivity" />
+        <activity android:name=".screens.ConnectIntoRouterActivity" />
+        <activity android:name=".screens.InstructionsActivity" />
+        <activity android:name=".screens.ErrorActivity" />
+        <activity android:name=".screens.DetectGateWayIPActivity" />
+        <activity android:name=".screens.MainScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -7,6 +7,15 @@
     android:orientation="vertical"
     tools:context="pc_magas.vodafone_fu_h300s.screens.DisplaySettingsActivity">
 
+    <TextView
+        android:id="@+id/saveMsg"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content" />
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,19 +26,19 @@
         android:id="@+id/router_settings">
         <TableRow>
             <TextView android:text="@string/voip_phone"></TextView>
-            <TextView android:background="@drawable/cell_shape" android:textStyle="italic" android:id="@+id/voip_phone" android:text="@string/na"></TextView>
+            <TextView android:background="@drawable/cell_shape" android:textColor="@color/white" android:textStyle="italic" android:id="@+id/voip_phone" android:text="@string/na"></TextView>
         </TableRow>
         <TableRow>
             <TextView android:text="@string/voip_username"></TextView>
-            <TextView android:background="@drawable/cell_shape" android:textStyle="italic" android:id="@+id/voip_username" android:text="@string/na"></TextView>
+            <TextView android:background="@drawable/cell_shape" android:textColor="@color/white" android:textStyle="italic" android:id="@+id/voip_username" android:text="@string/na"></TextView>
         </TableRow>
         <TableRow>
             <TextView android:text="@string/voip_password"></TextView>
-            <TextView android:background="@drawable/cell_shape" android:textStyle="italic" android:id="@+id/voip_password" android:text="@string/na"></TextView>
+            <TextView android:background="@drawable/cell_shape" android:textColor="@color/white" android:textStyle="italic" android:id="@+id/voip_password" android:text="@string/na"></TextView>
         </TableRow>
         <TableRow>
             <TextView android:text="@string/sip_domain"></TextView>
-            <TextView android:background="@drawable/cell_shape" android:textStyle="italic" android:id="@+id/sip_domain" android:text="@string/na"></TextView>
+            <TextView android:background="@drawable/cell_shape" android:textColor="@color/white" android:textStyle="italic" android:id="@+id/sip_domain" android:text="@string/na"></TextView>
         </TableRow>
 
     </TableLayout>
@@ -43,31 +52,32 @@
         android:id="@+id/router_settings2">
         <TableRow>
             <TextView android:text="@string/primary_registar"></TextView>
-            <TextView  android:background="@drawable/cell_shape" android:textStyle="italic" android:id="@+id/primary_registar" android:text="@string/na"></TextView>
-            <TextView  android:background="@drawable/cell_shape" android:text="@string/port"></TextView>
-            <TextView  android:background="@drawable/cell_shape" android:textStyle="italic" android:id="@+id/primary_registar_port" android:text="@string/na"></TextView>
+            <TextView  android:background="@drawable/cell_shape" android:textStyle="italic" android:textColor="@color/white" android:id="@+id/primary_registar" android:text="@string/na"></TextView>
+            <TextView  android:background="@drawable/cell_shape" android:textColor="@color/white" android:text="@string/port"></TextView>
+            <TextView  android:background="@drawable/cell_shape" android:textStyle="italic" android:textColor="@color/white" android:id="@+id/primary_registar_port" android:text="@string/na"></TextView>
         </TableRow>
         <TableRow>
             <TextView android:text="@string/secondary_registar"></TextView>
-            <TextView android:background="@drawable/cell_shape"  android:textStyle="italic" android:id="@+id/secondary_registar" android:text="@string/na"></TextView>
-            <TextView android:background="@drawable/cell_shape"  android:text="@string/port"></TextView>
-            <TextView  android:background="@drawable/cell_shape" android:textStyle="italic" android:id="@+id/secondary_registar_port" android:text="@string/na"></TextView>
+            <TextView android:background="@drawable/cell_shape"  android:textStyle="italic" android:textColor="@color/white" android:id="@+id/secondary_registar" android:text="@string/na"></TextView>
+            <TextView android:background="@drawable/cell_shape"  android:textColor="@color/white" android:text="@string/port"></TextView>
+            <TextView  android:background="@drawable/cell_shape" android:textStyle="italic" android:textColor="@color/white" android:id="@+id/secondary_registar_port" android:text="@string/na"></TextView>
         </TableRow>
         <TableRow>
             <TextView android:text="@string/primary_proxy"></TextView>
-            <TextView android:background="@drawable/cell_shape" android:textStyle="italic" android:id="@+id/primary_proxy" android:text="@string/na"></TextView>
-            <TextView android:background="@drawable/cell_shape" android:text="@string/port"></TextView>
-            <TextView android:background="@drawable/cell_shape" android:textStyle="italic" android:id="@+id/primary_proxy_port" android:text="@string/na"></TextView>
+            <TextView android:background="@drawable/cell_shape" android:textStyle="italic" android:textColor="@color/white" android:id="@+id/primary_proxy" android:text="@string/na"></TextView>
+            <TextView android:background="@drawable/cell_shape" android:textColor="@color/white" android:text="@string/port"></TextView>
+            <TextView android:background="@drawable/cell_shape" android:textStyle="italic" android:textColor="@color/white" android:id="@+id/primary_proxy_port" android:text="@string/na"></TextView>
         </TableRow>
         <TableRow>
             <TextView android:text="@string/secondary_proxy"></TextView>
-            <TextView android:background="@drawable/cell_shape" android:textStyle="italic" android:id="@+id/secondary_proxy" android:text="@string/na"></TextView>
-            <TextView android:background="@drawable/cell_shape" android:text="@string/port"></TextView>
-            <TextView android:background="@drawable/cell_shape" android:textStyle="italic"  android:id="@+id/secondary_proxy_port" android:text="@string/na"></TextView>
+            <TextView android:background="@drawable/cell_shape" android:textStyle="italic" android:textColor="@color/white" android:id="@+id/secondary_proxy" android:text="@string/na"></TextView>
+            <TextView android:background="@drawable/cell_shape" android:textColor="@color/white" android:text="@string/port"></TextView>
+            <TextView android:background="@drawable/cell_shape" android:textStyle="italic" android:textColor="@color/white" android:id="@+id/secondary_proxy_port" android:text="@string/na"></TextView>
         </TableRow>
     </TableLayout>
 
     <Button
+        android:id="@+id/save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="7dp"

@@ -1,9 +1,7 @@
 name: pr
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
   push:
-    branches: [dev]
+    branches: [master]
 
 jobs:
   test:
@@ -20,3 +18,8 @@ jobs:
         run: chmod +x ./gradlew
       - name: test
         run: ./gradlew test
+      - name: build
+        run: ./gradlew build
+      - name: Assemble Release Bundle
+         run: |
+            ./gradlew bundleRelease

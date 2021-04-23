@@ -15,6 +15,7 @@
         android:visibility="invisible"
         android:gravity="center"
         android:textSize="24sp"
+        android:textColor="@color/white"
         android:text="@string/title_activity_display_router_settings"/>
     <EditText
         android:id="@+id/menu_url"

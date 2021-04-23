@@ -26,6 +26,13 @@ public class MainScreen extends AppCompatActivity {
             }
         });
 
-
+        Intent licence = new Intent(this,LicenceActivity.class);
+        Button licenceBtn = (Button)findViewById(R.id.licence);
+        licenceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(licence);
+            }
+        });
     }
 }

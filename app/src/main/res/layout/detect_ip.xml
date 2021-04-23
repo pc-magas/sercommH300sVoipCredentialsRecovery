@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    tools:context="pc_magas.vodafone_fu_h300s.MainActivity">
+    tools:context="pc_magas.vodafone_fu_h300s.screens.DetectGateWayIPActivity">
 
     <ProgressBar
         android:id="@+id/loading"

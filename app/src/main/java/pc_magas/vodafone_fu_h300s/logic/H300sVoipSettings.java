@@ -9,6 +9,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -250,5 +253,15 @@ public class H300sVoipSettings implements Serializable
             txt.append("\n");
 
         return txt.toString();
+    }
+
+    public void save(File file) throws IOException {
+        PrintWriter out = new PrintWriter(new FileWriter(file));
+        out.println("********");
+        out.print("Exported Date: ");
+        out.println(new Date().toString());
+        out.println("********");
+        out.print(this.toString());
+        out.close();
     }
 }

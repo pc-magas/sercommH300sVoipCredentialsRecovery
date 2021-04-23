@@ -7,6 +7,15 @@
     android:orientation="vertical"
     tools:context="pc_magas.vodafone_fu_h300s.screens.DisplaySettingsActivity">
 
+    <TextView
+        android:id="@+id/saveMsg"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content" />
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

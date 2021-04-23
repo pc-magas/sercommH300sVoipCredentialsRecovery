@@ -34,4 +34,8 @@
     <string name="server_settings">Proxy and Registar Settings</string>
     <string name="login_failed">Could not Login Into router.\nPlease try again.</string>
     <string name="settings_retrieval_failed">Could Not Retrieve Settings</string>
+
+    <!-- Settings Msg -->
+    <string name="could_not_save_settings">Cannot save the settings</string>
+    <string name="save_success">Settings successfully have been saved</string>
 </resources>

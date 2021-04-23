@@ -21,5 +21,4 @@ jobs:
       - name: build
         run: ./gradlew build
       - name: Assemble Release Bundle
-         run: |
-            ./gradlew bundleRelease
+        run: ./gradlew bundleRelease

@@ -1,7 +1,7 @@
 name: pr
 on:
   push:
-    branches: [master]
+    branches: [dev]
 
 jobs:
   test:

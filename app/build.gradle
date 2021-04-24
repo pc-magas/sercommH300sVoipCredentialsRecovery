@@ -42,10 +42,9 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.activity:activity-ktx:1.2.0'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'org.json:json:20210307'
-    implementation 'androidx.navigation:navigation-fragment:2.2.2'
-    implementation 'androidx.navigation:navigation-ui:2.2.2'
 
     testImplementation 'com.github.gmazzo:okhttp-mock:1.4.1'
     testImplementation 'junit:junit:4.+'

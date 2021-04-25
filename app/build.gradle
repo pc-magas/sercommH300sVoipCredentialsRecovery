@@ -2,22 +2,6 @@ plugins {
     id 'com.android.application'
 }
 
-allprojects {
-    afterEvaluate { project ->
-        def propsFile = rootProject.file('keystore.properties')
-        def configName = 'release'
-
-        if (propsFile.exists() && android.signingConfigs.hasProperty(configName)) {
-            def props = new Properties()
-            props.load(new FileInputStream(propsFile))
-            android.signingConfigs[configName].storeFile = file(props['storeFile'])
-            android.signingConfigs[configName].storePassword = props['MYAPP_RELEASE_STORE_PASSWORD']
-            android.signingConfigs[configName].keyAlias = props['keyalias']
-            android.signingConfigs[configName].keyPassword = props['MYAPP_RELEASE_KEY_PASSWORD']
-        }
-    }
-}
-
 
 android {
     compileSdkVersion 30
@@ -34,14 +18,11 @@ android {
     }
 
     signingConfigs {
-        release {
-        }
     }
 
     buildTypes {
         release {
             minifyEnabled true
-            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

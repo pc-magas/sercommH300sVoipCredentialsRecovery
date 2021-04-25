@@ -18,6 +18,10 @@ jobs:
         run: chmod +x ./gradlew
       - name: test
         run: ./gradlew test
+      - name: Bump version
+          uses: chkfung/android-version-actions@v1.1
+          with:
+            gradlePath: app/build.gradle
       - name: Build Signed APK
         uses: victorbnl/build-signed-apk@main
         with:
@@ -25,3 +29,15 @@ jobs:
           keystore_password: ${{ secrets.MYAPP_RELEASE_STORE_PASSWORD }}
           key_alias: ${{ secrets.KEYALIAS }}
           key_password: ${{ secrets.MYAPP_RELEASE_KEY_PASSWORD }}
+      - name: "Commit new version to build.gradle"
+        uses: EndBug/add-and-commit@v7
+        with:
+          default_author: github_actions
+          message: "Version Bump"
+          push: true
+      - name: Create a Release
+        uses: elgohr/Github-Release-Action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        with:
+          args: "Newest Build"

@@ -16,5 +16,7 @@ jobs:
           distribution: 'adopt'
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+      - name: testLint
+        run: ./gradlew lint
       - name: test
         run: ./gradlew test

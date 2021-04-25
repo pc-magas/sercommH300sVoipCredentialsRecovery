@@ -25,6 +25,11 @@ jobs:
           keystore_password: ${{ secrets.MYAPP_RELEASE_STORE_PASSWORD }}
           key_alias: ${{ secrets.KEYALIAS }}
           key_password: ${{ secrets.MYAPP_RELEASE_KEY_PASSWORD }}
+      - name: "Upload artifact"
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.apk
+          path: app/build/outputs/apk/release/app-release.apk
       - name: Mark Build Date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
@@ -40,5 +45,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.tag_version.outputs.new_tag }}
-          release_name: Release ${{ steps.tag_version.outputs.new_tag }}
+          release_name: Release APK ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}

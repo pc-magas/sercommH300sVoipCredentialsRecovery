@@ -19,9 +19,9 @@ jobs:
       - name: test
         run: ./gradlew test
       - name: Bump version
-          uses: chkfung/android-version-actions@v1.1
-          with:
-            gradlePath: app/build.gradle
+        uses: chkfung/android-version-actions@v1.1
+        with:
+          gradlePath: app/build.gradle
       - name: Build Signed APK
         uses: victorbnl/build-signed-apk@main
         with:

@@ -1,7 +1,7 @@
 name: pr
 on:
   push:
-    branches: [master]
+    branches: [dev]
 
 jobs:
   test:
@@ -18,7 +18,25 @@ jobs:
         run: chmod +x ./gradlew
       - name: test
         run: ./gradlew test
+      - name: Generate Keystore
+        env:
+          KEYSTORE: ${{secrets.SIGN_KEY}}
+        run: |
+          mkdir .keys
+          echo $KEYSTORE | base64 --decode > .keys/h300s.keystore
+      - name: Generate keystore.properties
+        env:
+          MYAPP_RELEASE_STORE_PASSWORD: ${{secrets.MYAPP_RELEASE_STORE_PASSWORD}}
+          MYAPP_RELEASE_KEY_PASSWORD: ${{secrets.MYAPP_RELEASE_KEY_PASSWORD}}
+          KEYALIAS: ${{secrets.KEY_ALIAS}}
+        run: |
+          echo "storeFile=../.keys/h300s.keystore" > keystore.properties
+          echo "keyalias=${KEYALIAS}" >> keystore.properties
+          echo "MYAPP_RELEASE_STORE_PASSWORD=${MYAPP_RELEASE_STORE_PASSWORD}" >> keystore.properties
+          echo "MYAPP_RELEASE_KEY_PASSWORD=${MYAPP_RELEASE_KEY_PASSWORD}" >> keystore.properties
+
       - name: build
-        run: ./gradlew buildRelease
+        run: ./gradlew assembleRelease
+
       - name: Assemble Release Bundle
         run: ./gradlew bundleRelease

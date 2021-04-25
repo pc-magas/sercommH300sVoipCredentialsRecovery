@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
 }
 
+def versionCodeDate() {
+    return new Date().format("yyyyMMdd").toInteger()
+}
 
 android {
     compileSdkVersion 30
@@ -11,8 +14,8 @@ android {
         applicationId "pcmagas.vodafone_fu_h300s"
         minSdkVersion 28
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode versionCodeDate()
+        versionName "v"+versionCodeDate()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

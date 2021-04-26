@@ -18,14 +18,22 @@ jobs:
         run: chmod +x ./gradlew
       - name: test
         run: ./gradlew test
-      - name: "Create Keystore"
-        env:
-          KEYSTORE: ${{ secrets.SIGN_KEY }}
+      - name: "Create Keystore folder"
         run: |
           mkdir .keys
-          echo ${KEYSTORE} | base64 --decode > .keys/h300s.keystore
-          ls -l .keys
-
+      - name: "Generate Keystore File"
+        id: keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'keys/h300s.keystore'
+          encodedString: ${{ secrets.KEYALIAS }}
+      - name: "List file"
+        env:
+          KEYSTORE_FILE: ${{ steps.write_file.outputs.filePath }}
+        with:
+          filelocation: ${{ steps.write_file.outputs.filePath }}
+        run: |
+          ls -l ${KEYSTORE_FILE}
 #      - uses: Tlaster/android-sign@v1
 #        name: Sign app APK
 #        with:
@@ -64,4 +72,4 @@ jobs:
 #        with:
 #          tag_name: ${{ steps.tag_version.outputs.new_tag }}
 #          release_name: Release APK ${{ steps.tag_version.outputs.new_tag }}
-#          body: ${{ steps.tag_version.outputs.changelog }}
+#          body: ${ steps.tag_version.outputs.changelog }}

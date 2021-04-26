@@ -30,8 +30,6 @@ jobs:
       - name: "List file"
         env:
           KEYSTORE_FILE: ${{ steps.write_file.outputs.filePath }}
-        with:
-          filelocation: ${{ steps.write_file.outputs.filePath }}
         run: |
           ls -l ${KEYSTORE_FILE}
 #      - uses: Tlaster/android-sign@v1

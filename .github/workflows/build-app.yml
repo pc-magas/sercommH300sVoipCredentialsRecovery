@@ -23,7 +23,7 @@ jobs:
           KEYSTORE: ${{ secrets.SIGN_KEY }}
         run: |
           mkdir .keys
-          echo ${KEYSTORE}
+          echo ${KEYSTORE} | base64 --decode > .keys/h300s.keystore
           ls -l .keys
 
 #      - uses: Tlaster/android-sign@v1

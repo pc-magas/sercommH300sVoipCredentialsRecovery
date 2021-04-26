@@ -18,13 +18,23 @@ jobs:
         run: chmod +x ./gradlew
       - name: test
         run: ./gradlew test
-      - name: Build Signed APK
-        uses: victorbnl/build-signed-apk@main
+      - uses: Tlaster/android-sign@v1
+        name: Sign app APK
         with:
-          keystore: ${{ secrets.SIGN_KEY }}
-          keystore_password: ${{ secrets.MYAPP_RELEASE_STORE_PASSWORD }}
-          key_alias: ${{ secrets.KEYALIAS }}
-          key_password: ${{ secrets.MYAPP_RELEASE_KEY_PASSWORD }}
+          releaseDirectory: |
+            app/build/outputs/apk/release
+            app/build/outputs/bundle/release
+          signingKeyBase64: ${{ secrets.SIGN_KEY }}
+          output: build/release/signed
+          alias: ${{ secrets.KEYALIAS }}
+          keyStorePassword: ${{ secrets.MYAPP_RELEASE_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.MYAPP_RELEASE_KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "30.0.2"
+      - name: "LS FILES"
+        run: |
+          echo "APKS"
+          ls -l build/release/signed
       - name: "Upload artifact"
         uses: actions/upload-artifact@v2
         with:

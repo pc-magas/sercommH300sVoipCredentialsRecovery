@@ -42,3 +42,10 @@ Inside the `logic` contains any piece of code that is used for core logic.
 Any class that resides in it should not have any android-specific dependencies and api calls. 
 Any class that resides inside this folder it *must* be unit tested, third party libraries must be provided via depencency injection. 
 If dependency injection does not happen via constructor method it should be done via setter method.
+
+## Versioning
+
+Each apk is build using the build date, then its is releases in a tag generated from current date in the following format `YMDHMS` 
+(`Υ` is the current year, `M` is the current month or the current minute, `D` is the current day, `H` is the current hour, `S` is the current second).
+
+The apk version is in the following format `YMD` (`Υ` is the current year, `M` is the current month or the current minute, `D` is the current day, `H` is the current hour, `S` is the current second).

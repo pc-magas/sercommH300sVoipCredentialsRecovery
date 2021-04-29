@@ -28,6 +28,7 @@ If not `KEYSTORE_FILE` is set then the keystore is assumed to be the `.keys/h300
 1. The least ammount of testing that project should have is for the classes inside the `./logic` folder.
 2. Any changes to the code should be done via pull request.
 3. Any change should also have jUnit unit tests as 1 explains.
+4. Any issue or new feature should reside inside is own branch not named `master` or `dev`.
 
 ## File structure and architecture
 

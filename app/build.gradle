@@ -21,11 +21,30 @@ android {
     }
 
     signingConfigs {
+        release {
+            println 'In release configs'
+            def keystoreFile = rootProject.file(".keys/h300s.keystore")
+            def env = System.getenv();
+
+            if(env.containsKey('KEYSTORE_FILE')){
+                keystoreFile = rootProject.file(env.get('KEYSTORE_FILE'))
+            }
+
+            if (keystoreFile.exists() ) {
+                println("Configuring Signing options for release")
+
+                android.signingConfigs["release"].storeFile = keystoreFile
+                android.signingConfigs["release"].storePassword = System.getenv('MYAPP_RELEASE_STORE_PASSWORD')
+                android.signingConfigs["release"].keyAlias = System.getenv('KEYALIAS')
+                android.signingConfigs["release"].keyPassword = System.getenv('MYAPP_RELEASE_KEY_PASSWORD')
+            }
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled true
+            signingConfig =  signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

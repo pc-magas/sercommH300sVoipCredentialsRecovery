@@ -26,12 +26,11 @@ jobs:
         uses: timheuer/base64-to-file@v1
         with:
           fileName: '.keys/h300s.keystore'
-          encodedString: ${{ secrets.KEYALIAS }}
+          encodedString: ${{ secrets.SIGN_KEY }}
       - name: "List file"
         env:
           KEYSTORE_FILE: ${{ steps.keystore.outputs.filePath }}
-        run: |
-          ls -l ${KEYSTORE_FILE}
+        run: ls -l ${KEYSTORE_FILE}
       - name: "Build Signed APK"
         id: "apk"
         env:

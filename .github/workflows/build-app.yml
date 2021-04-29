@@ -42,11 +42,6 @@ jobs:
           ./gradlew assembleRelease
           ls -l ./app/build/outputs/apk/release
           echo "::set-output name=path::./app/build/outputs/apk/release/apk-release.apk"
-      - name: "Upload artifact"
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-release.apk
-          path: ${{ steps.apk.outputs.path }}
       - name: Mark Build Date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
@@ -56,6 +51,11 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: ${{ steps.date.outputs.date }}
+      - name: "Upload artifact"
+          uses: actions/upload-artifact@v2
+          with:
+            name: app-release.apk
+            path: ${{ steps.apk.outputs.path }}
       - name: Create a GitHub release
         uses: actions/create-release@v1
         env:
@@ -63,4 +63,4 @@ jobs:
         with:
           tag_name: ${{ steps.tag_version.outputs.new_tag }}
           release_name: Release APK ${{ steps.tag_version.outputs.new_tag }}
-          body: ${ steps.tag_version.outputs.changelog }}
+          body: ${{ steps.tag_version.outputs.changelog }}

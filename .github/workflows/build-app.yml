@@ -25,7 +25,7 @@ jobs:
         id: keystore
         uses: timheuer/base64-to-file@v1
         with:
-          fileName: 'keys/h300s.keystore'
+          fileName: '.keys/h300s.keystore'
           encodedString: ${{ secrets.KEYALIAS }}
       - name: "List file"
         env:

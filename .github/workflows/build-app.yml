@@ -52,10 +52,10 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: ${{ steps.date.outputs.date }}
       - name: "Upload artifact"
-          uses: actions/upload-artifact@v2
-          with:
-            name: app-release.apk
-            path: ${{ steps.apk.outputs.path }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.apk
+          path: ${{ steps.apk.outputs.path }}
       - name: Create a GitHub release
         uses: actions/create-release@v1
         env:

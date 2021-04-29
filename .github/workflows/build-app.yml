@@ -1,4 +1,4 @@
-name: pr
+name: build-app
 on:
   push:
     branches: [master]
@@ -18,7 +18,60 @@ jobs:
         run: chmod +x ./gradlew
       - name: test
         run: ./gradlew test
-      - name: build
-        run: ./gradlew buildRelease
-      - name: Assemble Release Bundle
-        run: ./gradlew bundleRelease
+      - name: "Create Keystore folder"
+        run: |
+          mkdir .keys
+      - name: "Generate Keystore File"
+        id: keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: '.keys/h300s.keystore'
+          encodedString: ${{ secrets.SIGN_KEY }}
+      - name: "List file"
+        env:
+          KEYSTORE_FILE: ${{ steps.keystore.outputs.filePath }}
+        run: ls -l ${KEYSTORE_FILE}
+      - name: "Build Signed APK"
+        id: "apk"
+        env:
+          KEYSTORE_FILE: ${{ steps.keystore.outputs.filePath }}
+          KEYALIAS: ${{secrets.KEYALIAS}}
+          MYAPP_RELEASE_KEY_PASSWORD: ${{secrets.MYAPP_RELEASE_KEY_PASSWORD}}
+          MYAPP_RELEASE_STORE_PASSWORD: ${{secrets.MYAPP_RELEASE_STORE_PASSWORD}}
+        run: |
+          ./gradlew assembleRelease
+          ls -l ./app/build/outputs/apk/release
+          echo "::set-output name=path::./app/build/outputs/apk/release/app-release.apk"
+      - name: "Upload artifact"
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.apk
+          path: ${{ steps.apk.outputs.path }}
+      - name: Mark Build Date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%S')"
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v5.5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: ${{ steps.date.outputs.date }}
+      - name: Create a GitHub release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          release_name: Release APK ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.apk.outputs.path }}
+          asset_name: app-release.apk
+          asset_content_type: application/zip

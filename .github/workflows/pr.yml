@@ -2,8 +2,6 @@ name: pr
 on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
-  push:
-    branches: [dev]
 
 jobs:
   test:
@@ -18,5 +16,7 @@ jobs:
           distribution: 'adopt'
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+      - name: testLint
+        run: ./gradlew lint
       - name: test
         run: ./gradlew test

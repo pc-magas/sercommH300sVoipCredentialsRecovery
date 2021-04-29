@@ -2,23 +2,49 @@ plugins {
     id 'com.android.application'
 }
 
+def versionCodeDate() {
+    return new Date().format("yyyyMMdd").toInteger()
+}
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.vodafone_fu_h300s"
+        applicationId "pcmagas.vodafone_fu_h300s"
         minSdkVersion 28
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode versionCodeDate()
+        versionName "v"+versionCodeDate()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            println 'In release configs'
+            def keystoreFile = rootProject.file(".keys/h300s.keystore")
+            def env = System.getenv();
+
+            if(env.containsKey('KEYSTORE_FILE')){
+                keystoreFile = rootProject.file(env.get('KEYSTORE_FILE'))
+            }
+
+            if (keystoreFile.exists() ) {
+                println("Configuring Signing options for release")
+
+                android.signingConfigs["release"].storeFile = keystoreFile
+                android.signingConfigs["release"].storePassword = System.getenv('MYAPP_RELEASE_STORE_PASSWORD')
+                android.signingConfigs["release"].keyAlias = System.getenv('KEYALIAS')
+                android.signingConfigs["release"].keyPassword = System.getenv('MYAPP_RELEASE_KEY_PASSWORD')
+            }
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            signingConfig =  signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

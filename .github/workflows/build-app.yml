@@ -40,8 +40,8 @@ jobs:
           MYAPP_RELEASE_STORE_PASSWORD: ${{secrets.MYAPP_RELEASE_STORE_PASSWORD}}
         run: |
           ./gradlew assembleRelease
-          ls -l ./build/outputs/apk/release
-          echo "::set-output name=path::./build/outputs/apk/release/apk-release.apk"
+          ls -l ./app/build/outputs/apk/release
+          echo "::set-output name=path::./app/build/outputs/apk/release/apk-release.apk"
       - name: "Upload artifact"
         uses: actions/upload-artifact@v2
         with:

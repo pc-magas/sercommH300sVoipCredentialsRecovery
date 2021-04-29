@@ -37,8 +37,8 @@ jobs:
         env:
           KEYSTORE_FILE: ${{ steps.keystore.outputs.filePath }}
           KEYALIAS: ${{secrets.KEYALIAS}}
-          MYAPP_RELEASE_KEY_PASSWORD: ${{secret.MYAPP_RELEASE_KEY_PASSWORD}}
-          MYAPP_RELEASE_STORE_PASSWORD: ${{secret.MYAPP_RELEASE_STORE_PASSWORD}}
+          MYAPP_RELEASE_KEY_PASSWORD: ${{secrets.MYAPP_RELEASE_KEY_PASSWORD}}
+          MYAPP_RELEASE_STORE_PASSWORD: ${{secrets.MYAPP_RELEASE_STORE_PASSWORD}}
         run: |
           ./gradlew assembleRelease
           ls -l ./build/outputs/apk/release

@@ -29,7 +29,7 @@ jobs:
           encodedString: ${{ secrets.KEYALIAS }}
       - name: "List file"
         env:
-          KEYSTORE_FILE: ${{ steps.write_file.outputs.filePath }}
+          KEYSTORE_FILE: ${{ steps.keystore.outputs.filePath }}
         run: |
           ls -l ${KEYSTORE_FILE}
 #      - uses: Tlaster/android-sign@v1

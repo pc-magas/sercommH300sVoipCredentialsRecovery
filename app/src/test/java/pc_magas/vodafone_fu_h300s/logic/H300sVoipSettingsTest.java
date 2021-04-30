@@ -54,29 +54,29 @@ public class H300sVoipSettingsTest
         Assert.assertTrue(expectedOutput.equals(output));
     }
 
-//    @Test
-//    public void testSave() throws IOException, JSONException {
-//        TemporaryFolder folder= new TemporaryFolder();
-//        folder.create();
-//        File fileToSave = folder.newFile("test.txt");
-//
-//        File file = (new File("src/test/resources/voipSettings.json")).getAbsoluteFile();
-//        Scanner fileReader = new Scanner(file);
-//        String contents = fileReader.useDelimiter("\\Z").next();
-//
-//        File expectedOutputFile = (new File("src/test/resources/settingsTostring.txt")).getAbsoluteFile();
-//        Scanner expectedOutputFileReader = new Scanner(expectedOutputFile);
-//        String expectedOutput = expectedOutputFileReader.useDelimiter("\\Z").next()+"\n";
-//
-//        H300sVoipSettings settings = H300sVoipSettings.createFromJson(contents);
-//        settings.save(file);
-//        String settingsAsString = settings.toString();
-//
-//        Scanner savedContentsFile = new Scanner(fileToSave);
-//        String savedContents = savedContentsFile.useDelimiter("\\Z").next();
-//
-//        Assert.assertTrue(savedContents.contains(settingsAsString));
-//        Assert.assertTrue(savedContents.contains(expectedOutput));
-//        Assert.assertTrue(savedContents.contains("Exported Date"));
-//    }
+    @Test
+    public void testSave() throws IOException, JSONException {
+        TemporaryFolder folder= new TemporaryFolder();
+        folder.create();
+        File fileToSave = folder.newFile("test.txt");
+
+        File jsonFile = (new File("src/test/resources/voipSettings.json")).getAbsoluteFile();
+        Scanner fileReader = new Scanner(jsonFile);
+        String contents = fileReader.useDelimiter("\\Z").next();
+
+        File expectedOutputFile = (new File("src/test/resources/settingsTostring.txt")).getAbsoluteFile();
+        Scanner expectedOutputFileReader = new Scanner(expectedOutputFile);
+        String expectedOutput = expectedOutputFileReader.useDelimiter("\\Z").next()+"\n";
+
+        H300sVoipSettings settings = H300sVoipSettings.createFromJson(contents);
+        settings.save(fileToSave);
+        String settingsAsString = settings.toString();
+
+        Scanner savedContentsFile = new Scanner(fileToSave);
+        String savedContents = savedContentsFile.useDelimiter("\\Z").next();
+
+        Assert.assertTrue(savedContents.contains(settingsAsString.trim()));
+        Assert.assertTrue(savedContents.contains(expectedOutput.trim()));
+        Assert.assertTrue(savedContents.contains("Exported Date"));
+    }
 }

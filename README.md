@@ -17,7 +17,7 @@ Though feel free to contribute to your heart's content.
 4. Improve UI - <Need Extra Recommendations>
 5. Redetect IP if ip has not been detected.
 
-> Due to play store fee I won't upload into Play Store.
+> Due to play store registration fee I won't upload into Play Store.
 
 # Contributing
 

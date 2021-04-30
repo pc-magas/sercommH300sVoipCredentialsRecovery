@@ -13,13 +13,9 @@ Though feel free to contribute to your heart's content.
 
 ## Issues - Pending Development
 
-1. Create a build pipeline
-2. Release Into F-droid
-3. Release into Play Store
-4. Improve UI
+2. Release Into F-droid - <In Progress>
+4. Improve UI - <Need Extra Recommendations>
 5. Redetect IP if ip has not been detected.
-6. Save settings into a .txt file
-7. Set a improved Icon
 
 # Contributing
 

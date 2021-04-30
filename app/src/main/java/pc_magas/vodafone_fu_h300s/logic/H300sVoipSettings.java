@@ -218,19 +218,19 @@ public class H300sVoipSettings implements Serializable
             txt.append(this.getSip_domain());
             txt.append("\n");
 
-            txt.append("Primary proxy: ");
+            txt.append("Primary Proxy: ");
             txt.append(this.getPrimary_proxy());
             txt.append(" Port: ");
             txt.append(this.getPrimary_proxy_port());
             txt.append("\n");
 
-            txt.append("Secondary proxy: ");
+            txt.append("Secondary Proxy: ");
             String secondary_proxy = this.getSecondary_proxy();
-            secondary_proxy = (secondary_proxy == null || !secondary_proxy.trim().equals(""))?"N/A":secondary_proxy;
+            secondary_proxy = (secondary_proxy == null || !secondary_proxy.trim().equals(""))?"-":secondary_proxy;
             txt.append(secondary_proxy);
             txt.append(" Port: ");
             String secondaryProxyPort = this.getSecondary_proxy_port();
-            secondaryProxyPort=(secondaryProxyPort == null || !secondaryProxyPort.trim().equals(""))?"N/A":secondaryProxyPort;
+            secondaryProxyPort=(secondaryProxyPort == null || secondaryProxyPort.trim().equals(""))?"-":secondaryProxyPort;
             txt.append(secondaryProxyPort);
             txt.append("\n");
 
@@ -244,11 +244,11 @@ public class H300sVoipSettings implements Serializable
 
             txt.append("Secondary Registar: ");
             String secondary_registar = this.getSecondary_registar();
-            secondary_registar = (secondary_registar == null || !secondary_registar.trim().equals(""))?"N/A":secondary_registar;
+            secondary_registar = (secondary_registar == null || secondary_registar.trim().equals(""))?"-":secondary_registar;
             txt.append(secondary_registar);
             txt.append(" Port: ");
-            String secondaryRegistarPort = this.getSecondary_registar();
-            secondaryRegistarPort=(secondaryRegistarPort == null || !secondaryRegistarPort.trim().equals(""))?"N/A":secondaryRegistarPort;
+            String secondaryRegistarPort = this.getSecondary_registar_port();
+            secondaryRegistarPort=(secondaryRegistarPort == null || secondaryRegistarPort.trim().equals(""))?"-":secondaryRegistarPort;
             txt.append(secondaryRegistarPort);
             txt.append("\n");
 

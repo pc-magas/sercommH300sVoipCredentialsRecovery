@@ -17,6 +17,8 @@ Though feel free to contribute to your heart's content.
 4. Improve UI - <Need Extra Recommendations>
 5. Redetect IP if ip has not been detected.
 
+> Due to play store fee I won't upload into Play Store.
+
 # Contributing
 
 Any fix or improvement is acceptable as long as:

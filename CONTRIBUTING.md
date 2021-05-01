@@ -32,7 +32,7 @@ If not `KEYSTORE_FILE` is set then the keystore is assumed to be the `.keys/h300
 
 ## File structure and architecture
 
-The project should have thw following folders:
+The project's `app/src/main` should have the following folders:
 
 1. `logic` where core logic exists. 
 2. `screens` where all activities reside
@@ -42,6 +42,7 @@ Inside the `logic` contains any piece of code that is used for core logic.
 Any class that resides in it should not have any android-specific dependencies and api calls. 
 Any class that resides inside this folder it *must* be unit tested, third party libraries must be provided via depencency injection. 
 If dependency injection does not happen via constructor method it should be done via setter method.
+
 
 ## Versioning
 

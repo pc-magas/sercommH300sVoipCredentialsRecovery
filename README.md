@@ -1,25 +1,23 @@
 # Sercomm H300s Voip and DSL Credentials Recovery
 Recover VOIP Credentials and DSL settings from Sercomm H300s router.
 
-*UNDER DEVELOPMENT: Some features may be missing*
-Though feel free to contribute to your heart's content.
-
 # Development Report
 
 ## Developed so far
-1. Wi-fi detection and gateway IP retrieval
-2. Login into router
-3. Voip Settings retrieval
+1. Wi-fi detection and gateway IP retrieval.
+2. Login into router.
+3. Voip Settings retrieval.
+4. Save settings Into device's storage.
+5. Extra Unit testing.
+6. Replease Pipeline Has been Built.
 
 ## Issues - Pending Development
 
-1. Create a build pipeline
-2. Release Into F-droid
-3. Release into Play Store
-4. Improve UI
+2. Release Into F-droid - <In Progress>
+4. Improve UI - <Need Extra Recommendations>
 5. Redetect IP if ip has not been detected.
-6. Save settings into a .txt file
-7. Set a improved Icon
+
+> Due to play store registration fee I won't upload into Play Store.
 
 # Contributing
 
@@ -34,17 +32,18 @@ Any issue should be described thoughfully on github issues.
 # Licence
 
 Recover VOIP Credentials and DSL settings from Sercomm H300s router.
-    Copyright (C) 2021  Dimitrios Desyllas <pcmagas@disroot.org>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+>    Copyright (C) 2021  Dimitrios Desyllas <pcmagas@disroot.org>
+>
+>    This program is free software: you can redistribute it and/or modify
+>    it under the terms of the GNU General Public License as published by
+>    the Free Software Foundation, either version 3 of the License, or
+>    (at your option) any later version.
+>
+>    This program is distributed in the hope that it will be useful,
+>    but WITHOUT ANY WARRANTY; without even the implied warranty of
+>    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>    GNU General Public License for more details.
+>
+>    You should have received a copy of the GNU General Public License
+>    along with this program.  If not, see <https://www.gnu.org/licenses/>.

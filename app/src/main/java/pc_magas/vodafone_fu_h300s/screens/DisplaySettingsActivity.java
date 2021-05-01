@@ -103,6 +103,27 @@ public class DisplaySettingsActivity extends AppCompatActivity implements View.O
             secondaryProxyPort.setText(secondary_proxy_port);
         }
 
+        TextView codec = (TextView)findViewById(R.id.codec);
+        codec.setText(settings.getCodec());
+
+        TextView fax_codec = (TextView)findViewById(R.id.fax_codec);
+        fax_codec.setText(settings.getFax_codec());
+
+        TextView dtml_mode = (TextView)findViewById(R.id.dtml_mode);
+        dtml_mode.setText(settings.getDtml_mode());
+
+        TextView packetization_time = (TextView)findViewById(R.id.packetization_time);
+        packetization_time.setText(settings.getPacketization_time());
+
+        TextView silence_suppression = (TextView)findViewById(R.id.silence_suppression);
+        silence_suppression.setText(settings.getSilence_suppression());
+
+        TextView ingress_gain = (TextView)findViewById(R.id.ingress_gain);
+        ingress_gain.setText(settings.getIngress_gain());
+
+        TextView engress_gain = (TextView)findViewById(R.id.engress_gain);
+        engress_gain.setText(settings.getEgress_gain());
+
         this.saveIntoFile = (Button)findViewById(R.id.save);
         this.saveIntoFile.setOnClickListener(this);
     }

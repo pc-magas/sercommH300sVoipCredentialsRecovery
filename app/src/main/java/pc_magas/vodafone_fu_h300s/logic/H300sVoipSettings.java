@@ -1,14 +1,10 @@
 package pc_magas.vodafone_fu_h300s.logic;
 
-import android.os.Environment;
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,6 +36,25 @@ public class H300sVoipSettings implements Serializable
     private String sip_domain = null;
 
     private String sip_number = null;
+
+    private String local_port = null;
+
+    private String codec = null;
+
+    private String fax_codec = null;
+
+    private String dtml_mode = null;
+
+    private String packetization_time = null;
+
+    private String silence_suppression = null;
+
+    private String ingress_gain = null;
+
+    private String egress_gain = null;
+
+    private String echo_cancellation = null;
+
 
     public String getUsername() {
         return username;
@@ -140,6 +155,78 @@ public class H300sVoipSettings implements Serializable
         this.password = password;
     }
 
+    public String getCodec() {
+        return codec;
+    }
+
+    public void setCodec(String codec) {
+        this.codec = codec;
+    }
+
+    public String getDtml_mode() {
+        return dtml_mode;
+    }
+
+    public void setDtml_mode(String dtml_mode) {
+        this.dtml_mode = dtml_mode;
+    }
+
+    public String getPacketization_time() {
+        return packetization_time;
+    }
+
+    public void setPacketization_time(String packetization_time) {
+        this.packetization_time = packetization_time;
+    }
+
+    public String getSilence_suppression() {
+        return silence_suppression;
+    }
+
+    public void setSilence_suppression(String silence_suppression) {
+        this.silence_suppression = silence_suppression;
+    }
+
+    public String getIngress_gain() {
+        return ingress_gain;
+    }
+
+    public void setIngress_gain(String ingress_gain) {
+        this.ingress_gain = ingress_gain;
+    }
+
+    public String getEgress_gain() {
+        return egress_gain;
+    }
+
+    public void setEgress_gain(String egress_gain) {
+        this.egress_gain = egress_gain;
+    }
+
+    public String getEcho_cancellation() {
+        return echo_cancellation;
+    }
+
+    public void setEcho_cancellation(String echo_cancellation) {
+        this.echo_cancellation = echo_cancellation;
+    }
+
+    public String getFax_codec() {
+        return fax_codec;
+    }
+
+    public void setFax_codec(String fax_codec) {
+        this.fax_codec = fax_codec;
+    }
+
+    public String getLocal_port() {
+        return local_port;
+    }
+
+    public void setLocal_port(String local_port) {
+        this.local_port = local_port;
+    }
+
     public static H300sVoipSettings createFromJson(String jsonString) throws IllegalArgumentException, JSONException {
         if(jsonString == null || jsonString.trim().equals("")){
             throw new IllegalArgumentException("JsonString Should not be empty");
@@ -167,6 +254,15 @@ public class H300sVoipSettings implements Serializable
                 settings.setSip_number(item.getString("sip_number"));
                 settings.setUsername(item.getString("username"));
                 settings.setPassword(item.getString("password"));
+                settings.setCodec(item.getString("codec"));
+                settings.setDtml_mode(item.getString("dtml_mode"));
+                settings.setFax_codec(item.getString("fax_codec"));
+                settings.setPacketization_time(item.getString("packetization_time"));
+                settings.setSilence_suppression(item.getString("silence_suppression"));
+                settings.setIngress_gain(item.getString("ingress_gain"));
+                settings.setEgress_gain(item.getString("egress_gain"));
+                settings.setEcho_cancellation(item.getString("echo_cancellation"));
+                settings.setLocal_port(item.getString("local_port"));
             }
         }
 
@@ -176,15 +272,23 @@ public class H300sVoipSettings implements Serializable
     public boolean equals(H300sVoipSettings other){
 
         boolean truth =  other.getPassword().equals(this.getPassword()) &&
-               other.getUsername().equals(this.getUsername()) &&
-               other.getSip_number().equals(this.getSip_number()) &&
-               other.getSip_domain().equals(this.getSip_domain()) &&
-               other.getPrimary_proxy().equals(this.getPrimary_proxy()) &&
-               other.getPrimary_proxy_port().equals(this.getPrimary_proxy_port()) &&
-               other.getPrimary_registar().equals(this.getPrimary_registar()) &&
-               other.getPrimary_registar_port().equals(this.getPrimary_registar_port()) &&
-               other.getSecondary_proxy_port().equals(this.getSecondary_proxy_port()) &&
-               other.getSecondary_registar_port().equals(this.getSecondary_registar_port());
+                other.getUsername().equals(this.getUsername()) &&
+                other.getSip_number().equals(this.getSip_number()) &&
+                other.getSip_domain().equals(this.getSip_domain()) &&
+                other.getPrimary_proxy().equals(this.getPrimary_proxy()) &&
+                other.getPrimary_proxy_port().equals(this.getPrimary_proxy_port()) &&
+                other.getPrimary_registar().equals(this.getPrimary_registar()) &&
+                other.getPrimary_registar_port().equals(this.getPrimary_registar_port()) &&
+                other.getSecondary_proxy_port().equals(this.getSecondary_proxy_port()) &&
+                other.getSecondary_registar_port().equals(this.getSecondary_registar_port())&&
+                other.getCodec().equals(this.getCodec()) &&
+                other.getDtml_mode().equals(this.getDtml_mode()) &&
+                other.getEcho_cancellation().equals(this.getEcho_cancellation()) &&
+                other.getEgress_gain().equals(this.getEgress_gain()) &&
+                other.getFax_codec().equals(this.getFax_codec()) &&
+                other.getIngress_gain().equals(this.getIngress_gain()) &&
+                other.getPacketization_time().equals(this.getPacketization_time()) &&
+                other.getLocal_port().equals(this.getLocal_port());
 
 
         truth = truth && ((other.getSecondary_proxy() == null && this.getSecondary_proxy() == null) || (other.getSecondary_proxy().equals(this.getSecondary_proxy())));
@@ -218,19 +322,51 @@ public class H300sVoipSettings implements Serializable
             txt.append(this.getSip_domain());
             txt.append("\n");
 
-            txt.append("Primary proxy: ");
+            txt.append("Local Port: ");
+            txt.append(this.getLocal_port());
+            txt.append("\n");
+
+            txt.append("Codec: ");
+            txt.append(this.getCodec());
+            txt.append("\n");
+
+            txt.append("Fax Codec: ");
+            txt.append(this.getFax_codec());
+            txt.append("\n");
+
+            txt.append("DTML Mode: ");
+            txt.append(this.getDtml_mode());
+            txt.append("\n");
+
+            txt.append("Ingress Gain: ");
+            txt.append(this.getIngress_gain());
+            txt.append("\n");
+
+            txt.append("Egress Gain: ");
+            txt.append(this.getEgress_gain());
+            txt.append("\n");
+
+            txt.append("Silence Suppression: ");
+            txt.append(this.getSilence_suppression());
+            txt.append("\n");
+
+            txt.append("Echo Cancellation: ");
+            txt.append(this.getEcho_cancellation());
+            txt.append("\n");
+
+            txt.append("Primary Proxy: ");
             txt.append(this.getPrimary_proxy());
             txt.append(" Port: ");
             txt.append(this.getPrimary_proxy_port());
             txt.append("\n");
 
-            txt.append("Secondary proxy: ");
+            txt.append("Secondary Proxy: ");
             String secondary_proxy = this.getSecondary_proxy();
-            secondary_proxy = (secondary_proxy == null || !secondary_proxy.trim().equals(""))?"N/A":secondary_proxy;
+            secondary_proxy = (secondary_proxy == null || !secondary_proxy.trim().equals(""))?"-":secondary_proxy;
             txt.append(secondary_proxy);
             txt.append(" Port: ");
             String secondaryProxyPort = this.getSecondary_proxy_port();
-            secondaryProxyPort=(secondaryProxyPort == null || !secondaryProxyPort.trim().equals(""))?"N/A":secondaryProxyPort;
+            secondaryProxyPort=(secondaryProxyPort == null || secondaryProxyPort.trim().equals(""))?"-":secondaryProxyPort;
             txt.append(secondaryProxyPort);
             txt.append("\n");
 
@@ -244,11 +380,11 @@ public class H300sVoipSettings implements Serializable
 
             txt.append("Secondary Registar: ");
             String secondary_registar = this.getSecondary_registar();
-            secondary_registar = (secondary_registar == null || !secondary_registar.trim().equals(""))?"N/A":secondary_registar;
+            secondary_registar = (secondary_registar == null || secondary_registar.trim().equals(""))?"-":secondary_registar;
             txt.append(secondary_registar);
             txt.append(" Port: ");
-            String secondaryRegistarPort = this.getSecondary_registar();
-            secondaryRegistarPort=(secondaryRegistarPort == null || !secondaryRegistarPort.trim().equals(""))?"N/A":secondaryRegistarPort;
+            String secondaryRegistarPort = this.getSecondary_registar_port();
+            secondaryRegistarPort=(secondaryRegistarPort == null || secondaryRegistarPort.trim().equals(""))?"-":secondaryRegistarPort;
             txt.append(secondaryRegistarPort);
             txt.append("\n");
 
@@ -264,4 +400,6 @@ public class H300sVoipSettings implements Serializable
         out.print(this.toString());
         out.close();
     }
+
+
 }

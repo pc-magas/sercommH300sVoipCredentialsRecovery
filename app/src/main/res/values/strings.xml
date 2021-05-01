@@ -3,46 +3,55 @@
     <string name="app_name">Recover VOIP settings from H300s</string>
 
     <!-- Main Screen -->
-    <string name="retrieve">Retrieve</string>
-    <string name="licence">Licence</string>
+        <string name="retrieve">Retrieve</string>
+        <string name="licence">Licence</string>
+
     <!-- Detect  Ip Screen -->
-    <string name="loading_msg">Detecting H300s Ip...</string>
-    <string name="wifi_not_found">wi-fi has not been detected</string>
+        <string name="loading_msg">Detecting H300s Ip...</string>
+        <string name="wifi_not_found">wi-fi has not been detected</string>
 
     <!-- Connection Instructions -->
-    <string name="connection_instructions">
-        Have a look on the back of your router and look for the information as image shows bellow (area marked with red box).\n\n
-        Then fill the missing information in the form that will be shown in the next step.
-    </string>
+        <string name="connection_instructions">
+            Have a look on the back of your router and look for the information as image shows bellow (area marked with red box).\n\n
+            Then fill the missing information in the form that will be shown in the next step.
+        </string>
 
     <!-- Connect  Screen -->
-    <string name="menu_url">Router menu URL:</string>
-    <string name="router_username">User name:</string>
-    <string name="password">Router password</string>
-    <string name="connect">Connect</string>
-    <string name="title_activity_display_router_settings">DisplayRouterSettings</string>
+        <string name="menu_url">Router menu URL:</string>
+        <string name="router_username">User name:</string>
+        <string name="password">Router password</string>
+        <string name="connect">Connect</string>
+        <string name="title_activity_display_router_settings">DisplayRouterSettings</string>
 
-    <string name="next">Next ></string>
+        <string name="next">Next ></string>
 
     <!--VOIP Settings -->
-    <string name="voip_settings">Voip Settings</string>
-    <string name="save_settings">Save Settings</string>
-    <string name="voip_username">Username:</string>
-    <string name="voip_password">Password:</string>
-    <string name="voip_phone">Voip Phone:</string>
-    <string name="primary_registar">Primary Registar</string>
-    <string name="secondary_registar">Secondary Registar</string>
-    <string name="primary_proxy">Primary Proxy</string>
-    <string name="secondary_proxy">Secondary Proxy</string>
-    <string name="sip_domain">Sip Domain</string>
-    <string name="port">Port</string>
-    <string name="na">N/A</string>
-    <string name="sip_settings">Sip Settings</string>
-    <string name="server_settings">Proxy and Registar Settings</string>
-    <string name="login_failed">Could not Login Into router.\nPlease try again.</string>
-    <string name="settings_retrieval_failed">Could Not Retrieve Settings</string>
-
+        <string name="voip_settings">Voip Settings</string>
+        <string name="save_settings">Save Settings</string>
+        <string name="voip_username">Username:</string>
+        <string name="voip_password">Password:</string>
+        <string name="voip_phone">Voip Phone:</string>
+        <string name="primary_registar">Primary Registar</string>
+        <string name="secondary_registar">Secondary Registar</string>
+        <string name="primary_proxy">Primary Proxy</string>
+        <string name="secondary_proxy">Secondary Proxy</string>
+        <string name="sip_domain">Sip Domain</string>
+        <string name="local_port">Local Port</string>
+        <string name="codec">Codec</string>
+        <string name="fax_codec">Fax Codec</string>
+        <string name="dtml_mode">DTML Mode</string>
+        <string name="ingress_gain">Ingress Gain</string>
+        <string name="engress_gain">Engress Gain</string>
+        <string name="silence_suppression">Silence Suppression</string>
+        <string name="port">Port</string>
+        <string name="na">N/A</string>
+        <string name="sip_settings">Sip Settings</string>
+        <string name="server_settings">Proxy and Registar Settings</string>
+        <string name="login_failed">Could not Login Into router.\nPlease try again.</string>
+        <string name="settings_retrieval_failed">Could Not Retrieve Settings</string>
+        <string name="packetization_time">Packetization Time</string>
+        <string name="echo_cancellation">Echo Cancelation</string>
     <!-- Settings Msg -->
-    <string name="could_not_save_settings">Cannot save the settings</string>
-    <string name="save_success">Settings successfully have been saved</string>
+        <string name="could_not_save_settings">Cannot save the settings</string>
+        <string name="save_success">Settings successfully have been saved</string>
 </resources>

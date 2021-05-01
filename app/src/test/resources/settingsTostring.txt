@@ -1,0 +1,16 @@
+Phone Number: 2016528654
+Username: 2016528654@ngn.hol.net
+Password: omaewamoushindeiru
+Sip Domain: ngn.hol.net
+Local Port: 5060
+Codec: G.711ALaw,G.729,disable,disable
+Fax Codec: Passthrough
+DTML Mode: InBand
+Ingress Gain: -1
+Egress Gain: -4
+Silence Suppression: 0
+Echo Cancellation: 1
+Primary Proxy: ngn.hol.net Port: 5060
+Secondary Proxy: - Port: 5060
+Primary Registar: ngn.hol.net Port: 5060
+Secondary Registar: - Port: 5060

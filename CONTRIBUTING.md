@@ -43,7 +43,6 @@ Any class that resides in it should not have any android-specific dependencies a
 Any class that resides inside this folder it *must* be unit tested, third party libraries must be provided via depencency injection. 
 If dependency injection does not happen via constructor method it should be done via setter method.
 
-
 ## Versioning
 
 Each apk is build using the build date, then its is releases in a tag generated from current date in the following format `YMDHMS` 

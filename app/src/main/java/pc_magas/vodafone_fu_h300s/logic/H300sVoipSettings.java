@@ -37,6 +37,8 @@ public class H300sVoipSettings implements Serializable
 
     private String sip_number = null;
 
+    private String local_port = null;
+
     private String codec = null;
 
     private String fax_codec = null;
@@ -53,7 +55,6 @@ public class H300sVoipSettings implements Serializable
 
     private String echo_cancellation = null;
 
-    private String local_port = null;
 
     public String getUsername() {
         return username;
@@ -352,8 +353,6 @@ public class H300sVoipSettings implements Serializable
             txt.append("Echo Cancellation: ");
             txt.append(this.getEcho_cancellation());
             txt.append("\n");
-
-
 
             txt.append("Primary Proxy: ");
             txt.append(this.getPrimary_proxy());

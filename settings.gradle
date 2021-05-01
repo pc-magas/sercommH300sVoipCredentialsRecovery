@@ -1,2 +1,3 @@
+include ':settings_fetcher'
 include ':app'
 rootProject.name = "vodafone-fu-H300s"

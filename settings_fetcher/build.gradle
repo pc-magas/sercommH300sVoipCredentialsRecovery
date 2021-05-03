@@ -3,6 +3,18 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'org.json:json:20210307'
+
+    testImplementation 'junit:junit:4.+'
+    testImplementation 'org.mockito:mockito-core:3.+'
 }

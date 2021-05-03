@@ -1,4 +1,4 @@
-package pc_magas.vodafone_fu_h300s.logic.exceptions;
+package pcmagas.h300s.settings_retriever.exceptions;
 
 public class SettingsFailedException extends Exception {
 }

@@ -14,8 +14,8 @@ import android.text.TextWatcher;
 import android.widget.TextView;
 
 import pc_magas.vodafone_fu_h300s.R;
-import pc_magas.vodafone_fu_h300s.logic.H300sVoipSettings;
-import pc_magas.vodafone_fu_h300s.logic.Η300sCredentialsRetriever;
+import pcmagas.h300s.settings_retriever.H300sVoipSettings;
+import pcmagas.h300s.settings_retriever.Η300sCredentialsRetriever;
 
 public class ConnectIntoRouterActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 

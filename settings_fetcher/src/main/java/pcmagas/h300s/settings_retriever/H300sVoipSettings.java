@@ -1,4 +1,4 @@
-package pc_magas.vodafone_fu_h300s.logic;
+package pcmagas.h300s.settings_retriever;
 
 import org.json.JSONArray;
 import org.json.JSONException;

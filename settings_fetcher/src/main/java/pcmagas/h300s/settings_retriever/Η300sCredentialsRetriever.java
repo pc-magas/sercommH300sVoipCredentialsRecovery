@@ -1,12 +1,12 @@
-package pc_magas.vodafone_fu_h300s.logic;
+package pcmagas.h300s.settings_retriever;
 
-import pc_magas.vodafone_fu_h300s.logic.exceptions.CsrfTokenNotFound;
-import pc_magas.vodafone_fu_h300s.logic.exceptions.SettingsFailedException;
+import pcmagas.h300s.settings_retriever.exceptions.CsrfTokenNotFound;
+import pcmagas.h300s.settings_retriever.exceptions.SettingsFailedException;
 
-import pc_magas.vodafone_fu_h300s.logic.lambdas.ExceptionHandler;
-import pc_magas.vodafone_fu_h300s.logic.lambdas.LoginHandler;
-import pc_magas.vodafone_fu_h300s.logic.lambdas.RetrieveSettingsHandler;
-import pc_magas.vodafone_fu_h300s.logic.lambdas.SettingsRetrievalFailedHandler;
+import pcmagas.h300s.settings_retriever.lambdas.ExceptionHandler;
+import pcmagas.h300s.settings_retriever.lambdas.LoginHandler;
+import pcmagas.h300s.settings_retriever.lambdas.RetrieveSettingsHandler;
+import pcmagas.h300s.settings_retriever.lambdas.SettingsRetrievalFailedHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

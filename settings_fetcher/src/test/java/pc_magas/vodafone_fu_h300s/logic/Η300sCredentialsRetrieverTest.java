@@ -18,8 +18,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-import pc_magas.vodafone_fu_h300s.logic.exceptions.CsrfTokenNotFound;
-import pc_magas.vodafone_fu_h300s.logic.exceptions.SettingsFailedException;
+import pcmagas.h300s.settings_retriever.H300sVoipSettings;
+import pcmagas.h300s.settings_retriever.exceptions.CsrfTokenNotFound;
+import pcmagas.h300s.settings_retriever.exceptions.SettingsFailedException;
+import pcmagas.h300s.settings_retriever.Η300sCredentialsRetriever;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;

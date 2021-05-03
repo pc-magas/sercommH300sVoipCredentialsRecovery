@@ -1,5 +1,7 @@
 package pc_magas.vodafone_fu_h300s.logic;
 
+import pcmagas.h300s.settings_retriever.H300sVoipSettings;
+
 import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Test;

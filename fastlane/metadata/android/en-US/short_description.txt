@@ -1,0 +1,1 @@
+Retrieve VOIP Settings from Sercomm H300s as shipped from Vodafone Greece.

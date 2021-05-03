@@ -1,7 +1,7 @@
 name: build-app
 on:
   push:
-    branches: [master]
+    branches: [develop]
 
 jobs:
   test:
@@ -31,6 +31,15 @@ jobs:
         env:
           KEYSTORE_FILE: ${{ steps.keystore.outputs.filePath }}
         run: ls -l ${KEYSTORE_FILE}
+      - name: Mark Build Date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%S')"
+      - name: Bump version
+        uses: chkfung/android-version-actions@v1.1
+        with:
+          gradlePath: app/build.gradle
+          versionCode:  ${{ steps.date.outputs.date }}
+          versionName:  "v"${{ steps.date.outputs.date }}
       - name: "Build Signed APK"
         id: "apk"
         env:
@@ -47,9 +56,6 @@ jobs:
         with:
           name: app-release.apk
           path: ${{ steps.apk.outputs.path }}
-      - name: Mark Build Date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%S')"
       - name: Bump version and push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v5.5

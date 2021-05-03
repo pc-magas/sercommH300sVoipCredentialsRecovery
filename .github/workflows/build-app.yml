@@ -42,6 +42,9 @@ jobs:
           gradlePath: app/build.gradle
           versionCode:  ${{ steps.date.outputs.date }}
           versionName:  ${{ steps.date.outputs.version }}
+      - name: Check Build.gradle
+        run: |
+          cat ./app/build.gradle
       - name: "Build Signed APK"
         id: "apk"
         env:

@@ -2,10 +2,6 @@ plugins {
     id 'com.android.application'
 }
 
-def versionCodeDate() {
-    return new Date().format("yyyyMMdd").toInteger()
-}
-
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"

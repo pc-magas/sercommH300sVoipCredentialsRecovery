@@ -51,7 +51,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            println signingConfigs.release
+
             if(
                 signingConfigs.release.storeFile != null &&
                         signingConfigs.release.storePassword != null &&

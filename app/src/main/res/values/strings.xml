@@ -7,7 +7,7 @@
         <string name="licence">Licence</string>
 
     <!-- Detect  Ip Screen -->
-        <string name="loading_msg">Detecting H300s Ip...</string>
+        <string name="loading_msg">Detecting H300s Ip &#8230;</string>
         <string name="wifi_not_found">wi-fi has not been detected</string>
 
     <!-- Connection Instructions -->
@@ -26,7 +26,6 @@
         <string name="next">Next ></string>
 
     <!--VOIP Settings -->
-        <string name="voip_settings">Voip Settings</string>
         <string name="save_settings">Save Settings</string>
         <string name="voip_username">Username:</string>
         <string name="voip_password">Password:</string>
@@ -45,8 +44,6 @@
         <string name="silence_suppression">Silence Suppression</string>
         <string name="port">Port</string>
         <string name="na">N/A</string>
-        <string name="sip_settings">Sip Settings</string>
-        <string name="server_settings">Proxy and Registar Settings</string>
         <string name="login_failed">Could not Login Into router.\nPlease try again.</string>
         <string name="settings_retrieval_failed">Could Not Retrieve Settings</string>
         <string name="packetization_time">Packetization Time</string>

@@ -35,12 +35,13 @@ jobs:
         id: date
         run: |
           echo "::set-output name=date::$(date +'%Y%m%d%H%M%S')"
+          echo "::set-output name=versionNum::$(date +'%Y%m%d')"
           echo "::set-output name=version::v$(date +'%Y-%m-%d')"
       - name: Bump version
         uses: chkfung/android-version-actions@v1.1
         with:
           gradlePath: app/build.gradle
-          versionCode:  ${{ steps.date.outputs.date }}
+          versionCode:  ${{ steps.date.outputs.versionNum }}
           versionName:  ${{ steps.date.outputs.version }}
       - name: Check Build.gradle
         run: |

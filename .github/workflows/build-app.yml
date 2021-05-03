@@ -43,9 +43,9 @@ jobs:
           gradlePath: app/build.gradle
           versionCode:  ${{ steps.date.outputs.versionNum }}
           versionName:  ${{ steps.date.outputs.version }}
-      - name: Check Build.gradle
-        run: |
-          cat ./app/build.gradle
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: version Bump
       - name: "Build Signed APK"
         id: "apk"
         env:
@@ -57,33 +57,33 @@ jobs:
           ./gradlew assembleRelease
           ls -l ./app/build/outputs/apk/release
           echo "::set-output name=path::./app/build/outputs/apk/release/app-release.apk"
-#      - name: "Upload artifact"
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: app-release.apk
-#          path: ${{ steps.apk.outputs.path }}
-#      - name: Bump version and push tag
-#        id: tag_version
-#        uses: mathieudutour/github-tag-action@v5.5
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          custom_tag: ${{ steps.date.outputs.date }}
-#      - name: Create a GitHub release
-#        id: create_release
-#        uses: actions/create-release@v1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          tag_name: ${{ steps.tag_version.outputs.new_tag }}
-#          release_name: Release APK ${{ steps.tag_version.outputs.new_tag }}
-#          body: ${{ steps.tag_version.outputs.changelog }}
-#      - name: Upload Release Asset
-#        id: upload-release-asset
-#        uses: actions/upload-release-asset@v1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          upload_url: ${{ steps.create_release.outputs.upload_url }}
-#          asset_path: ${{ steps.apk.outputs.path }}
-#          asset_name: app-release.apk
-#          asset_content_type: application/zip
+      - name: "Upload artifact"
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.apk
+          path: ${{ steps.apk.outputs.path }}
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v5.5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: ${{ steps.date.outputs.date }}
+      - name: Create a GitHub release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          release_name: Release APK ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.apk.outputs.path }}
+          asset_name: app-release.apk
+          asset_content_type: application/zip

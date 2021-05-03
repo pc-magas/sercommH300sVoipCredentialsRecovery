@@ -2,10 +2,6 @@ plugins {
     id 'com.android.application'
 }
 
-def versionCodeDate() {
-    return new Date().format("yyyyMMdd").toInteger()
-}
-
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -14,8 +10,8 @@ android {
         applicationId "pcmagas.vodafone_fu_h300s"
         minSdkVersion 28
         targetSdkVersion 30
-        versionCode versionCodeDate()
-        versionName "v"+versionCodeDate()
+        versionCode 20210501
+        versionName "v20210501"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,21 +26,42 @@ android {
                 keystoreFile = rootProject.file(env.get('KEYSTORE_FILE'))
             }
 
-            if (keystoreFile.exists() ) {
+            if (keystoreFile.exists() &&
+                    env.containsKey("MYAPP_RELEASE_STORE_PASSWORD")  &&
+                    env.containsKey('KEYALIAS') &&
+                    env.containsKey('MYAPP_RELEASE_KEY_PASSWORD')
+            ) {
                 println("Configuring Signing options for release")
 
                 android.signingConfigs["release"].storeFile = keystoreFile
                 android.signingConfigs["release"].storePassword = System.getenv('MYAPP_RELEASE_STORE_PASSWORD')
                 android.signingConfigs["release"].keyAlias = System.getenv('KEYALIAS')
                 android.signingConfigs["release"].keyPassword = System.getenv('MYAPP_RELEASE_KEY_PASSWORD')
+            } else {
+                println 'Skipping apk Signature'
             }
+        }
+
+        lintOptions {
+            disable "UnsafeExperimentalUsageError",
+                    "UnsafeExperimentalUsageWarning"
         }
     }
 
     buildTypes {
         release {
             minifyEnabled true
-            signingConfig =  signingConfigs.release
+
+            if(
+                signingConfigs.release.storeFile != null &&
+                        signingConfigs.release.storePassword != null &&
+                        signingConfigs.release.keyAlias != null &&
+                        signingConfigs.release.keyPassword != null
+            ){
+                signingConfig =  signingConfigs.release
+            } else {
+                println 'Apk will not be signed'
+            }
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -62,22 +79,25 @@ repositories { jcenter() }
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.annotation:annotation:1.1.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    implementation 'androidx.activity:activity-ktx:1.2.0'
-    implementation 'androidx.fragment:fragment:1.3.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.annotation:annotation:1.2.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    implementation 'androidx.activity:activity-ktx:1.2.2'
+    implementation 'androidx.fragment:fragment:1.3.3'
 
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'org.json:json:20210307'
 
     testImplementation 'com.github.gmazzo:okhttp-mock:1.4.1'
-    testImplementation 'junit:junit:4.+'
-    testImplementation 'org.mockito:mockito-core:3.+'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:3.9.0'
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
 }

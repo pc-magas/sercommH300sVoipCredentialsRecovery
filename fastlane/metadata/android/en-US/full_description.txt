@@ -1,0 +1,5 @@
+Retrieve VOIP Settings from Sercomm H300s as shipped from Vodafone Greece.
+
+It connects into management web paned and via a specialized sequence of http calls it manages
+to retrieve the VOIP Crendentials. Is it tested on the routers that are configured in order to connect
+Into Vodafone's Greeece VDSL network.

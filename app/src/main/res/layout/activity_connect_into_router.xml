@@ -16,6 +16,7 @@
         android:gravity="center"
         android:textSize="24sp"
         android:textColor="@color/white"
+        android:importantForAutofill="no"
         android:text="@string/title_activity_display_router_settings"/>
     <EditText
         android:id="@+id/menu_url"
@@ -27,6 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
+        android:importantForAutofill="no"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -39,6 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
+        android:importantForAutofill="no"
         app:layout_constraintTop_toBottomOf="@+id/menu_url" />
 
     <EditText
@@ -51,6 +54,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
+        android:importantForAutofill="no"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <Button
@@ -63,6 +67,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
+        android:importantForAutofill="no"
         android:enabled="false" />
 
 </LinearLayout>

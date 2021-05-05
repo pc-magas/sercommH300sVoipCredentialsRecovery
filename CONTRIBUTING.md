@@ -32,7 +32,7 @@ If not `KEYSTORE_FILE` is set then the keystore is assumed to be the `.keys/h300
 
 ## File structure and architecture
 
-The project should have thw following folders:
+The project's `app/src/main` should have the following folders:
 
 1. `logic` where core logic exists. 
 2. `screens` where all activities reside

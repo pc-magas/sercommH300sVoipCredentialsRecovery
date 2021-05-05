@@ -65,7 +65,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ steps.date.outputs.version }}
+          custom_tag: ${{ steps.date.outputs.versionNum }}
       - name: Create a GitHub release
         if: github.ref == 'refs/heads/master'
         id: create_release

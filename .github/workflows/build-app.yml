@@ -34,10 +34,10 @@ jobs:
       - name: Mark Build Date
         id: date
         run: |
-          echo "::set-output name=date::$(date +'%Y%m%d%H%M%S')"
           echo "::set-output name=versionNum::$(date +'%Y%m%d')"
           echo "::set-output name=version::v$(date +'%Y-%m-%d')"
       - name: Bump version
+        if: github.ref == 'refs/heads/master'
         uses: chkfung/android-version-actions@v1.1
         with:
           gradlePath: app/build.gradle
@@ -65,7 +65,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ steps.date.outputs.date }}
+          custom_tag: ${{ steps.date.outputs.version }}
       - name: Create a GitHub release
         if: github.ref == 'refs/heads/master'
         id: create_release

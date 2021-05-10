@@ -48,17 +48,24 @@ jobs:
         with:
           commit_message: "Version Bump"
 
-      - name: "Build Signed APK"
+      - name: "Build APK"
+        id: "apk_unsigned"
+        run: |
+          ./gradlew assembleRelease
+          ls -l ./app/build/outputs/apk/release
+          echo "::set-output name=path::./app/build/outputs/apk/release/app-release-unsigned.apk"
+
+      - name: "Sign APK"
         id: "apk"
         env:
+          APK_PATH: ${{ steps.apk_unsigned.outputs.path }}
           KEYSTORE_FILE: ${{ steps.keystore.outputs.filePath }}
           KEYALIAS: ${{secrets.KEYALIAS}}
           MYAPP_RELEASE_KEY_PASSWORD: ${{secrets.MYAPP_RELEASE_KEY_PASSWORD}}
           MYAPP_RELEASE_STORE_PASSWORD: ${{secrets.MYAPP_RELEASE_STORE_PASSWORD}}
         run: |
-          ./gradlew assembleRelease
-          ls -l ./app/build/outputs/apk/release
-          echo "::set-output name=path::./app/build/outputs/apk/release/app-release.apk"
+          apksigner sign --ks ${KEYSTORE_FILE} --ks-key-alias ${KEYALIAS} --ks-pass env:MYAPP_RELEASE_STORE_PASSWORD --key-pass env:MYAPP_RELEASE_STORE_PASSWORD --out ./app/release/app-release.apk  ${APK_PATH}
+          echo "::set-output name=path::./app/release/app-release.apk
       - name: Tag version
         id: tag_version
         if: github.ref == 'refs/heads/master'

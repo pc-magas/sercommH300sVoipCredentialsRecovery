@@ -17,31 +17,6 @@ android {
     }
 
     signingConfigs {
-        release {
-            println 'In release configs'
-            def keystoreFile = rootProject.file(".keys/h300s.keystore")
-            def env = System.getenv();
-
-            if(env.containsKey('KEYSTORE_FILE')){
-                keystoreFile = rootProject.file(env.get('KEYSTORE_FILE'))
-            }
-
-            if (keystoreFile.exists() &&
-                    env.containsKey("MYAPP_RELEASE_STORE_PASSWORD")  &&
-                    env.containsKey('KEYALIAS') &&
-                    env.containsKey('MYAPP_RELEASE_KEY_PASSWORD')
-            ) {
-                println("Configuring Signing options for release")
-
-                android.signingConfigs["release"].storeFile = keystoreFile
-                android.signingConfigs["release"].storePassword = System.getenv('MYAPP_RELEASE_STORE_PASSWORD')
-                android.signingConfigs["release"].keyAlias = System.getenv('KEYALIAS')
-                android.signingConfigs["release"].keyPassword = System.getenv('MYAPP_RELEASE_KEY_PASSWORD')
-            } else {
-                println 'Skipping apk Signature'
-            }
-        }
-
         lintOptions {
             disable "UnsafeExperimentalUsageError",
                     "UnsafeExperimentalUsageWarning"
@@ -51,17 +26,6 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-
-            if(
-                signingConfigs.release.storeFile != null &&
-                        signingConfigs.release.storePassword != null &&
-                        signingConfigs.release.keyAlias != null &&
-                        signingConfigs.release.keyPassword != null
-            ){
-                signingConfig =  signingConfigs.release
-            } else {
-                println 'Apk will not be signed'
-            }
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

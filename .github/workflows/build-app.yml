@@ -16,7 +16,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Install APkSigner
-        run: sudo apt-get install apksigner
+        run: sudo apt-get install -y apksigner
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
@@ -70,7 +70,8 @@ jobs:
           MYAPP_RELEASE_KEY_PASSWORD: ${{secrets.MYAPP_RELEASE_KEY_PASSWORD}}
           MYAPP_RELEASE_STORE_PASSWORD: ${{secrets.MYAPP_RELEASE_STORE_PASSWORD}}
         run: |
-          apksigner sign --ks ${KEYSTORE_FILE} --ks-key-alias ${KEYALIAS} --ks-pass env:MYAPP_RELEASE_STORE_PASSWORD --key-pass env:MYAPP_RELEASE_STORE_PASSWORD --out ./app/release/app-release.apk  ${APK_PATH}
+          echo ${APK_PATH}
+          apksigner sign --out ./app/release/app-release.apk --ks ${KEYSTORE_FILE} --ks-key-alias ${KEYALIAS} --ks-pass env:MYAPP_RELEASE_STORE_PASSWORD --key-pass env:MYAPP_RELEASE_STORE_PASSWORD  ${APK_PATH}
           echo "::set-output name=path::./app/release/app-release.apk
 
       - name: Tag version

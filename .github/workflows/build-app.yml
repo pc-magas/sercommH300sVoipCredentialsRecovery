@@ -71,7 +71,9 @@ jobs:
           MYAPP_RELEASE_STORE_PASSWORD: ${{secrets.MYAPP_RELEASE_STORE_PASSWORD}}
         run: |
           echo ${APK_PATH}
-          apksigner sign --out ./app/release/app-release.apk --ks ${KEYSTORE_FILE} --ks-key-alias ${KEYALIAS} --ks-pass env:MYAPP_RELEASE_STORE_PASSWORD --key-pass env:MYAPP_RELEASE_STORE_PASSWORD  ${APK_PATH}
+          mkdir -p ./app/release
+          cp ${APK_PATH} ./app/release/app-release.apk
+          apksigner sign --ks ${KEYSTORE_FILE} --ks-key-alias ${KEYALIAS} --ks-pass env:MYAPP_RELEASE_STORE_PASSWORD --key-pass env:MYAPP_RELEASE_STORE_PASSWORD  ./app/release/app-release.apk
           echo "::set-output name=path::./app/release/app-release.apk
 
       - name: Tag version

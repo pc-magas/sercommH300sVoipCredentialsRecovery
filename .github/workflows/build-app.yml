@@ -14,28 +14,33 @@ jobs:
         with:
           java-version: '8'
           distribution: 'adopt'
+
+      - name: Install APkSigner
+        run: sudo apt-get install -y apksigner
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+
       - name: test
         run: ./gradlew test
+
       - name: "Create Keystore folder"
         run: |
           mkdir .keys
+
       - name: "Generate Keystore File"
         id: keystore
         uses: timheuer/base64-to-file@v1
         with:
           fileName: '.keys/h300s.keystore'
           encodedString: ${{ secrets.SIGN_KEY }}
-      - name: "List file"
-        env:
-          KEYSTORE_FILE: ${{ steps.keystore.outputs.filePath }}
-        run: ls -l ${KEYSTORE_FILE}
+
       - name: Mark Build Date
         id: date
         run: |
           echo "::set-output name=versionNum::$(date +'%Y%m%d')"
           echo "::set-output name=version::v$(date +'%Y-%m-%d')"
+
       - name: Bump version
         if: github.ref == 'refs/heads/master'
         uses: chkfung/android-version-actions@v1.1
@@ -43,22 +48,34 @@ jobs:
           gradlePath: app/build.gradle
           versionCode:  ${{ steps.date.outputs.versionNum }}
           versionName:  ${{ steps.date.outputs.version }}
+
       - name: "Commit version Bump"
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Version Bump"
 
-      - name: "Build Signed APK"
+      - name: "Build APK"
+        id: "apk_unsigned"
+        run: |
+          ./gradlew assembleRelease
+          ls -l ./app/build/outputs/apk/release
+          echo "::set-output name=path::./app/build/outputs/apk/release/app-release-unsigned.apk"
+
+      - name: "Sign APK"
         id: "apk"
         env:
+          APK_PATH: ${{ steps.apk_unsigned.outputs.path }}
           KEYSTORE_FILE: ${{ steps.keystore.outputs.filePath }}
           KEYALIAS: ${{secrets.KEYALIAS}}
           MYAPP_RELEASE_KEY_PASSWORD: ${{secrets.MYAPP_RELEASE_KEY_PASSWORD}}
           MYAPP_RELEASE_STORE_PASSWORD: ${{secrets.MYAPP_RELEASE_STORE_PASSWORD}}
         run: |
-          ./gradlew assembleRelease
-          ls -l ./app/build/outputs/apk/release
-          echo "::set-output name=path::./app/build/outputs/apk/release/app-release.apk"
+          echo ${APK_PATH}
+          mkdir -p ./app/release
+          cp ${APK_PATH} ./app/release/apk-release.apk
+          apksigner sign --ks ${KEYSTORE_FILE} --ks-key-alias ${KEYALIAS} --ks-pass env:MYAPP_RELEASE_STORE_PASSWORD --key-pass env:MYAPP_RELEASE_STORE_PASSWORD  ./app/release/apk-release.apk
+          echo "::set-output name=path::./app/release/apk-release.apk"
+
       - name: Tag version
         id: tag_version
         if: github.ref == 'refs/heads/master'
@@ -66,6 +83,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: ${{ steps.date.outputs.versionNum }}
+
       - name: Create a GitHub release
         if: github.ref == 'refs/heads/master'
         id: create_release
@@ -76,6 +94,7 @@ jobs:
           tag_name: ${{ steps.tag_version.outputs.new_tag }}
           release_name: Release APK ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
+
       - name: Upload Release Asset
         if: github.ref == 'refs/heads/master'
         id: upload-release-asset

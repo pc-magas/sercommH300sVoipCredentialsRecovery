@@ -72,9 +72,9 @@ jobs:
         run: |
           echo ${APK_PATH}
           mkdir -p ./app/release
-          cp ${APK_PATH} ./app/release/app-release.apk
-          apksigner sign --ks ${KEYSTORE_FILE} --ks-key-alias ${KEYALIAS} --ks-pass env:MYAPP_RELEASE_STORE_PASSWORD --key-pass env:MYAPP_RELEASE_STORE_PASSWORD  ./app/release/app-release.apk
-          echo "::set-output name=path::./app/release/app-release.apk
+          cp ${APK_PATH} ./app/release/apk-release.apk
+          apksigner sign --ks ${KEYSTORE_FILE} --ks-key-alias ${KEYALIAS} --ks-pass env:MYAPP_RELEASE_STORE_PASSWORD --key-pass env:MYAPP_RELEASE_STORE_PASSWORD  ./app/release/apk-release.apk
+          echo "::set-output name=path::./app/release/apk-release.apk"
 
       - name: Tag version
         id: tag_version

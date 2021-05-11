@@ -42,7 +42,6 @@ jobs:
           echo "::set-output name=version::v$(date +'%Y-%m-%d')"
 
       - name: Bump version
-        if: github.ref == 'refs/heads/master'
         uses: chkfung/android-version-actions@v1.1
         with:
           gradlePath: app/build.gradle

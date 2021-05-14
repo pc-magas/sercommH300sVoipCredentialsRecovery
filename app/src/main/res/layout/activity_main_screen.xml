@@ -8,16 +8,32 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="427dp"
-        android:layout_marginBottom="304dp"
+        android:layout_height="127dp"
+        android:layout_marginBottom="204dp"
         android:gravity="center"
         android:text="@string/app_name"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.307" />
+
+    <TextView
+        android:id="@+id/usr_msg"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        app:layout_constraintVertical_bias="0.499" />
 
     <Button
         android:id="@+id/licence"

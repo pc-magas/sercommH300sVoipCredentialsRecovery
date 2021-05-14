@@ -16,6 +16,9 @@
             Then fill the missing information in the form that will be shown in the next step.
         </string>
 
+        <string name="img_description">
+            Image located at the background of the router showing the username and the password. If you are unable to read ask for an another person to read it for you.
+        </string>
     <!-- Connect  Screen -->
         <string name="menu_url">Router menu URL:</string>
         <string name="router_username">User name:</string>

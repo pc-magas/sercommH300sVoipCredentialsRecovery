@@ -18,9 +18,6 @@ public class InstructionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_connection_instructions);
         final ImageView img = (ImageView)findViewById(R.id.instructions_image);
 
-        int imageResource = getResources().getIdentifier("@drawable/h300s",null,this.getPackageName());
-        img.setImageResource(imageResource);
-
         final Button next = (Button)findViewById(R.id.next);
         next.setOnClickListener(new View.OnClickListener(){
             private InstructionsActivity activity;

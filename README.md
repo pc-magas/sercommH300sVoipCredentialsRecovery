@@ -13,9 +13,7 @@ Recover VOIP Credentials and DSL settings from Sercomm H300s router.
 
 ## Issues - Pending Development
 
-2. Release Into F-droid - <In Progress>
-4. Improve UI - <Need Extra Recommendations>
-5. Redetect IP if ip has not been detected.
+Redetect IP if ip has not been detected.
 
 > Due to play store registration fee I won't upload into Play Store.
 

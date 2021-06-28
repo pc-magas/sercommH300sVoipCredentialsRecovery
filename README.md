@@ -9,7 +9,7 @@ Recover VOIP Credentials and DSL settings from Sercomm H300s router.
 3. Voip Settings retrieval.
 4. Save settings Into device's storage.
 5. Extra Unit testing.
-6. Replease Pipeline Has been Built.
+6. Release Pipeline Has been Built.
 
 ## Issues - Pending Development
 

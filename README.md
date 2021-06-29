@@ -9,13 +9,11 @@ Recover VOIP Credentials and DSL settings from Sercomm H300s router.
 3. Voip Settings retrieval.
 4. Save settings Into device's storage.
 5. Extra Unit testing.
-6. Replease Pipeline Has been Built.
+6. Release Pipeline Has been Built.
 
 ## Issues - Pending Development
 
-2. Release Into F-droid - <In Progress>
-4. Improve UI - <Need Extra Recommendations>
-5. Redetect IP if ip has not been detected.
+Redetect IP if ip has not been detected.
 
 > Due to play store registration fee I won't upload into Play Store.
 

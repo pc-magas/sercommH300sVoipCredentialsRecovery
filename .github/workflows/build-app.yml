@@ -61,7 +61,7 @@ jobs:
         id: get_version
         run: |
           VERSION=$(grep -oP "versionCode \d+" ./app/build.gradle | grep -oP "\d+")
-          echo "::set-output name=versionNum::v${VERSION}"
+          echo "::set-output name=versionNum::${VERSION}"
 
       - name: Display Version
         id: display_version

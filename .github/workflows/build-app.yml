@@ -60,14 +60,15 @@ jobs:
       - name: Get Version
         id: get_version
         run: |
-          echo "::set-output  versionNum=v"$(grep -oP "versionCode \d+" /mnt/data/Kwdikas/AndroidStudioProjects/vfuH300s/app/build.gradle | grep -oP "\d+")
+          VERSION=$(grep -oP "versionCode \d+" /mnt/data/Kwdikas/AndroidStudioProjects/vfuH300s/app/build.gradle | grep -oP "\d+")
+          echo "::set-output versionNum=v${VERSION}"
 
       - name: Display Version
         id: display_version
         env:
           VERSION: ${{ steps.get_version.outputs.versionNum }}
         run: |
-           echo $VERSION
+           echo ${VERSION}
 
       - name: Tag version
         id: tag_version

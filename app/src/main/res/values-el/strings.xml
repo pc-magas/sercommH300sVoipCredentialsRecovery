@@ -13,7 +13,7 @@
     <!-- Connection Instructions -->
         <string name="connection_instructions">
             Κοίταξε πίσω στο ρούτερ για τους κωδικούς όπως δείχνει η εικόνα στο κόκκινο πλαίσιο\n\n
-            Στην επόμενη οθόνη συμπληρώστε τα στοιχεία ου λείπουν
+            Στην επόμενη οθόνη συμπληρώστε τα στοιχεία που λείπουν
         </string>
 
         <string name="img_description">
@@ -49,7 +49,7 @@
         <string name="na">N/A</string>
         <string name="login_failed">Could not Login Into router.\nPlease try again.</string>
         <string name="settings_retrieval_failed">Could Not Retrieve Settings</string>
-        <string name="unsupported_version">H έκδοση firmware του router δεν υποσρτιρίζετε.\n Σε επόμενες εκδόσεις της εφαρμογής θα διορθωθεί.</string>
+        <string name="unsupported_version">H έκδοση v1.11.0 του router δεν υποστιρίζετε. Στο μέλλον θα υποστιρίζετε.</string>
         <string name="packetization_time">Packetization Time</string>
         <string name="echo_cancellation">Echo Cancelation</string>
     <!-- Settings Msg -->

@@ -1,0 +1,58 @@
+<resources>
+
+    <string name="app_name">Ανάκτηση Κωδικων VOIP από το H300s</string>
+
+    <!-- Main Screen -->
+        <string name="retrieve">Ανάκτηση</string>
+        <string name="licence">Άδεια Χρήσης</string>
+
+    <!-- Detect  Ip Screen -->
+        <string name="loading_msg">Εντοπισμός της Ip του router &#8230;</string>
+        <string name="wifi_not_found">Δεν βρέθηκε wi-fi</string>
+
+    <!-- Connection Instructions -->
+        <string name="connection_instructions">
+            Κοίταξε πίσω στο ρούτερ για τους κωδικούς όπως δείχνει η εικόνα στο κόκκινο πλαίσιο\n\n
+            Στην επόμενη οθόνη συμπληρώστε τα στοιχεία ου λείπουν
+        </string>
+
+        <string name="img_description">
+            Εικόνα που εμφανίζει την πίσω πλευρά του H300s. Αν δεν μπορείς να την διαβάσεις ζήτα έναν άνθρωπο να το κάνει για εσένα (πχ. Γιο, Κόρη, Εγγόνι)
+        </string>
+    <!-- Connect  Screen -->
+        <string name="menu_url">Router menu URL:</string>
+        <string name="router_username">User name:</string>
+        <string name="password">Router password</string>
+        <string name="connect">Σύνδεση</string>
+        <string name="title_activity_display_router_settings">DisplayRouterSettings</string>
+
+        <string name="next">Επόμενο ></string>
+
+    <!--VOIP Settings -->
+        <string name="save_settings">Αποθήκευση</string>
+        <string name="voip_username">Username:</string>
+        <string name="voip_password">Password:</string>
+        <string name="voip_phone">Τηλεφωνικός αριθμός voip:</string>
+        <string name="primary_registar">Primary Registar</string>
+        <string name="secondary_registar">Secondary Registar</string>
+        <string name="primary_proxy">Primary Proxy</string>
+        <string name="secondary_proxy">Secondary Proxy</string>
+        <string name="sip_domain">Sip Domain</string>
+        <string name="local_port">Local Port</string>
+        <string name="codec">Codec</string>
+        <string name="fax_codec">Fax Codec</string>
+        <string name="dtml_mode">DTML Mode</string>
+        <string name="ingress_gain">Ingress Gain</string>
+        <string name="engress_gain">Engress Gain</string>
+        <string name="silence_suppression">Silence Suppression</string>
+        <string name="port">Port</string>
+        <string name="na">N/A</string>
+        <string name="login_failed">Could not Login Into router.\nPlease try again.</string>
+        <string name="settings_retrieval_failed">Could Not Retrieve Settings</string>
+        <string name="unsupported_version">H έκδοση firmware του router δεν υποσρτιρίζετε.\n Σε επόμενες εκδόσεις της εφαρμογής θα διορθωθεί.</string>
+        <string name="packetization_time">Packetization Time</string>
+        <string name="echo_cancellation">Echo Cancelation</string>
+    <!-- Settings Msg -->
+        <string name="could_not_save_settings">Αδυναμία αποθηκευσης ρυθμίσεων</string>
+        <string name="save_success">Οι ρυθμίσεις επιτυχώς αποθηκεύτηκαν</string>
+</resources>

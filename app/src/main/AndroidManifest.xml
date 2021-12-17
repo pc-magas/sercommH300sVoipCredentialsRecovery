@@ -15,11 +15,11 @@
         android:theme="@style/Theme.VfuH300s"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true">
-        <activity android:name=".screens.LicenceActivity"></activity>
-        <activity android:name=".screens.DisplaySettingsActivity" />
-        <activity android:name=".screens.ConnectIntoRouterActivity" />
-        <activity android:name=".screens.InstructionsActivity" />
-        <activity android:name=".screens.MainScreen">
+        <activity android:name=".screens.LicenceActivity"    android:screenOrientation="portrait" ></activity>
+        <activity android:name=".screens.DisplaySettingsActivity"    android:screenOrientation="portrait" />
+        <activity android:name=".screens.ConnectIntoRouterActivity"    android:screenOrientation="portrait" />
+        <activity android:name=".screens.InstructionsActivity"    android:screenOrientation="portrait" />
+        <activity android:name=".screens.MainScreen"    android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

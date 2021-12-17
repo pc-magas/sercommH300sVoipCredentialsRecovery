@@ -49,6 +49,7 @@
         <string name="na">N/A</string>
         <string name="login_failed">Could not Login Into router.\nPlease try again.</string>
         <string name="settings_retrieval_failed">Could Not Retrieve Settings</string>
+        <string name="unsupported_version">Version is not supported.\n For H300s firmware version 1.11.0 a fix is under contruction.</string>
         <string name="packetization_time">Packetization Time</string>
         <string name="echo_cancellation">Echo Cancelation</string>
     <!-- Settings Msg -->

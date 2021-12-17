@@ -44,6 +44,9 @@ public class Η300sCredentialsRetriever  implements Runnable {
 
     private String session_id;
 
+    public static final String ERROR_GENERIC = "GENERIC";
+    public static final String ERROR_VERSION = "VERSION";
+
     public static final String REDIRECT_URL="<script>top.location.href=\"/login.html\";</script>";
 
     public static final String ACCEPTED_VERSION_REGEX = "Vodafone-H-300s-v1\\.0\\.10.*";
@@ -58,7 +61,7 @@ public class Η300sCredentialsRetriever  implements Runnable {
         this.exceptionHandler = (Exception e)->{};
         this.loginHandler     = (boolean loginStatus)->{};
         this.settingsHandler  = (H300sVoipSettings settings)->{};
-        this.failedHandler    = ()->{};
+        this.failedHandler    = (String type)->{};
 
         this.setHttpClient(client);
     }
@@ -332,7 +335,7 @@ public class Η300sCredentialsRetriever  implements Runnable {
             boolean versionThatCanRetrieveCredentials = this.checkVersion();
 
             if(!versionThatCanRetrieveCredentials){
-                throw  new InvalidVersionException();
+                throw new InvalidVersionException();
             }
 
             boolean loginStatus = login();
@@ -342,8 +345,11 @@ public class Η300sCredentialsRetriever  implements Runnable {
                 settingsHandler.retrieveSettings(settings);
             }
         } catch (SettingsFailedException f){
-            failedHandler.handler();
+            failedHandler.handler(this.ERROR_GENERIC);
             exceptionHandler.handle(f);
+        } catch(InvalidVersionException ve) {
+            failedHandler.handler(this.ERROR_VERSION);
+            exceptionHandler.handle(ve);
         } catch (Exception e){
             exceptionHandler.handle(e);
         }

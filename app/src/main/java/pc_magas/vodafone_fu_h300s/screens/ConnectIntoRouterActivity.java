@@ -90,11 +90,18 @@ public class ConnectIntoRouterActivity extends AppCompatActivity implements View
             });
         });
 
-        this.retriever.setFailedHandler(()->{
+        this.retriever.setFailedHandler((String type)->{
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    error_message.setText(getString(R.string.settings_retrieval_failed));
+                    switch(type){
+                        case Η300sCredentialsRetriever.ERROR_VERSION:
+                            error_message.setText(getString(R.string.unsupported_version));
+                            break;
+                        default:
+                            error_message.setText(getString(R.string.settings_retrieval_failed));
+                    }
+
                     error_message.setVisibility(View.VISIBLE);
                     submit.setEnabled(true);
                 }

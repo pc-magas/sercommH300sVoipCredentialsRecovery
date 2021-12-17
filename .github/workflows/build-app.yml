@@ -62,13 +62,20 @@ jobs:
         run: |
           echo "::set-output  versionNum=v"$(grep -oP "versionCode \d+" /mnt/data/Kwdikas/AndroidStudioProjects/vfuH300s/app/build.gradle | grep -oP "\d+")
 
+      - name: Display Version
+          id: display_version
+          env:
+            VERSION: ${{ steps.get_version.outputs.versionNum }}
+          run: |
+            echo $VERSION
+
       - name: Tag version
         id: tag_version
         if: github.ref == 'refs/heads/master'
         uses: mathieudutour/github-tag-action@v5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ steps.date.outputs.versionNum }}
+          custom_tag: ${{ steps.get_version.outputs.versionNum }}
 
       - name: Create a GitHub release
         if: github.ref == 'refs/heads/master'

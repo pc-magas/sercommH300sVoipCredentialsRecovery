@@ -1,6 +1,7 @@
 package pc_magas.vodafone_fu_h300s.logic;
 
 import pc_magas.vodafone_fu_h300s.logic.exceptions.CsrfTokenNotFound;
+import pc_magas.vodafone_fu_h300s.logic.exceptions.InvalidVersionException;
 import pc_magas.vodafone_fu_h300s.logic.exceptions.SettingsFailedException;
 
 import pc_magas.vodafone_fu_h300s.logic.lambdas.ExceptionHandler;
@@ -45,14 +46,21 @@ public class Η300sCredentialsRetriever  implements Runnable {
 
     public static final String REDIRECT_URL="<script>top.location.href=\"/login.html\";</script>";
 
+    public static final String ACCEPTED_VERSION_REGEX = "Vodafone-H-300s-v1\\.0\\.10.*";
+
     public Η300sCredentialsRetriever()
+    {
+        this(new OkHttpClient());
+    }
+
+    public Η300sCredentialsRetriever(OkHttpClient client)
     {
         this.exceptionHandler = (Exception e)->{};
         this.loginHandler     = (boolean loginStatus)->{};
         this.settingsHandler  = (H300sVoipSettings settings)->{};
         this.failedHandler    = ()->{};
 
-        this.setHttpClient(new OkHttpClient());
+        this.setHttpClient(client);
     }
 
     public void setSettingsHandler(RetrieveSettingsHandler handler){
@@ -173,6 +181,22 @@ public class Η300sCredentialsRetriever  implements Runnable {
         }
     }
 
+    public boolean checkVersion()
+    {
+        try {
+            String csrftoken = this.retrieveCsrfTokenFromUrl("/login.html",null);
+            String jsonString = this.retrieveUrlContents("/data/login.json",csrftoken);
+
+            Pattern pattern = Pattern.compile(this.ACCEPTED_VERSION_REGEX, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(jsonString);
+
+            return matcher.find();
+
+        } catch(Exception e) {
+
+            return false;
+        }
+    }
 
     public boolean login() {
 
@@ -305,6 +329,12 @@ public class Η300sCredentialsRetriever  implements Runnable {
     public void retrieveVoipCredentials()
     {
         try {
+            boolean versionThatCanRetrieveCredentials = this.checkVersion();
+
+            if(!versionThatCanRetrieveCredentials){
+                throw  new InvalidVersionException();
+            }
+
             boolean loginStatus = login();
             loginHandler.loginCallback(loginStatus);
             if (loginStatus) {

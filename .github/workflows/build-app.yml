@@ -35,24 +35,6 @@ jobs:
           fileName: '.keys/h300s.keystore'
           encodedString: ${{ secrets.SIGN_KEY }}
 
-      - name: Mark Build Date
-        id: date
-        run: |
-          echo "::set-output name=versionNum::$(date +'%Y%m%d')"
-          echo "::set-output name=version::v$(date +'%Y-%m-%d')"
-
-      - name: Bump version
-        uses: chkfung/android-version-actions@v1.1
-        with:
-          gradlePath: app/build.gradle
-          versionCode:  ${{ steps.date.outputs.versionNum }}
-          versionName:  ${{ steps.date.outputs.version }}
-
-      - name: "Commit version Bump"
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Version Bump"
-
       - name: "Build APK"
         id: "apk_unsigned"
         run: |

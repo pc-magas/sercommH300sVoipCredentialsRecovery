@@ -57,6 +57,11 @@ jobs:
           apksigner sign --ks ${KEYSTORE_FILE} --ks-key-alias ${KEYALIAS} --ks-pass env:MYAPP_RELEASE_STORE_PASSWORD --key-pass env:MYAPP_RELEASE_STORE_PASSWORD  ./app/release/apk-release.apk
           echo "::set-output name=path::./app/release/apk-release.apk"
 
+      - name: Get Version
+        id: get_version
+        run: |
+          echo "::set-output  versionNum=v"$(grep -oP "versionCode \d+" /mnt/data/Kwdikas/AndroidStudioProjects/vfuH300s/app/build.gradle | grep -oP "\d+")
+
       - name: Tag version
         id: tag_version
         if: github.ref == 'refs/heads/master'

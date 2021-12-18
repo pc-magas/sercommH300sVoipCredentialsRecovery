@@ -1,5 +1,6 @@
 package pc_magas.vodafone_fu_h300s.logic;
 
+import okhttp3.ResponseBody;
 import pc_magas.vodafone_fu_h300s.logic.exceptions.CsrfTokenNotFound;
 import pc_magas.vodafone_fu_h300s.logic.exceptions.InvalidVersionException;
 import pc_magas.vodafone_fu_h300s.logic.exceptions.SettingsFailedException;
@@ -16,6 +17,7 @@ import java.io.IOException;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -126,7 +128,15 @@ public class Η300sCredentialsRetriever  implements Runnable {
         return "";
     }
 
-    public String retrieveUrlContents(String url, String csrfToken, String referer) throws Exception
+    /**
+     * Retrieve an Http Body via a GET parameter so we can further process it
+     * @param url The url where we want to retrieve its contents
+     * @param csrfToken The Csrf token for the request
+     * @param referer The referer of the request
+     * @return
+     * @throws Exception In case something bad happened
+     */
+    public ResponseBody getBody(String url, String csrfToken, String referer) throws Exception
     {
         url = this.url.replaceAll("/$","")+"/"+url.replaceAll("^/","");
         csrfToken=(csrfToken == null)?"":csrfToken;
@@ -161,7 +171,77 @@ public class Η300sCredentialsRetriever  implements Runnable {
         if( code != 200){
             throw new Exception("The url "+url+" returned code "+code);
         }
-        String responseBody = response.body().string();
+
+        return response.body();
+    }
+
+    /**
+     * Create the url with CSrf token and router's Ip
+     * @param url The Url we want to visit
+     * @param csrfToken The CSrftoken
+     * @return The full url with Get parameters.
+     */
+    public String createUrl(String url,String csrfToken)
+    {
+        url = this.url.replaceAll("/$","")+"/"+url.replaceAll("^/","")
+        csrfToken=(csrfToken == null)?"":csrfToken;
+
+        if(!csrfToken.equals("")){
+            long unixtime = System.currentTimeMillis() / 1000L;
+            // AJAX Calls also require to offer the _ with a unix timestamp alongside csrf token
+            url+="?_="+unixtime+"&csrf_token="+csrfToken;
+        }
+        return url;
+    }
+
+    /**
+     * Common Bootstrapping for a request Both in GET and Post Method
+     * @param url The url that we want to visit
+     * @param csrfToken The Csrf token
+     * @param referer Http referer
+     * @return A request builder where we can append more stuff to it
+     */
+    public Request.Builder createBasicRequest(String url, String csrfToken, String referer)
+    {
+        url = createUrl(url,csrfToken);
+
+        Request.Builder request = new Request.Builder()
+                .url(url)
+                .header("User-Agent","Mozila/5.0 (X11;Ubuntu; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0")
+                .header("Accept","text/html,application/xhtml+html;application/xml;q=0.9,image/webp,*/*;q=0.8")
+                .header("Sec-GPC","1");
+
+        String session_id = this.getSessionId();
+        session_id = session_id==null?"":session_id;
+
+        if(!session_id.equals("")){
+            request.header("Cookie","login_uid="+Math.random()+"; session_id="+session_id);
+        }
+
+        referer = (referer==null)?"":referer;
+
+        if(!referer.trim().equals("")){
+            request.header("Referer",referer);
+        }
+
+        return request;
+    }
+
+    public Request.Builder getDataViaPost(String url, String csrfToken, String referer, HashMap<String,String> values)
+    {
+        Request.Builder request = this.createBasicRequest(url,csrfToken,referer);
+        request.header('Content-type','application/x-www-form-urlencoded; charset=UTF-8')
+    }
+
+    public String retrieveUrlContents(String url, String csrfToken, String referer) throws Exception
+    {
+        Request.Builder request = createBasicRequest(url,csrfToken,referer)
+        Response response = this.httpClient.newCall(request.build()).execute();
+        int code = response.code();
+        if( code != 200){
+            throw new Exception("The url "+url+" returned code "+code);
+        }
+        String responseBody = this.getBody(url,csrfToken,referer).string();
         return responseBody;
     }
 
@@ -295,6 +375,10 @@ public class Η300sCredentialsRetriever  implements Runnable {
             exceptionHandler.handle(e);
             return false;
         }
+    }
+
+    private retrieveVersion111() throws Exception {
+
     }
 
     public H300sVoipSettings retrieveVOIPSettings()  throws Exception {

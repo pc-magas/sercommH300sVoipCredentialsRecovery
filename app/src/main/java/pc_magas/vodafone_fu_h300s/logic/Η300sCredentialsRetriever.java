@@ -183,7 +183,7 @@ public class Η300sCredentialsRetriever  implements Runnable {
      */
     public String createUrl(String url,String csrfToken)
     {
-        url = this.url.replaceAll("/$","")+"/"+url.replaceAll("^/","")
+        url = this.url.replaceAll("/$","")+"/"+url.replaceAll("^/","");
         csrfToken=(csrfToken == null)?"":csrfToken;
 
         if(!csrfToken.equals("")){
@@ -230,12 +230,14 @@ public class Η300sCredentialsRetriever  implements Runnable {
     public Request.Builder getDataViaPost(String url, String csrfToken, String referer, HashMap<String,String> values)
     {
         Request.Builder request = this.createBasicRequest(url,csrfToken,referer);
-        request.header('Content-type','application/x-www-form-urlencoded; charset=UTF-8')
+        request.header("Content-type","application/x-www-form-urlencoded; charset=UTF-8");
+
+        return request;
     }
 
     public String retrieveUrlContents(String url, String csrfToken, String referer) throws Exception
     {
-        Request.Builder request = createBasicRequest(url,csrfToken,referer)
+        Request.Builder request = createBasicRequest(url,csrfToken,referer);
         Response response = this.httpClient.newCall(request.build()).execute();
         int code = response.code();
         if( code != 200){
@@ -375,10 +377,6 @@ public class Η300sCredentialsRetriever  implements Runnable {
             exceptionHandler.handle(e);
             return false;
         }
-    }
-
-    private retrieveVersion111() throws Exception {
-
     }
 
     public H300sVoipSettings retrieveVOIPSettings()  throws Exception {

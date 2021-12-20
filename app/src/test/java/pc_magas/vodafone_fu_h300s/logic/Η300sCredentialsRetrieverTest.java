@@ -309,7 +309,7 @@ public class Η300sCredentialsRetrieverTest {
 
         final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
         doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html",null);
-        doReturn(contents).when(retriever).retrieveUrlContents("/data/login.json","HelloHowAreYou");
+        doReturn(contents).when(retriever).retrieveUrlContents("/data/user_lang.json","HelloHowAreYou");
         doReturn(contents).when(retriever).retrieveUrlContents("/data/login.json");
 
         boolean value = retriever.checkVersion();
@@ -326,8 +326,26 @@ public class Η300sCredentialsRetrieverTest {
 
         final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
         doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html",null);
-        doReturn(contents).when(retriever).retrieveUrlContents("/data/login.json","HelloHowAreYou","");
-        doReturn(contents).when(retriever).retrieveUrlContents("/data/login.json","HelloHowAreYou");
+        doReturn(contents).when(retriever).retrieveUrlContents("/data/user_lang.json","HelloHowAreYou","");
+        doReturn(contents).when(retriever).retrieveUrlContents("/data/user_lang.json","HelloHowAreYou");
+        doReturn(contents).when(retriever).retrieveUrlContents("/data/login.json");
+
+        boolean value = retriever.checkVersion();
+
+        Assert.assertTrue(value);
+    }
+
+    @Test
+    public void testVersionOnVersion109() throws FileNotFoundException, JSONException,CsrfTokenNotFound,IOException,Exception
+    {
+        File file = (new File("src/test/resources/version_109.json")).getAbsoluteFile();
+        Scanner fileReader = new Scanner(file);
+        String contents = fileReader.useDelimiter("\\Z").next();
+
+        final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
+        doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html",null);
+        doReturn(contents).when(retriever).retrieveUrlContents("/data/user_lang.json","HelloHowAreYou","");
+        doReturn(contents).when(retriever).retrieveUrlContents("/data/user_lang.json","HelloHowAreYou");
         doReturn(contents).when(retriever).retrieveUrlContents("/data/login.json");
 
         boolean value = retriever.checkVersion();

@@ -51,7 +51,7 @@ public class Η300sCredentialsRetriever  implements Runnable {
 
     public static final String REDIRECT_URL="<script>top.location.href=\"/login.html\";</script>";
 
-    public static final String ACCEPTED_VERSION_REGEX = "Vodafone-H-300s-v1\\.0\\.10.*";
+    public static final String ACCEPTED_VERSION_REGEX = "Vodafone-H-300s-v1\\.0\\.(0\\d|10).*";
 
     public Η300sCredentialsRetriever()
     {
@@ -270,8 +270,7 @@ public class Η300sCredentialsRetriever  implements Runnable {
     {
         try {
             String csrftoken = this.retrieveCsrfTokenFromUrl("/login.html",null);
-            String jsonString = this.retrieveUrlContents("/data/login.json",csrftoken);
-
+            String jsonString = this.retrieveUrlContents("/data/user_lang.json",csrftoken);
             Pattern pattern = Pattern.compile(this.ACCEPTED_VERSION_REGEX, Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(jsonString);
 

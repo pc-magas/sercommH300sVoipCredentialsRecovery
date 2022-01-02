@@ -1,0 +1,46 @@
+name: build-app
+on:
+  push:
+    branches: [dev]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout latest code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: testLint
+        run: ./gradlew lint
+
+      - name: test
+        run: ./gradlew test
+
+      - name: Bump Version
+        run:
+          VERSION="v$(date +'%Y-%m-%d')"
+          VERSION_NUM=$(date +'%Y%m%d')
+          sed -i -e "s/versionCode.*/versionCode $VERSION_NUM/g" -e "s/versionName.*/versionName \"$VERSION\"/g" ./app/build.gradle
+
+      - name: "Commit version Bump"
+        uses: EndBug/add-and-commit@v7
+        with:
+          add: './app/build.gradle'
+          commit_message: "Version Bump"
+          author_name: "Autobuild Bot"
+
+      - name: "Test Build APK"
+          id: "apk_unsigned"
+          run: |
+            ./gradlew assembleRelease
+            ls -l ./app/build/outputs/apk/release

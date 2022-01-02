@@ -40,7 +40,7 @@ jobs:
           author_name: "Autobuild Bot"
 
       - name: "Test Build APK"
-          id: "apk_unsigned"
-          run: |
-            ./gradlew assembleRelease
-            ls -l ./app/build/outputs/apk/release
+        id: "apk_unsigned"
+        run: |
+          ./gradlew assembleRelease
+          ls -l ./app/build/outputs/apk/release

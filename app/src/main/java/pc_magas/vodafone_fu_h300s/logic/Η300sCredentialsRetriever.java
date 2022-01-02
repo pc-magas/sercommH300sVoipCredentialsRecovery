@@ -1,5 +1,9 @@
 package pc_magas.vodafone_fu_h300s.logic;
 
+import android.util.Log;
+
+import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 import pc_magas.vodafone_fu_h300s.logic.exceptions.CsrfTokenNotFound;
 import pc_magas.vodafone_fu_h300s.logic.exceptions.InvalidVersionException;
@@ -13,11 +17,14 @@ import pc_magas.vodafone_fu_h300s.logic.lambdas.SettingsRetrievalFailedHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,7 +33,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.FormBody.Builder;
 
 import java.security.MessageDigest;
 
@@ -51,14 +57,18 @@ public class Η300sCredentialsRetriever  implements Runnable {
 
     public static final String REDIRECT_URL="<script>top.location.href=\"/login.html\";</script>";
 
-    public static final String ACCEPTED_VERSION_REGEX = "Vodafone-H-300s-v1\\.0\\.(0\\d|10).*";
+    private File tempDir;
 
     public Η300sCredentialsRetriever()
     {
-        this(new OkHttpClient());
+        this(new OkHttpClient(),null);
+    }
+    public Η300sCredentialsRetriever(File dirPath)
+    {
+        this(new OkHttpClient(),dirPath);
     }
 
-    public Η300sCredentialsRetriever(OkHttpClient client)
+    public Η300sCredentialsRetriever(OkHttpClient client, File dirPath)
     {
         this.exceptionHandler = (Exception e)->{};
         this.loginHandler     = (boolean loginStatus)->{};
@@ -66,6 +76,19 @@ public class Η300sCredentialsRetriever  implements Runnable {
         this.failedHandler    = (String type)->{};
 
         this.setHttpClient(client);
+        this.setTempDir(dirPath);
+    }
+
+    public void setTempDir(File path){
+        this.tempDir = path;
+    }
+
+    public File getTempDir(){
+        if(this.tempDir == null){
+            return new File(System.getProperty("java.io.tmpdir"));
+        }
+
+        return this.tempDir;
     }
 
     public void setSettingsHandler(RetrieveSettingsHandler handler){
@@ -211,6 +234,11 @@ public class Η300sCredentialsRetriever  implements Runnable {
                 .header("Accept","text/html,application/xhtml+html;application/xml;q=0.9,image/webp,*/*;q=0.8")
                 .header("Sec-GPC","1");
 
+        // usually ajax needs csrf token
+        if(csrfToken != null && csrfToken.trim() != ""){
+            request.addHeader("X-Requested-With","XMLHttpRequest");
+        }
+
         String session_id = this.getSessionId();
         session_id = session_id==null?"":session_id;
 
@@ -227,24 +255,57 @@ public class Η300sCredentialsRetriever  implements Runnable {
         return request;
     }
 
-    public Request.Builder getDataViaPost(String url, String csrfToken, String referer, HashMap<String,String> values)
+    /**
+     * Retruevw url contents via Post
+     * @param url The url we need to submit the data
+     * @param csrfToken The Csrftoken
+     * @param referer Url Referer
+     * @param values Request Body
+     * @return The response of the request
+     * @throws Exception In case of an error
+     */
+    public ResponseBody retrieveUrlContentsViaPost(String url, String csrfToken, String referer, String values) throws Exception
     {
         Request.Builder request = this.createBasicRequest(url,csrfToken,referer);
-        request.header("Content-type","application/x-www-form-urlencoded; charset=UTF-8");
+        RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded; charset=UTF-8"), values);
+        request.post(body);
+        request.header("X-Requested-With","XMLHttpRequest");
+        Response response = this.httpClient.newCall(request.build()).execute();
 
-        return request;
+        return response.body();
     }
 
+    /**
+     * Retrieve Url Contents via GET
+     * @param url The url we need to submit the data
+     * @param csrfToken The Csrftoken
+     * @param referer Url Referer
+     * @return
+     * @throws Exception
+     */
     public String retrieveUrlContents(String url, String csrfToken, String referer) throws Exception
     {
-        Request.Builder request = createBasicRequest(url,csrfToken,referer);
+        ResponseBody responseBody = this.retrieveUrlContentsNonString(url,csrfToken,referer).body();
+        return responseBody.string();
+    }
+
+    /**
+     * Retrieve Url Contents via GET
+     * @param url The url we need to submit the data
+     * @param csrfToken The Csrftoken
+     * @param referer Url Referer
+     * @return
+     * @throws Exception
+     */
+    public Response retrieveUrlContentsNonString(String url, String csrfToken, String referer) throws Exception
+    {
+        Request.Builder request = this.createBasicRequest(url,csrfToken,referer);
         Response response = this.httpClient.newCall(request.build()).execute();
         int code = response.code();
         if( code != 200){
             throw new Exception("The url "+url+" returned code "+code);
         }
-        String responseBody = this.getBody(url,csrfToken,referer).string();
-        return responseBody;
+        return response;
     }
 
     public String retrieveUrlContents(String url, String csrfToken) throws Exception
@@ -266,19 +327,13 @@ public class Η300sCredentialsRetriever  implements Runnable {
         }
     }
 
-    public boolean checkVersion()
-    {
+    public String retrieveCsrfTokenFromUrl(String url,String referer,String csrfToken) throws CsrfTokenNotFound {
         try {
-            String csrftoken = this.retrieveCsrfTokenFromUrl("/login.html",null);
-            String jsonString = this.retrieveUrlContents("/data/user_lang.json",csrftoken);
-            Pattern pattern = Pattern.compile(this.ACCEPTED_VERSION_REGEX, Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(jsonString);
-
-            return matcher.find();
-
-        } catch(Exception e) {
-
-            return false;
+            String html = retrieveUrlContents(url,csrfToken,referer);
+            return retrieveCSRFTokenFromHtml(html);
+        } catch (Exception e) {
+            exceptionHandler.handle(e);
+            throw new CsrfTokenNotFound(url);
         }
     }
 
@@ -337,7 +392,7 @@ public class Η300sCredentialsRetriever  implements Runnable {
             String loginPwd = hexString.toString();
 
 
-            RequestBody requestBody = new Builder()
+            RequestBody requestBody = new FormBody.Builder()
                     .add("LoginName", username)
                     .add("LoginPWD", loginPwd)
                     .add("challenge",challenge)
@@ -351,7 +406,7 @@ public class Η300sCredentialsRetriever  implements Runnable {
                     .header("Cookie","login_uid="+Math.random())
                     .header("Referer","http://192.158.2.1/login.html")
                     .header("X-Requested-With","XMLHttpRequest")
-                    .header("Content-Type","application/x-www-form-urnencoded; charset=UTF-8")
+                    .header("Content-Type","application/x-www-form-urlencoded; charset=UTF-8")
                     .header("User-Agent","Mozila/5.0 (X11;Ubuntu; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0")
                     .header("Origin","http://192.168.2.1")
                     .build();
@@ -381,25 +436,59 @@ public class Η300sCredentialsRetriever  implements Runnable {
     public H300sVoipSettings retrieveVOIPSettings()  throws Exception {
         H300sVoipSettings settings;
 
+        // I visit the overview first and then voip_diagnostics so I can bypass any possible security feature
         String csrfToken = retrieveCsrfTokenFromUrl("/overview.html",this.url+"/login.html");
 
         if(csrfToken == null || csrfToken.trim().equals("")){
             throw new SettingsFailedException();
         }
 
-        String contents = retrieveUrlContents("/data/phone_voip.json",csrfToken,this.url+"/phone.html");
+        ResponseBody contents = this.retrieveUrlContentsViaPost("data/voip_diagnostics.json",csrfToken,this.url+"/status-and-support.html","download=all_info");
+        String response = contents.string();
 
-        if(contents == null || contents.trim().equals("")){
+        if(response == null || !response.trim().equals("1")){
             throw new SettingsFailedException();
         }
 
-        try{
-            settings = H300sVoipSettings.createFromJson(contents);
+        contents = this.retrieveUrlContentsViaPost("data/login.json",csrfToken,this.url+"/status-and-support.html","loginUserChkLoginTimeout=admin");
+        response = contents.string();
+
+        if(response == null || !response.trim().equals("[ ]")){
+            throw new SettingsFailedException();
+        }
+
+        contents = this.retrieveUrlContentsViaPost("/data/voip_diagnostics.json",csrfToken,this.url+"/status-and-support.html","download=all_info");
+        response = contents.string();
+
+        if(response == null || !response.trim().equals("1")){
+            throw new SettingsFailedException();
+        }
+
+        Response downloadedTar = this.retrieveUrlContentsNonString("download/voip_diagnose_info.tar.gz",csrfToken,this.url+"/status-and-support.html");
+        if (downloadedTar == null) {
+            throw new SettingsFailedException();
+        }
+
+        File file = File.createTempFile(System.currentTimeMillis()+"_voip_diagnose_info", ".tar.gz", this.getTempDir());
+        Log.e("After File","-- "+file);
+
+        FileOutputStream download = new FileOutputStream(file);
+
+        download.write(downloadedTar.body().bytes());
+        download.flush();
+        download.close();
+
+        if(!file.exists() || (double)file.length() == 0){
+            throw new SettingsFailedException();
+        }
+
+        try {
+            settings = H300sVoipSettings.createFromTarGZ(file);
+            file.delete();
         } catch (Exception e){
             this.exceptionHandler.handle(e);
             throw new SettingsFailedException();
         }
-
 
         return settings;
     }
@@ -413,12 +502,6 @@ public class Η300sCredentialsRetriever  implements Runnable {
     public void retrieveVoipCredentials()
     {
         try {
-            boolean versionThatCanRetrieveCredentials = this.checkVersion();
-
-            if(!versionThatCanRetrieveCredentials){
-                throw new InvalidVersionException();
-            }
-
             boolean loginStatus = login();
             loginHandler.loginCallback(loginStatus);
             if (loginStatus) {

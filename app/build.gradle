@@ -54,7 +54,10 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'org.json:json:20210307'
+    implementation 'org.apache.commons:commons-compress:1.21'
+    implementation 'org.ini4j:ini4j:0.5.4'
 
+    // Testing Dependencies
     testImplementation 'com.github.gmazzo:okhttp-mock:1.4.1'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:3.9.0'

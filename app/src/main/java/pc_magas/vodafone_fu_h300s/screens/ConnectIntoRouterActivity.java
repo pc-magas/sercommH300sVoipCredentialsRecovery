@@ -50,7 +50,7 @@ public class ConnectIntoRouterActivity extends AppCompatActivity implements View
 
         this.error_message = (TextView)findViewById(R.id.error_message);
 
-        this.retriever = new Η300sCredentialsRetriever();
+        this.retriever = new Η300sCredentialsRetriever(this.getApplicationContext().getCacheDir());
 
         submit = (Button)findViewById(R.id.connect_btn);
         submit.setOnClickListener(this);

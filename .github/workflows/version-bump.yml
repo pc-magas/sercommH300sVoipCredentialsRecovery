@@ -27,10 +27,8 @@ jobs:
         run: ./gradlew test
 
       - name: Bump Version
-        run:
-          VERSION="v$(date +'%Y-%m-%d')"
-          VERSION_NUM=$(date +'%Y%m%d')
-          sed -i -e "s/versionCode.*/versionCode $VERSION_NUM/g" -e "s/versionName.*/versionName \"$VERSION\"/g" ./app/build.gradle
+        run: |
+          sed -i -e "s/versionCode.*/versionCode $(date +'%Y%m%d')/g" -e "s/versionName.*/versionName \"v$(date +'%Y-%m-%d')\"/g"  ./app/build.gradle
 
       - name: "Commit version Bump"
         uses: EndBug/add-and-commit@v7

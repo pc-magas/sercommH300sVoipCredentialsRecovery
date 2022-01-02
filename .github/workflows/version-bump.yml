@@ -23,8 +23,8 @@ jobs:
       - name: testLint
         run: ./gradlew lint
 
-      - name: test
-        run: ./gradlew test
+#      - name: test
+#        run: ./gradlew test
 
       - name: Bump Version
         run: |

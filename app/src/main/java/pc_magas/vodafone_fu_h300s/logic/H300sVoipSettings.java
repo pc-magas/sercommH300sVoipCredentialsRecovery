@@ -1,12 +1,25 @@
 package pc_magas.vodafone_fu_h300s.logic;
 
+import android.util.Log;
+
+import org.apache.commons.compress.archivers.ArchiveException;
+import org.apache.commons.compress.archivers.ArchiveStreamFactory;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.ini4j.Ini;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.Date;
@@ -55,6 +68,12 @@ public class H300sVoipSettings implements Serializable
 
     private String echo_cancellation = null;
 
+    private String rawSettings = null;
+
+
+    public void setRawSettings(String rawSettings){
+        this.rawSettings = rawSettings;
+    }
 
     public String getUsername() {
         return username;
@@ -92,7 +111,7 @@ public class H300sVoipSettings implements Serializable
     }
 
     public String getSecondary_registar_port() {
-        return secondary_registar_port;
+        return secondary_registar_port!=null?secondary_registar_port:"";
     }
 
     public void setSecondary_registar_port(String secondary_registar_port) {
@@ -269,6 +288,113 @@ public class H300sVoipSettings implements Serializable
         return settings;
     }
 
+    /**
+     * Retrieve settings using method described in:
+     * https://www.insomnia.gr/forums/topic/750707-h300s-%CE%BD%CE%AD%CE%BF-%CF%80%CF%81%CF%8C%CE%B3%CF%81%CE%B1%CE%BC%CE%BC%CE%B1-backup-voip-%CF%81%CF%85%CE%B8%CE%BC%CE%AF%CF%83%CE%B5%CF%89%CE%BD/?do=findComment&comment=58877078
+     * @param targzFile
+     * @return
+     * @throws IOException
+     */
+    public static H300sVoipSettings createFromTarGZ(File targzFile) throws IOException, ArchiveException {
+
+        H300sVoipSettings settings= new H300sVoipSettings();
+        if(!targzFile.exists() || !targzFile.isFile()){
+            throw new IllegalArgumentException("File "+targzFile.getName()+" is either not a file or does not exist");
+        }
+
+        String path = targzFile.getAbsoluteFile().getParent();
+        File tmpFolder = new File(path);
+
+        TarArchiveInputStream tarIn = (TarArchiveInputStream) new ArchiveStreamFactory().createArchiveInputStream("tar", new FileInputStream(targzFile));
+
+        try {
+            TarArchiveEntry entry;
+            while ((entry = (TarArchiveEntry) tarIn.getNextEntry()) != null) {
+                if(entry.isDirectory()){
+                    continue;
+                }
+
+                String name = entry.getName();
+                if (name.equals("tmp/var/voip_log/system_sh.conf")) {
+
+                    StringBuffer data = new StringBuffer();
+
+                    BufferedReader contents = new BufferedReader(new InputStreamReader(tarIn));
+                    String line = "";
+                    while((line = contents.readLine())!=null) {
+                        if(line.matches("===CONF END===")){
+                            continue;
+                        }
+                        data.append(line);
+                        data.append(System.getProperty("line.separator"));
+                    };
+
+                    File tmpFile = File.createTempFile("sytem_sh","conf",tmpFolder);
+                    BufferedWriter writeData = new BufferedWriter(new FileWriter(tmpFile));
+                    writeData.write(data.toString());
+                    writeData.flush();
+                    writeData.close();
+
+                    settings = readFromIni(tmpFile);
+                    settings.setRawSettings(data.toString());
+
+                    tmpFile.delete();
+                    return settings;
+                }
+            }
+        } catch(IOException e){
+            throw e;
+        } catch (Exception e) {
+            throw e;
+        }
+
+        throw new RuntimeException("Tar gz does not contain the settings");
+    }
+
+    public static H300sVoipSettings readFromIni(File iniFile) throws IOException {
+        H300sVoipSettings settings = new H300sVoipSettings();
+        Ini ini = new Ini(iniFile);
+
+        Ini.Section proxySettings = ini.get("sipreg-1");
+
+        String proxy = proxySettings.get("proxy");
+        settings.setPrimary_proxy(proxy.trim());
+
+        String port = proxySettings.get("proxy_port");
+        settings.setPrimary_proxy_port(port.trim());
+
+        proxy = proxySettings.get("sec_proxy");
+        settings.setSecondary_proxy(proxy);
+
+        port = proxySettings.get("sec_proxy_port");
+        settings.setSecondary_proxy_port(port);
+
+        String registar = proxySettings.get("reg_proxy");
+        settings.setPrimary_registar(registar);
+
+        String registar_port = proxySettings.get("reg_proxy_port");
+        settings.setPrimary_registar_port(registar_port);
+
+        String sipDomain = proxySettings.get("reg_domain");
+        settings.setSip_domain(sipDomain);
+
+        Ini.Section phone_settings = ini.get("sip-line1");
+
+        String password = phone_settings.get("pw");
+        settings.setPassword(password);
+
+        String username = phone_settings.get("user");
+        settings.setUsername(username);
+
+        String phoneNumber = phone_settings.get("telno");
+        settings.setSip_number(phoneNumber);
+
+        String localPort = phone_settings.get("local_port");
+        settings.setLocal_port(localPort);
+
+        return settings;
+    }
+
     public boolean equals(H300sVoipSettings other){
 
         boolean truth =  other.getPassword().equals(this.getPassword()) &&
@@ -281,13 +407,6 @@ public class H300sVoipSettings implements Serializable
                 other.getPrimary_registar_port().equals(this.getPrimary_registar_port()) &&
                 other.getSecondary_proxy_port().equals(this.getSecondary_proxy_port()) &&
                 other.getSecondary_registar_port().equals(this.getSecondary_registar_port())&&
-                other.getCodec().equals(this.getCodec()) &&
-                other.getDtml_mode().equals(this.getDtml_mode()) &&
-                other.getEcho_cancellation().equals(this.getEcho_cancellation()) &&
-                other.getEgress_gain().equals(this.getEgress_gain()) &&
-                other.getFax_codec().equals(this.getFax_codec()) &&
-                other.getIngress_gain().equals(this.getIngress_gain()) &&
-                other.getPacketization_time().equals(this.getPacketization_time()) &&
                 other.getLocal_port().equals(this.getLocal_port());
 
 
@@ -400,6 +519,4 @@ public class H300sVoipSettings implements Serializable
         out.print(this.toString());
         out.close();
     }
-
-
 }

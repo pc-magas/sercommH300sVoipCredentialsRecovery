@@ -3,20 +3,30 @@ package pc_magas.vodafone_fu_h300s.logic;
 import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mock;
 
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.Scanner;
 
 import okhttp3.Call;
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+
+import okhttp3.mock.Behavior;
+import okhttp3.mock.MockInterceptor;
+import okhttp3.mock.Rule;
 
 import pc_magas.vodafone_fu_h300s.logic.exceptions.CsrfTokenNotFound;
 import pc_magas.vodafone_fu_h300s.logic.exceptions.SettingsFailedException;
@@ -300,97 +310,75 @@ public class Η300sCredentialsRetrieverTest {
     }
 
     @Test
-    public void testVersionOnVersion110() throws FileNotFoundException, JSONException,CsrfTokenNotFound,IOException,Exception
-    {
-        File file = (new File("src/test/resources/version_110.json")).getAbsoluteFile();
-        String path = file.getPath();
-        Scanner fileReader = new Scanner(file);
-        String contents = fileReader.useDelimiter("\\Z").next();
-
-        final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
-        doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html",null);
-        doReturn(contents).when(retriever).retrieveUrlContents("/data/user_lang.json","HelloHowAreYou");
-        doReturn(contents).when(retriever).retrieveUrlContents("/data/login.json");
-
-        boolean value = retriever.checkVersion();
-        System.out.println(value);
-        Assert.assertTrue(value);
-    }
-
-    @Test
-    public void testVersionOnVersion110Debug() throws FileNotFoundException, JSONException,CsrfTokenNotFound,IOException,Exception
-    {
-        File file = (new File("src/test/resources/version_110_debug.json")).getAbsoluteFile();
-        Scanner fileReader = new Scanner(file);
-        String contents = fileReader.useDelimiter("\\Z").next();
-
-        final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
-        doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html",null);
-        doReturn(contents).when(retriever).retrieveUrlContents("/data/user_lang.json","HelloHowAreYou","");
-        doReturn(contents).when(retriever).retrieveUrlContents("/data/user_lang.json","HelloHowAreYou");
-        doReturn(contents).when(retriever).retrieveUrlContents("/data/login.json");
-
-        boolean value = retriever.checkVersion();
-
-        Assert.assertTrue(value);
-    }
-
-    @Test
-    public void testVersionOnVersion109() throws FileNotFoundException, JSONException,CsrfTokenNotFound,IOException,Exception
-    {
-        File file = (new File("src/test/resources/version_109.json")).getAbsoluteFile();
-        Scanner fileReader = new Scanner(file);
-        String contents = fileReader.useDelimiter("\\Z").next();
-
-        final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
-        doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html",null);
-        doReturn(contents).when(retriever).retrieveUrlContents("/data/user_lang.json","HelloHowAreYou","");
-        doReturn(contents).when(retriever).retrieveUrlContents("/data/user_lang.json","HelloHowAreYou");
-        doReturn(contents).when(retriever).retrieveUrlContents("/data/login.json");
-
-        boolean value = retriever.checkVersion();
-
-        Assert.assertTrue(value);
-    }
-
-    @Test
-    public void testVersionOnVersion111() throws FileNotFoundException, JSONException,CsrfTokenNotFound,IOException,Exception
-    {
-        File file = (new File("src/test/resources/version_111.json")).getAbsoluteFile();
-        String path = file.getPath();
-        Scanner fileReader = new Scanner(file);
-        String contents = fileReader.useDelimiter("\\Z").next();
-        System.out.println(contents);
-        final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
-        doReturn("HelloHowAreYou").when(retriever).retrieveCsrfTokenFromUrl("/login.html",null);
-        doReturn(contents).when(retriever).retrieveUrlContents("/data/login.json","HelloHowAreYou");
-
-        boolean value = retriever.checkVersion();
-
-        Assert.assertFalse(value);
-    }
-
-    @Test
     public void retrieveVoipSettings() throws FileNotFoundException, JSONException,CsrfTokenNotFound,IOException,Exception
     {
-        File file = (new File("src/test/resources/voipSettings.json")).getAbsoluteFile();
+        File file = (new File("src/test/resources/voip_diagnose_info.tar.gz")).getAbsoluteFile();
         String path = file.getPath();
         System.out.println(path);
-        Scanner fileReader = new Scanner(file);
-        String contents = fileReader.useDelimiter("\\Z").next();
+        byte[] data = Files.readAllBytes(file.toPath());
 
-        H300sVoipSettings expectedSettings = H300sVoipSettings.createFromJson(contents);
+        File csrfResponse = (new File("src/test/resources/csrfValid.html")).getAbsoluteFile();
+        Scanner fileReader = new Scanner(csrfResponse);
+        String csrfContents = fileReader.useDelimiter("\\Z").next();
 
-        final Η300sCredentialsRetriever retriever = spy(Η300sCredentialsRetriever.class);
-        doReturn("fdssdfsdfsd").when(retriever).retrieveCsrfTokenFromUrl("/overview.html","http://192.168.2.1/login.html");
-        doReturn("fdsfsdfdsfsd").when(retriever).getSessionId();
+        H300sVoipSettings expectedSettings = H300sVoipSettings.createFromTarGZ(file);
 
-        OkHttpClient client = mockHttpClient(contents,true,200);
-        retriever.setHttpClient(client);
+        MockInterceptor interceptor = new MockInterceptor();
+        interceptor.behavior(Behavior.UNORDERED)
+                .addRule(new Rule.Builder()
+                        .get()
+                        .url("http://192.168.2.1/download/voip_diagnose_info.tar.gz?_=1234&csrf_token=HelloHowAreYou")
+                        .respond(200)
+                        .message("")
+                        .protocol(Protocol.HTTP_1_1)
+                        .body(ResponseBody.create(MediaType.parse("application/x-tar"),data))
+                ).addRule(
+                        new Rule.Builder()
+                                .post()
+                                .url("http://192.168.2.1/data/voip_diagnostics.json?_=1234&csrf_token=HelloHowAreYou")
+                                .respond(200)
+                                .message("")
+                                .protocol(Protocol.HTTP_1_1)
+                                .header("Referer","http://192.168.2.1/status-and-support.html")
+                                .body(ResponseBody.create(MediaType.parse("application/json"),"1"))
+                ).addRule(
+                    new Rule.Builder().post()
+                        .url("http://192.168.2.1/data/login.json?_=1234&csrf_token=HelloHowAreYou")
+                        .respond(200)
+                        .message("")
+                        .protocol(Protocol.HTTP_1_1)
+                        .header("Referer","http://192.168.2.1/status-and-support.html")
+                        .body(ResponseBody.create(MediaType.parse("application/json"),"[ ]"))
+                ).addRule(new Rule.Builder()
+                    .get()
+                    .url("http://192.168.2.1/overview.html")
+                    .respond(200)
+                    .message("")
+                    .protocol(Protocol.HTTP_1_1)
+                    .header("Referer","http://192.168.2.1/login.html")
+                    .body(ResponseBody.create(MediaType.parse("text/html"),csrfContents))
+                );
+
+        final OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        final Η300sCredentialsRetriever retriever = new Η300sCredentialsRetriever(client,null){
+            @Override
+            public String createUrl(String url,String csrfToken)
+            {
+                url = this.getUrl().replaceAll("/$","")+"/"+url.replaceAll("^/","");
+                csrfToken=(csrfToken == null)?"":csrfToken;
+
+                if(!csrfToken.equals("")){
+                    long unixtime = 1234;
+                    // AJAX Calls also require to offer the _ with a unix timestamp alongside csrf token
+                    url+="?_="+unixtime+"&csrf_token="+csrfToken;
+                }
+                return url;
+            }
+        };
         retriever.setUrl("192.168.2.1");
 
         H300sVoipSettings settings = retriever.retrieveVOIPSettings();
-
+        System.out.println(settings.toString());
         Assert.assertTrue(expectedSettings.equals(settings));
     }
 

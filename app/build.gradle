@@ -10,8 +10,13 @@ android {
         applicationId "pcmagas.vodafone_fu_h300s"
         minSdkVersion 28
         targetSdkVersion 30
+<<<<<<< HEAD
         versionCode 20211220
         versionName "v2021-12-20"
+=======
+        versionCode 20220103
+        versionName "v2022-01-03"
+>>>>>>> dev
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -54,10 +59,14 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'org.json:json:20210307'
+    implementation 'org.apache.commons:commons-compress:1.21'
+    implementation 'org.ini4j:ini4j:0.5.4'
 
+    // Testing Dependencies
     testImplementation 'com.github.gmazzo:okhttp-mock:1.4.1'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:3.9.0'
+    testImplementation 'com.github.gmazzo:okhttp-mock:latest'
 
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

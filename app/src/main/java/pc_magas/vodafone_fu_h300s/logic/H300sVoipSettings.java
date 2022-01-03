@@ -111,7 +111,7 @@ public class H300sVoipSettings implements Serializable
     }
 
     public String getSecondary_registar_port() {
-        return secondary_registar_port;
+        return secondary_registar_port!=null?secondary_registar_port:"";
     }
 
     public void setSecondary_registar_port(String secondary_registar_port) {
@@ -386,7 +386,7 @@ public class H300sVoipSettings implements Serializable
         String username = phone_settings.get("user");
         settings.setUsername(username);
 
-        String phoneNumber = phone_settings.get("telNo");
+        String phoneNumber = phone_settings.get("telno");
         settings.setSip_number(phoneNumber);
 
         String localPort = phone_settings.get("local_port");
@@ -407,13 +407,6 @@ public class H300sVoipSettings implements Serializable
                 other.getPrimary_registar_port().equals(this.getPrimary_registar_port()) &&
                 other.getSecondary_proxy_port().equals(this.getSecondary_proxy_port()) &&
                 other.getSecondary_registar_port().equals(this.getSecondary_registar_port())&&
-                other.getCodec().equals(this.getCodec()) &&
-                other.getDtml_mode().equals(this.getDtml_mode()) &&
-                other.getEcho_cancellation().equals(this.getEcho_cancellation()) &&
-                other.getEgress_gain().equals(this.getEgress_gain()) &&
-                other.getFax_codec().equals(this.getFax_codec()) &&
-                other.getIngress_gain().equals(this.getIngress_gain()) &&
-                other.getPacketization_time().equals(this.getPacketization_time()) &&
                 other.getLocal_port().equals(this.getLocal_port());
 
 

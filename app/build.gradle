@@ -61,6 +61,7 @@ dependencies {
     testImplementation 'com.github.gmazzo:okhttp-mock:1.4.1'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:3.9.0'
+    testImplementation 'com.github.gmazzo:okhttp-mock:latest'
 
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

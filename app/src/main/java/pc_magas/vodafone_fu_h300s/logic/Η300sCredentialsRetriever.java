@@ -457,13 +457,6 @@ public class Η300sCredentialsRetriever  implements Runnable {
             throw new SettingsFailedException();
         }
 
-        contents = this.retrieveUrlContentsViaPost("/data/voip_diagnostics.json",csrfToken,this.url+"/status-and-support.html","download=all_info");
-        response = contents.string();
-
-        if(response == null || !response.trim().equals("1")){
-            throw new SettingsFailedException();
-        }
-
         Response downloadedTar = this.retrieveUrlContentsNonString("download/voip_diagnose_info.tar.gz",csrfToken,this.url+"/status-and-support.html");
         if (downloadedTar == null) {
             throw new SettingsFailedException();

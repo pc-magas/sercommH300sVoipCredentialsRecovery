@@ -1,6 +1,10 @@
 # Sercomm H300s Voip and DSL Credentials Recovery
 Recover VOIP Credentials and DSL settings from Sercomm H300s router.
 
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/pcmagas.vodafone_fu_h300s/)
+
 # Development Report
 
 ## Developed so far

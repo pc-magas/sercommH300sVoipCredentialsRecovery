@@ -10,8 +10,8 @@ android {
         applicationId "pcmagas.vodafone_fu_h300s"
         minSdkVersion 28
         targetSdkVersion 30
-        versionCode 20220103
-        versionName "v2022-01-03"
+        versionCode 20220122
+        versionName "v2022-01-22"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

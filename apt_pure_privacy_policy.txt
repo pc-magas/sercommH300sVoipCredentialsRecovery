@@ -1,0 +1,19 @@
+PRIVACY POLICY
+
+This application communicates with the router's admin page and using an http call sequence retrieves the voip settings and displays it to your device.
+This app needs to process your router's local ip and the admin's username and password in order to achieve its goal, 
+any private details is stored locally and is not transmitted through the internet.
+
+We may keep some telemetry data that WONT include:
+
+- Session cookies
+- Username and Password
+- VOIP Credentials
+
+Any telemetry data will contain:
+
+- Http request and responses (any data mentioned above will be sencored)
+- Your router's version
+
+Also in case of a telemetry in nessesary for your ip to be processed.
+Also at any time you may opt out not to send any telemetry data.

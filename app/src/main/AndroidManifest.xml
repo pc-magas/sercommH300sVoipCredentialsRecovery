@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VfuH300s"
         android:requestLegacyExternalStorage="true"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+
+        >
         <activity android:name=".screens.LicenceActivity"    android:screenOrientation="portrait" ></activity>
         <activity android:name=".screens.DisplaySettingsActivity"    android:screenOrientation="portrait" />
         <activity android:name=".screens.ConnectIntoRouterActivity"    android:screenOrientation="portrait" />

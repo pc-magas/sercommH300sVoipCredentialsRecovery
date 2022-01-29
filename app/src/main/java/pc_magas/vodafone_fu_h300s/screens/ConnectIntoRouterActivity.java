@@ -1,5 +1,6 @@
 package pc_magas.vodafone_fu_h300s.screens;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,6 +13,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.text.TextWatcher;
 import android.widget.TextView;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import pc_magas.vodafone_fu_h300s.R;
 import pc_magas.vodafone_fu_h300s.logic.H300sVoipSettings;
@@ -50,7 +61,28 @@ public class ConnectIntoRouterActivity extends AppCompatActivity implements View
 
         this.error_message = (TextView)findViewById(R.id.error_message);
 
-        this.retriever = new Η300sCredentialsRetriever(this.getApplicationContext().getCacheDir());
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .protocols(Arrays.asList(Protocol.HTTP_1_1))
+                .readTimeout(40, TimeUnit.SECONDS)
+                .connectTimeout(40, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .addInterceptor(new Interceptor() {
+                    @NonNull
+                    @Override
+                    public Response intercept(@NonNull Chain chain) throws IOException {
+                        Request request = chain.request();
+
+                        String log = "";
+                        log+="\nRequest: "+request.method()+" "+request.url()+"\nRequest Headers:\n"+request.headers().toString()+"\n";
+                        Response response = chain.proceed(request);
+                        Log.d("Http",log);
+
+                        return response;
+                    }
+                })
+                .retryOnConnectionFailure(true).build();
+        this.retriever = new Η300sCredentialsRetriever(client,this.getApplicationContext().getCacheDir());
 
         submit = (Button)findViewById(R.id.connect_btn);
         submit.setOnClickListener(this);

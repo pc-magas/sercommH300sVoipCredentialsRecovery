@@ -364,7 +364,7 @@ public class Η300sCredentialsRetriever  implements Runnable {
                                 .replace("[","")
                                 .replace("]","")
                                 .replace("\"","");
-                    challenge = item;
+                    challenge = item.trim();
                     break;
                 }
             }

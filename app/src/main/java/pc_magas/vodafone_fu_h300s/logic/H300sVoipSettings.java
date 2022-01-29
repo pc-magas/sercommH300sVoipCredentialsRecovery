@@ -246,48 +246,6 @@ public class H300sVoipSettings implements Serializable
         this.local_port = local_port;
     }
 
-    public static H300sVoipSettings createFromJson(String jsonString) throws IllegalArgumentException, JSONException {
-        if(jsonString == null || jsonString.trim().equals("")){
-            throw new IllegalArgumentException("JsonString Should not be empty");
-        }
-
-        JSONArray settingsJson = new JSONArray(jsonString);
-        H300sVoipSettings settings = new H300sVoipSettings();
-
-        for (int i = 0; i < settingsJson.length(); i++) {
-            JSONObject item = settingsJson.getJSONObject(i);
-            if(item.getString("type").equals("provider")){
-                settings.setPrimary_registar(item.getString("primary_registrar"));
-                settings.setPrimary_registar_port(item.getString("primary_registrar_port"));
-                settings.setPrimary_proxy(item.getString("primary_proxy"));
-                settings.setPrimary_proxy_port(item.getString("primary_proxy_port"));
-                settings.setSip_domain(item.getString("sip_domain"));
-                String secondary_proxy = item.getString("secondary_proxy");
-                if(secondary_proxy != null && !secondary_proxy.trim().equals("")){
-                    settings.setSecondary_proxy(secondary_proxy.trim());
-                }
-                settings.setSecondary_proxy_port(item.getString("secondary_proxy_port"));
-                settings.setSecondary_registar(item.getString("secondary_registrar"));
-                settings.setSecondary_registar_port(item.getString("secondary_registrar_port"));
-            } else if(item.getString("type").equals("number")){
-                settings.setSip_number(item.getString("sip_number"));
-                settings.setUsername(item.getString("username"));
-                settings.setPassword(item.getString("password"));
-                settings.setCodec(item.getString("codec"));
-                settings.setDtml_mode(item.getString("dtml_mode"));
-                settings.setFax_codec(item.getString("fax_codec"));
-                settings.setPacketization_time(item.getString("packetization_time"));
-                settings.setSilence_suppression(item.getString("silence_suppression"));
-                settings.setIngress_gain(item.getString("ingress_gain"));
-                settings.setEgress_gain(item.getString("egress_gain"));
-                settings.setEcho_cancellation(item.getString("echo_cancellation"));
-                settings.setLocal_port(item.getString("local_port"));
-            }
-        }
-
-        return settings;
-    }
-
     /**
      * Retrieve settings using method described in:
      * https://www.insomnia.gr/forums/topic/750707-h300s-%CE%BD%CE%AD%CE%BF-%CF%80%CF%81%CF%8C%CE%B3%CF%81%CE%B1%CE%BC%CE%BC%CE%B1-backup-voip-%CF%81%CF%85%CE%B8%CE%BC%CE%AF%CF%83%CE%B5%CF%89%CE%BD/?do=findComment&comment=58877078

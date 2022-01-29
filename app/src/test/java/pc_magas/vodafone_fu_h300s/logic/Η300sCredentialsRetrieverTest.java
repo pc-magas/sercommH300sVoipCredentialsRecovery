@@ -357,6 +357,22 @@ public class Η300sCredentialsRetrieverTest {
                     .protocol(Protocol.HTTP_1_1)
                     .header("Referer","http://192.168.2.1/login.html")
                     .body(ResponseBody.create(MediaType.parse("text/html"),csrfContents))
+                ).addRule(new Rule.Builder()
+                        .get()
+                        .url("http://192.168.2.1/status-and-support.html?_=1234&csrf_token=HelloHowAreYou")
+                        .respond(200)
+                        .message("")
+                        .protocol(Protocol.HTTP_1_1)
+                        .header("Referer","http://192.168.2.1/overview.html")
+                        .body(ResponseBody.create(MediaType.parse("text/html"),csrfContents))
+                ).addRule(new Rule.Builder()
+                    .get()
+                    .url("http://192.168.2.1/data/reset_pages.json?_=1234&csrf_token=HelloHowAreYou")
+                    .respond(200)
+                    .message("")
+                    .protocol(Protocol.HTTP_1_1)
+                    .header("Referer","http://192.168.2.1/status-and-support.html")
+                    .body(ResponseBody.create(MediaType.parse("application/json"),"[ { \"reset_pages\": \"\" } ]\n"))
                 );
 
         final OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();

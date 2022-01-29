@@ -352,15 +352,24 @@ public class Η300sCredentialsRetriever  implements Runnable {
                 return false;
             }
 
-            JSONObject json = (JSONObject) (new JSONArray(challengeJson)).get(0);
-
-            String challenge = json.getString("challenge");
-
-            if(challenge == null){
-                return false;
+            String[] array = challengeJson.trim().split(",");
+            Pattern challengeRegex = Pattern.compile("challenge");
+            String challenge = "";
+            for(String item : array){
+                Matcher match = challengeRegex.matcher(item);
+                if(match.find()){
+                    item = item.replaceAll("\"challenge\":","")
+                                .replace("}","")
+                                .replace("{","")
+                                .replace("[","")
+                                .replace("]","")
+                                .replace("\"","");
+                    challenge = item;
+                    break;
+                }
             }
 
-            if(challenge.trim().equals("")){
+            if(challenge == null || challenge.trim().equals("")){
                 return false;
             }
 

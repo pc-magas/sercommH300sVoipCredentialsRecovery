@@ -54,5 +54,5 @@
         <string name="echo_cancellation">Echo Cancelation</string>
     <!-- Settings Msg -->
         <string name="could_not_save_settings">Αδυναμία αποθηκευσης ρυθμίσεων</string>
-        <string name="save_success">Οι ρυθμίσεις επιτυχώς αποθηκεύτηκαν</string>
+        <string name="save_success">Οι ρυθμίσεις επιτυχώς αποθηκεύτηκαν στο αρχείο:\n\n%s</string>
 </resources>

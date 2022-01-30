@@ -54,5 +54,5 @@
         <string name="echo_cancellation">Echo Cancelation</string>
     <!-- Settings Msg -->
         <string name="could_not_save_settings">Cannot save the settings</string>
-        <string name="save_success">Settings successfully have been saved</string>
+        <string name="save_success">Settings successfully have been saved into file:\n\n%s</string>
 </resources>

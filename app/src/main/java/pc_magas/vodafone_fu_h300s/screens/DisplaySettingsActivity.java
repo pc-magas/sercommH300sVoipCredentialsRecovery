@@ -169,7 +169,8 @@ public class DisplaySettingsActivity extends AppCompatActivity implements View.O
             int errorColor = ContextCompat.getColor(this, R.color.error);
             msg.setBackgroundColor(errorColor);
         } else {
-            msg.setText(R.string.save_success);
+            String string = String.format(getString(R.string.save_success),savePath);
+            msg.setText(string);
             int success = ContextCompat.getColor(this, R.color.success);
             msg.setBackgroundColor(success);
         }

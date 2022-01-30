@@ -155,7 +155,9 @@ public class H300sVoipSettings implements Serializable
     }
 
     public void setSip_domain(String sip_domain) {
+        sip_domain = sip_domain.replaceAll("ob_enable=.*","");
         this.sip_domain = sip_domain;
+
     }
 
     public String getSip_number() {

@@ -1,6 +1,6 @@
 # v20220130
 1. Fix Broken save file ot external device.
-2. Add missing permissiont to fix the problem Above
+2. Add missing permissions to fix the problem Above
 
 # v20220129
 1. Restore the ability to recover the VOIP Settings.

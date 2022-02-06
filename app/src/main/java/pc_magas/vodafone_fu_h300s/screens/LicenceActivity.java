@@ -2,10 +2,12 @@ package pc_magas.vodafone_fu_h300s.screens;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
 import androidx.core.text.HtmlCompat;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -21,8 +23,13 @@ public class LicenceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.licence);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
+//        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(myToolbar);
+        try{
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }catch (NullPointerException e){
+           Log.e("GOBACK",e.getMessage());
+        }
 
         TextView licence = (TextView) findViewById(R.id.licence);
 
@@ -48,5 +55,14 @@ public class LicenceActivity extends AppCompatActivity {
             }
         }
         licence.setText(HtmlCompat.fromHtml(text.toString(), 0));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

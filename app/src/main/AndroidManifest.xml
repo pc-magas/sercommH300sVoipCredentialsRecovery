@@ -15,13 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VfuH300s"
         android:requestLegacyExternalStorage="true"
-        android:usesCleartextTraffic="true"
-
-        >
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".screens.LicenceActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.VfuH300s.NoActionBar" />
+
+            android:parentActivityName=".screens.MainScreen">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screens.MainScreen" />
+        </activity>
         <activity
             android:name=".screens.DisplaySettingsActivity"
             android:screenOrientation="portrait" />
@@ -34,6 +37,7 @@
             android:name=".screens.InstructionsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:theme="@style/Theme.VfuH300s.NoActionBar"
             android:name=".screens.MainScreen"
             android:screenOrientation="portrait">
             <intent-filter>

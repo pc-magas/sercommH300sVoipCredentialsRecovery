@@ -5,40 +5,53 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.LinkProperties;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.RouteInfo;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.InetAddress;
 import java.util.List;
+import java.util.Locale;
 
+import pc_magas.vodafone_fu_h300s.BuildConfig;
 import pc_magas.vodafone_fu_h300s.R;
 import pc_magas.vodafone_fu_h300s.exceptions.FailedWiFiException;
+import pc_magas.vodafone_fu_h300s.utils.LocaleHelper;
 
 public class MainScreen extends AppCompatActivity {
 
     Button retrieve;
     String ip = null;
     TextView msg = null;
+
+    Context context = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+        context = getApplicationContext();
 
         msg = (TextView)findViewById(R.id.usr_msg);
 
         retrieve = (Button)findViewById(R.id.retrieve);
         retrieve.setEnabled(false);
-
         retrieve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,9 +68,11 @@ public class MainScreen extends AppCompatActivity {
             }
         });
 
+        TextView version = (TextView) findViewById(R.id.version);
+        String versionName = BuildConfig.VERSION_NAME;
+        version.setText("Version: "+versionName);
 
         try {
-            Context context = getApplicationContext();
             Toast toast = Toast.makeText(context, getResources().getString(R.string.loading_msg), Toast.LENGTH_LONG);
             toast.show();
 

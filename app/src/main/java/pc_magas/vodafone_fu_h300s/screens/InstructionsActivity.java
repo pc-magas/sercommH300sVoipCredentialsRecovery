@@ -16,7 +16,6 @@ public class InstructionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connection_instructions);
-        final ImageView img = (ImageView)findViewById(R.id.instructions_image);
 
         final Button next = (Button)findViewById(R.id.next);
         next.setOnClickListener(new View.OnClickListener(){

@@ -1,0 +1,21 @@
+# v20220130
+1. Fix Broken save file ot external device.
+2. Add missing permissiont to fix the problem Above
+
+# v20220129
+1. Restore the ability to recover the VOIP Settings.
+2. Better replicate the Http Sequence the browsert Does.
+3. Change the User Agent
+
+# v20220122
+1. Add application Metadata
+2. Add link to README.md
+
+# v20220103
+1. Use the tarball in order to retrieve the data instead of Json.
+2. Fix unable to retrieve data.
+
+# v20211220
+1. Temporary fix in order to retrieve the settings
+2. Retrieve setting in specific versions
+

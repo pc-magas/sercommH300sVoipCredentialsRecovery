@@ -22,9 +22,7 @@ public class LicenceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.licence);
-
-//        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(myToolbar);
+        
         try{
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }catch (NullPointerException e){

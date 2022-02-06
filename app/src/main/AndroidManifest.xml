@@ -18,11 +18,24 @@
         android:usesCleartextTraffic="true"
 
         >
-        <activity android:name=".screens.LicenceActivity"    android:screenOrientation="portrait" ></activity>
-        <activity android:name=".screens.DisplaySettingsActivity"    android:screenOrientation="portrait" />
-        <activity android:name=".screens.ConnectIntoRouterActivity"    android:screenOrientation="portrait" />
-        <activity android:name=".screens.InstructionsActivity"    android:screenOrientation="portrait" />
-        <activity android:name=".screens.MainScreen"    android:screenOrientation="portrait">
+        <activity
+            android:name=".screens.LicenceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.VfuH300s.NoActionBar" />
+        <activity
+            android:name=".screens.DisplaySettingsActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".screens.ConnectIntoRouterActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".screens.InstructionsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".screens.MainScreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -1,6 +1,8 @@
 package pc_magas.vodafone_fu_h300s.screens;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.text.HtmlCompat;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,10 @@ public class LicenceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.licence);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+
         TextView licence = (TextView) findViewById(R.id.licence);
 
         BufferedReader reader = null;
@@ -28,8 +34,8 @@ public class LicenceActivity extends AppCompatActivity {
             String mLine;
             while ((mLine = reader.readLine()) != null) {
                 text.append(mLine);
-                text.append('\n');
             }
+
         } catch (IOException e) {
             Log.e("H300s","Licence Reading error",e);
         } finally {
@@ -41,6 +47,6 @@ public class LicenceActivity extends AppCompatActivity {
                 }
             }
         }
-        licence.setText((CharSequence) text);
+        licence.setText(HtmlCompat.fromHtml(text.toString(), 0));
     }
 }

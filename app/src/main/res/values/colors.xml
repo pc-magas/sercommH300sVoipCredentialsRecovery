@@ -12,4 +12,7 @@
     <!-- Background Colors -->
     <color name="error">#A10000</color>
     <color name="success">@color/teal_200</color>
+
+    <!-- Toolbar Colors -->
+    <color name="ToolbarBasic">#ffc0cb</color>
 </resources>

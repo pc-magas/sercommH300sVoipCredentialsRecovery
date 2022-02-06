@@ -39,7 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/next"
-        android:theme="@style/ButtonColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/instructions_image"
         tools:layout_editor_absoluteX="1dp"

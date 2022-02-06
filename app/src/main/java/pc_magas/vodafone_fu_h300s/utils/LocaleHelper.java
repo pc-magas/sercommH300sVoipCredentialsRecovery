@@ -1,3 +1,5 @@
+package pc_magas.vodafone_fu_h300s.utils;
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;

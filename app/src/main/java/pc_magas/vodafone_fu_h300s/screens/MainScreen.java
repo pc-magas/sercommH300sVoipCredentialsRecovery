@@ -5,34 +5,25 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.LinkProperties;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.RouteInfo;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.InetAddress;
 import java.util.List;
-import java.util.Locale;
 
 import pc_magas.vodafone_fu_h300s.BuildConfig;
 import pc_magas.vodafone_fu_h300s.R;
 import pc_magas.vodafone_fu_h300s.exceptions.FailedWiFiException;
-import pc_magas.vodafone_fu_h300s.utils.LocaleHelper;
 
 public class MainScreen extends AppCompatActivity {
 

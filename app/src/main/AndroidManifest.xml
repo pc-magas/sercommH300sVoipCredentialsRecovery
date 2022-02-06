@@ -19,7 +19,6 @@
         <activity
             android:name=".screens.LicenceActivity"
             android:screenOrientation="portrait"
-
             android:parentActivityName=".screens.MainScreen">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -35,7 +34,12 @@
 
         <activity
             android:name=".screens.InstructionsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".screens.MainScreen">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screens.MainScreen" />
+        </activity>
         <activity
             android:theme="@style/Theme.VfuH300s.NoActionBar"
             android:name=".screens.MainScreen"

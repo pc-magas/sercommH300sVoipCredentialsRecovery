@@ -1,6 +1,6 @@
-package pc_magas.vodafone_fu_h300s.logic.lambdas;
+package com.github.pcmagas.vfuh300s.lambdas;
 
-import pc_magas.vodafone_fu_h300s.logic.H300sVoipSettings;
+import com.github.pcmagas.vfuh300s.H300sVoipSettings;
 
 public interface RetrieveSettingsHandler {
     public void retrieveSettings(H300sVoipSettings settings);

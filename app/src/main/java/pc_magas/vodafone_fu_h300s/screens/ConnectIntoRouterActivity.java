@@ -25,8 +25,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import pc_magas.vodafone_fu_h300s.R;
-import pc_magas.vodafone_fu_h300s.logic.H300sVoipSettings;
-import pc_magas.vodafone_fu_h300s.logic.Η300sCredentialsRetriever;
+import com.github.pcmagas.vfuh300s.H300sVoipSettings;
+import com.github.pcmagas.vfuh300s.Η300sCredentialsRetriever;
 
 public class ConnectIntoRouterActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 

@@ -1,4 +1,4 @@
-package pc_magas.vodafone_fu_h300s.logic;
+package com.github.pcmagas.vfuh300s;
 
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.json.JSONException;

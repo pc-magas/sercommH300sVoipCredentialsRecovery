@@ -1,4 +1,4 @@
-package pc_magas.vodafone_fu_h300s.logic;
+package com.github.pcmagas.vfuh300s;
 
 import org.json.JSONException;
 import org.junit.Assert;
@@ -23,8 +23,8 @@ import okhttp3.mock.Behavior;
 import okhttp3.mock.MockInterceptor;
 import okhttp3.mock.Rule;
 
-import pc_magas.vodafone_fu_h300s.logic.exceptions.CsrfTokenNotFound;
-import pc_magas.vodafone_fu_h300s.logic.exceptions.SettingsFailedException;
+import com.github.pcmagas.vfuh300s.exceptions.CsrfTokenNotFound;
+import com.github.pcmagas.vfuh300s.exceptions.SettingsFailedException;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;

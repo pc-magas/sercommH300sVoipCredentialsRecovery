@@ -21,7 +21,7 @@ import java.time.format.DateTimeFormatter;
 
 
 import pc_magas.vodafone_fu_h300s.R;
-import pc_magas.vodafone_fu_h300s.logic.H300sVoipSettings;
+import com.github.pcmagas.vfuh300s.H300sVoipSettings;
 
 public class DisplaySettingsActivity extends AppCompatActivity implements View.OnClickListener {
 

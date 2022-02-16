@@ -1,4 +1,4 @@
-package pc_magas.vodafone_fu_h300s.logic.lambdas;
+package com.github.pcmagas.vfuh300s.lambdas;
 
 public interface SettingsRetrievalFailedHandler {
     public void handler(String type);

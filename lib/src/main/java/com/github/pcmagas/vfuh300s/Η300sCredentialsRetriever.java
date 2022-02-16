@@ -1,4 +1,4 @@
-package pc_magas.vodafone_fu_h300s.logic;
+package com.github.pcmagas.vfuh300s;
 
 import android.util.Log;
 
@@ -6,14 +6,14 @@ import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.Protocol;
 import okhttp3.ResponseBody;
-import pc_magas.vodafone_fu_h300s.logic.exceptions.CsrfTokenNotFound;
-import pc_magas.vodafone_fu_h300s.logic.exceptions.InvalidVersionException;
-import pc_magas.vodafone_fu_h300s.logic.exceptions.SettingsFailedException;
+import com.github.pcmagas.vfuh300s.exceptions.CsrfTokenNotFound;
+import com.github.pcmagas.vfuh300s.exceptions.InvalidVersionException;
+import com.github.pcmagas.vfuh300s.exceptions.SettingsFailedException;
 
-import pc_magas.vodafone_fu_h300s.logic.lambdas.ExceptionHandler;
-import pc_magas.vodafone_fu_h300s.logic.lambdas.LoginHandler;
-import pc_magas.vodafone_fu_h300s.logic.lambdas.RetrieveSettingsHandler;
-import pc_magas.vodafone_fu_h300s.logic.lambdas.SettingsRetrievalFailedHandler;
+import com.github.pcmagas.vfuh300s.lambdas.ExceptionHandler;
+import com.github.pcmagas.vfuh300s.lambdas.LoginHandler;
+import com.github.pcmagas.vfuh300s.lambdas.RetrieveSettingsHandler;
+import com.github.pcmagas.vfuh300s.lambdas.SettingsRetrievalFailedHandler;
 
 
 import org.json.JSONArray;

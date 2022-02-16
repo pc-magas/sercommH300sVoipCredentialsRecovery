@@ -13,6 +13,7 @@
           <set>
             <option value="/mnt/data/Kwdikas/AndroidStudioProjects/vfuH300s" />
             <option value="/mnt/data/Kwdikas/AndroidStudioProjects/vfuH300s/app" />
+            <option value="/mnt/data/Kwdikas/AndroidStudioProjects/vfuH300s/lib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

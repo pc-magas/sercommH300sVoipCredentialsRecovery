@@ -18,10 +18,12 @@ repositories {
 }
 
 dependencies {
-    implementation("com.squareup.okhttp3:okhttp")
+
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
     implementation 'org.apache.commons:commons-compress:1.21'
     implementation 'org.ini4j:ini4j:0.5.4'
-
+    implementation 'org.json:json:20210307'
+    
     // Use JUnit test framework
     testImplementation 'junit:junit:4.13'
     testImplementation 'com.github.gmazzo:okhttp-mock:1.4.1'

@@ -1,11 +1,10 @@
 package com.github.pcmagas.vfuh300s;
 
-import android.util.Log;
 
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.Protocol;
 import okhttp3.ResponseBody;
+
 import com.github.pcmagas.vfuh300s.exceptions.CsrfTokenNotFound;
 import com.github.pcmagas.vfuh300s.exceptions.InvalidVersionException;
 import com.github.pcmagas.vfuh300s.exceptions.SettingsFailedException;
@@ -15,26 +14,13 @@ import com.github.pcmagas.vfuh300s.lambdas.LoginHandler;
 import com.github.pcmagas.vfuh300s.lambdas.RetrieveSettingsHandler;
 import com.github.pcmagas.vfuh300s.lambdas.SettingsRetrievalFailedHandler;
 
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.math.BigInteger;
-import java.net.Socket;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -463,7 +449,6 @@ public class Η300sCredentialsRetriever  implements Runnable {
         }
         
         File file = File.createTempFile(System.currentTimeMillis()+"_voip_diagnose_info", ".tar.gz", this.getTempDir());
-        Log.e("After File","-- "+file);
 
         FileOutputStream download = new FileOutputStream(file);
 

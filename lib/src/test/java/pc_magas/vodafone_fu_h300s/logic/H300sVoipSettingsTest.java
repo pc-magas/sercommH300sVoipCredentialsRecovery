@@ -4,13 +4,9 @@ import org.apache.commons.compress.archivers.ArchiveException;
 import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Scanner;
 
 public class H300sVoipSettingsTest
 {

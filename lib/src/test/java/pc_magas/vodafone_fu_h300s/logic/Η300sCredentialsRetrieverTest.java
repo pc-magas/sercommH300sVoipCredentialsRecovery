@@ -3,20 +3,15 @@ package pc_magas.vodafone_fu_h300s.logic;
 import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mock;
 
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Scanner;
 
 import okhttp3.Call;
-import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;

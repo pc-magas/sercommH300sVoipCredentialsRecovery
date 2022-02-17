@@ -29,7 +29,7 @@ task buildLib(type: Jar) {
         attributes 'Implementation-Title': 'Vodafone H300s core library',
                 'Implementation-Version': 20210217
     }
-    baseName = 'h300sCoreLib'
+    archiveBaseName = 'h300sCoreLib'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }

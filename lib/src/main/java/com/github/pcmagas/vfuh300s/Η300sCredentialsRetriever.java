@@ -1,6 +1,5 @@
 package com.github.pcmagas.vfuh300s;
 
-
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;

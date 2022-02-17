@@ -54,11 +54,8 @@ dependencies {
 
 
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.0"))
-
     // define any required OkHttp artifacts without version
     implementation("com.squareup.okhttp3:okhttp")
-    implementation 'org.apache.commons:commons-compress:1.21'
-    implementation 'org.ini4j:ini4j:0.5.4'
 
     // Testing Dependencies
     implementation project(":lib")

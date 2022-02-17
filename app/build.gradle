@@ -69,5 +69,5 @@ dependencies {
 
 tasks.whenTaskAdded { task ->
     if (task.name == 'assembleRelease')
-        task.dependsOn('test')
+        task.dependsOn('lib:test')
 }

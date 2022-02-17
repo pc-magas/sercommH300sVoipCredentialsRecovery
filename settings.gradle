@@ -1,4 +1,8 @@
 include ':app'
+
+
+
+
 include ':lib'
 rootProject.name = "vodafone-fu-H300s"
 

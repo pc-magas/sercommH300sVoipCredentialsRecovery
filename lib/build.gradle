@@ -24,7 +24,7 @@ dependencies {
     testImplementation 'com.github.gmazzo:okhttp-mock:latest'
 }
 
-task packLib(type: Jar) {
+task buildLib(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'Vodafone H300s core library',
                 'Implementation-Version': 20210217
@@ -33,3 +33,5 @@ task packLib(type: Jar) {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
+
+buildLib.dependsOn test

@@ -16,7 +16,7 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: hello.txt
-          path: .
+          path: hello
 
   file_read:
     needs: file_gen
@@ -25,11 +25,11 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: hello.txt
-          path: .
+          path: hello
       - id: step1
         env:
           file: ${{ needs.file_gen.outputs.path }}
           contents: ${{ needs.file_gen.outputs.contents }}
         run: |
-          ls -l hello.txt
-          cat hello.txt
+          ls -l hello
+          cat hello/hello.txt

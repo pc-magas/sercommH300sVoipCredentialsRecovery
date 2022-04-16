@@ -8,12 +8,20 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
         path: ${{ steps.step1.outputs.path }}
+        contents:  ${{ steps.step2.outputs.contents }}
     steps:
        - id: "step1"
          name: "Generate a file"
          run: |
             echo "HELLO" > ./hello.txt
             echo "::set-output name=path::./hello.txt"
+      - id: "step2"
+        name: "Create file tranfer between jobs"
+        env:
+          file:  ${{ steps.step1.outputs.path }}
+        run: |
+          cat $file
+          echo "::set-output name=contents::$(base64 $file)"
   file_read:
     needs: file_gen
     runs-on: ubuntu-latest
@@ -21,5 +29,8 @@ jobs:
       - id: step1
         env:
           file: ${{ needs.file_gen.outputs.path }}
+          contents: ${{ needs.file_gen.outputs.contents }}
         run: |
+          cat $contents
+          base64 -d $contents > $file
           cat $file

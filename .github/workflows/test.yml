@@ -8,14 +8,14 @@ jobs:
   file_gen:
     runs-on: ubuntu-latest
     outputs:
-        path: ${{ steps.step1.outputs.path }}
-        contents: ${{ steps.step2.outputs.contents }}
+      path: ${{ steps.step1.outputs.path }}
+      contents: ${{ steps.step2.outputs.contents }}
     steps:
-       - id: "step1"
-         name: "Generate a file"
-         run: |
-            echo "HELLO" > ./hello.txt
-            echo "::set-output name=path::./hello.txt"
+      - id: "step1"
+        name: "Generate a file"
+        run: |
+          echo "HELLO" > ./hello.txt
+          echo "::set-output name=path::./hello.txt"
       - id: "step2"
         name: "Create file tranfer between jobs"
         env:

@@ -12,10 +12,21 @@ jobs:
         name: "Generate a file"
         run: |
           echo "HELLO" > ./hello.txt
-          echo "::set-output name=path::hello.txt"
       - uses: actions/upload-artifact@master
         with:
           name: hello.txt
+          path: hello
+
+  file_gen2:
+    runs-on: ubuntu-latest
+    steps:
+      - id: "step1"
+        name: "Generate a file"
+        run: |
+          echo "HELLO2" > ./hello2.txt
+      - uses: actions/upload-artifact@master
+        with:
+          name: hello2.txt
           path: hello
 
   file_read:
@@ -25,11 +36,16 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: hello.txt
-          path: hello
+          path: .
+      - uses: actions/download-artifact@master
+          with:
+            name: hello2.txt
+            path: .
       - id: step1
         env:
           file: ${{ needs.file_gen.outputs.path }}
           contents: ${{ needs.file_gen.outputs.contents }}
         run: |
-          ls -l hello
-          cat hello/hello.txt
+          ls -l .
+          cat ./hello.txt
+          cat ./hello2.txt

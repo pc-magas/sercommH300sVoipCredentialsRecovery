@@ -16,6 +16,7 @@ jobs:
             echo "::set-output name=path::./hello.txt"
   file_read:
     needs: file_gen
+    runs-on: ubuntu-latest
     steps:
       - id: step1
         env:

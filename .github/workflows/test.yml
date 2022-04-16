@@ -33,6 +33,6 @@ jobs:
           file: ${{ needs.file_gen.outputs.path }}
           contents: ${{ needs.file_gen.outputs.contents }}
         run: |
-          cat $contents
+          echo $contents
           base64 -d $contents > $file
           cat $file

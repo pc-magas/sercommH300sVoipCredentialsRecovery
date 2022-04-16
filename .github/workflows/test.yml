@@ -16,8 +16,9 @@ jobs:
             echo "::set-output name=path::./hello.txt"
   file_read:
     needs: file_gen
-    - id: step1
-      env:
-        file: ${{ needs.file_gen.outputs.path }}
-      run: |
-        cat $file
+    steps:
+      - id: step1
+        env:
+          file: ${{ needs.file_gen.outputs.path }}
+        run: |
+          cat $file

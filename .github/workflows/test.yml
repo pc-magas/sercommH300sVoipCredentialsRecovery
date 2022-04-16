@@ -27,7 +27,7 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: hello2.txt
-          path: hello
+          path: .
 
   file_read:
     needs: file_gen

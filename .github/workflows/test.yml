@@ -14,18 +14,18 @@ jobs:
           echo "HELLO" > ./hello.txt
           echo "::set-output name=path::hello.txt"
       - uses: actions/upload-artifact@master
-          with:
-            name: file
-            path: hello.txt
+        with:
+          name: file
+          path: hello.txt
 
   file_read:
     needs: file_gen
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@master
-          with:
-            name: file
-            path: hello.txt
+        with:
+          name: file
+          path: hello.txt
       - id: step1
         env:
           file: ${{ needs.file_gen.outputs.path }}

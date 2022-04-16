@@ -4,11 +4,12 @@ on:
     branches: [dev]
 
 jobs:
+
   file_gen:
     runs-on: ubuntu-latest
     outputs:
         path: ${{ steps.step1.outputs.path }}
-        contents:  ${{ steps.step2.outputs.contents }}
+        contents: ${{ steps.step2.outputs.contents }}
     steps:
        - id: "step1"
          name: "Generate a file"
@@ -22,6 +23,7 @@ jobs:
         run: |
           cat $file
           echo "::set-output name=contents::$(base64 $file)"
+
   file_read:
     needs: file_gen
     runs-on: ubuntu-latest

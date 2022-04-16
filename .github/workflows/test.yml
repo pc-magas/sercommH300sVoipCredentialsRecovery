@@ -38,9 +38,10 @@ jobs:
           name: hello.txt
           path: .
       - uses: actions/download-artifact@master
-          with:
-            name: hello2.txt
-            path: .
+        with:
+          name: hello2.txt
+          path: .
+
       - id: step1
         env:
           file: ${{ needs.file_gen.outputs.path }}

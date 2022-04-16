@@ -15,7 +15,7 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: hello.txt
-          path: hello
+          path: .
 
   file_gen2:
     runs-on: ubuntu-latest
@@ -30,7 +30,9 @@ jobs:
           path: .
 
   file_read:
-    needs: file_gen
+    needs:
+      - file_gen
+      - file_gen2
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@master

@@ -1,0 +1,23 @@
+name: build-app
+on:
+  push:
+    branches: [dev]
+
+jobs:
+  file_gen:
+    runs-on: ubuntu-latest
+    outputs:
+        path: ${{ steps.step1.outputs.path }}
+    steps:
+       - id: "step1"
+         name: "Generate a file"
+         run: |
+            echo "HELLO" > ./hello.txt
+            echo "::set-output name=path::./hello.txt"
+  file_read:
+    needs: file_gen
+    - id: step1
+      env:
+        file: ${{ needs.file_gen.outputs.path }}
+      run: |
+        cat $file

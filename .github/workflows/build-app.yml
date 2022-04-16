@@ -4,7 +4,7 @@ on:
     branches: [master]
 
 jobs:
-  test:
+  build_apk:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest code
@@ -57,6 +57,7 @@ jobs:
           apksigner sign --ks ${KEYSTORE_FILE} --ks-key-alias ${KEYALIAS} --ks-pass env:MYAPP_RELEASE_STORE_PASSWORD --key-pass env:MYAPP_RELEASE_STORE_PASSWORD  ./app/release/apk-release.apk
           echo "::set-output name=path::./app/release/apk-release.apk"
 
+############### Create Release #######################
       - name: Get Version
         id: get_version
         run: |

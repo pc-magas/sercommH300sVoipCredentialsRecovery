@@ -132,7 +132,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ jobs.build_apk.outputs.versionNum }}
+          custom_tag: ${{ needs.build_apk.outputs.versionNum }}
 
       - name: Create a GitHub release
         if: github.ref == 'refs/heads/master'

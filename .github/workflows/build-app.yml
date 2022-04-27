@@ -132,7 +132,7 @@ jobs:
         id: sha256
         run: |
           sha256sum ./lib/build/libs/h300sCoreLib.jar >> checksum
-          sha256sum ./app/release/h300sCoreLib.jar >> checksum
+          sha256sum ./app/release/apk-release.apk >> checksum
           cat checksum
 
       - name: Tag version

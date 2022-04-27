@@ -100,95 +100,94 @@ jobs:
       - build_lib
     runs-on: ubuntu-latest
     steps:
+        - name: Checkout latest code
+          uses: actions/checkout@v2
 
-      - name: Checkout latest code
-        uses: actions/checkout@v2
+        - name: Get Version
+          id: get_version
+          run: |
+            VERSION=$(grep -oP "versionCode \d+" ./app/build.gradle | grep -oP "\d+")
+            echo "::set-output name=versionNum::${VERSION}"
 
-    - name: Get Version
-      id: get_version
-      run: |
-        VERSION=$(grep -oP "versionCode \d+" ./app/build.gradle | grep -oP "\d+")
-        echo "::set-output name=versionNum::${VERSION}"
+        - name: "Load apk"
+          uses: actions/download-artifact@master
+          with:
+            name: apk-release.apk
+            path: ./app/release
 
-      - name: "Load apk"
-        uses: actions/download-artifact@master
-        with:
-          name: apk-release.apk
-          path: ./app/release
+        - name: "Load Lib"
+          uses: actions/download-artifact@master
+          with:
+            name: h300sCoreLib.jar
+            path: ./lib/build/libs
 
-      - name: "Load Lib"
-        uses: actions/download-artifact@master
-        with:
-          name: h300sCoreLib.jar
-          path: ./lib/build/libs
+        - name: Display Version
+          id: before_release_output
+          env:
+            VERSION: ${{ needs.build_apk.outputs.versionNum }}
+          run: |
+            echo ${VERSION}
+            ls -l ./lib/build/libs
+            ls -l ./app/release
 
-      - name: Display Version
-        id: before_release_output
-        env:
-          VERSION: ${{ needs.build_apk.outputs.versionNum }}
-        run: |
-          echo ${VERSION}
-          ls -l ./lib/build/libs
-          ls -l ./app/release
+        - name: sha256sum
+          id: sha256
+          run: |
+            sha256sum ./lib/build/libs/h300sCoreLib.jar >> checksum
+            sha256sum ./app/release/apk-release.apk >> checksum
+            cat checksum
 
-      - name: sha256sum
-        id: sha256
-        run: |
-          sha256sum ./lib/build/libs/h300sCoreLib.jar >> checksum
-          sha256sum ./app/release/apk-release.apk >> checksum
-          cat checksum
+        - name: Tag version
+          id: tag_version
+          if: github.ref == 'refs/heads/master'
+          uses: mathieudutour/github-tag-action@v5.5
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            custom_tag: ${{ steps.get_version.outputs.versionNum }}
 
-      - name: Tag version
-        id: tag_version
-        if: github.ref == 'refs/heads/master'
-        uses: mathieudutour/github-tag-action@v5.5
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ steps.get_version.outputs.versionNum }}
+        - name: Create a GitHub release
+          if: github.ref == 'refs/heads/master'
+          id: create_release
+          uses: actions/create-release@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            tag_name: ${{ steps.get_version.outputs.versionNum }}
+            release_name: Release APK ${{ steps.get_version.outputs.versionNum }}
+            body: ${{ steps.tag_version.outputs.changelog }}
 
-      - name: Create a GitHub release
-        if: github.ref == 'refs/heads/master'
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.get_version.outputs.versionNum }}
-          release_name: Release APK ${{ steps.get_version.outputs.versionNum }}
-          body: ${{ steps.tag_version.outputs.changelog }}
+        - name: Upload APK Asset
+          if: github.ref == 'refs/heads/master'
+          id: upload-release-app
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: ./app/release/apk-release.apk
+            asset_name: app-release.apk
+            asset_content_type: application/zip
 
-      - name: Upload APK Asset
-        if: github.ref == 'refs/heads/master'
-        id: upload-release-app
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./app/release/apk-release.apk
-          asset_name: app-release.apk
-          asset_content_type: application/zip
+        - name: Upload Lib Asset
+          if: github.ref == 'refs/heads/master'
+          id: upload-release-lib
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: ./lib/build/libs/h300sCoreLib.jar
+            asset_name: h300sCoreLib.jar
+            asset_content_type: application/zip
 
-      - name: Upload Lib Asset
-        if: github.ref == 'refs/heads/master'
-        id: upload-release-lib
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./lib/build/libs/h300sCoreLib.jar
-          asset_name: h300sCoreLib.jar
-          asset_content_type: application/zip
-
-      - name: Upload Checksum
-        if: github.ref == 'refs/heads/master'
-        id: upload-checksum
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./checksum
-          asset_name: checksum
-          asset_content_type: text/plain
+        - name: Upload Checksum
+          if: github.ref == 'refs/heads/master'
+          id: upload-checksum
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: ./checksum
+            asset_name: checksum
+            asset_content_type: text/plain

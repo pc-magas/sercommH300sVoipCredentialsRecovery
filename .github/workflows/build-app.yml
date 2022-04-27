@@ -124,7 +124,7 @@ jobs:
         - name: Display Version
           id: before_release_output
           env:
-            VERSION: ${{ needs.build_apk.outputs.versionNum }}
+            VERSION: ${{ steps.get_version.outputs.versionNum }}
           run: |
             echo ${VERSION}
             ls -l ./lib/build/libs

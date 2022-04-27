@@ -35,6 +35,8 @@ jobs:
 
   build_apk:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.versionNum }}
     steps:
       - name: Checkout latest code
         uses: actions/checkout@v2
@@ -70,6 +72,12 @@ jobs:
           ./gradlew assembleRelease
           ls -l ./app/build/outputs/apk/release
           echo "::set-output name=path::./app/build/outputs/apk/release/app-release-unsigned.apk"
+
+      - name: Get Version
+        id: get_version
+        run: |
+          VERSION=$(grep -oP "versionCode \d+" ./app/build.gradle | grep -oP "\d+")
+          echo "::set-output name=versionNum::${VERSION}"
 
       - name: "Sign APK"
         id: "apk"
@@ -111,12 +119,6 @@ jobs:
           name: lib.jar
           path: ./lib/build/libs
 
-      - name: Get Version
-        id: get_version
-        run: |
-          VERSION=$(grep -oP "versionCode \d+" ./app/build.gradle | grep -oP "\d+")
-          echo "::set-output name=versionNum::${VERSION}"
-
       - name: Display Version
         id: display_version
         env:
@@ -130,7 +132,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ steps.get_version.outputs.versionNum }}
+          custom_tag: ${{ jobs.build_apk.outputs.versionNum }}
 
       - name: Create a GitHub release
         if: github.ref == 'refs/heads/master'

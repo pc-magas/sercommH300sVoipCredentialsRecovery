@@ -120,11 +120,13 @@ jobs:
           path: ./lib/build/libs
 
       - name: Display Version
-        id: display_version
+        id: before_release_output
         env:
-          VERSION: ${{ steps.get_version.outputs.versionNum }}
+          VERSION: ${{  needs.build_apk.outputs.versionNum }}
         run: |
-           echo ${VERSION}
+          echo ${VERSION}
+          ls -l ./lib/build/libs
+          ls -l ./app/release
 
       - name: Tag version
         id: tag_version

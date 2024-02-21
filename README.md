@@ -1,3 +1,7 @@
+> Stopped Development.
+> Greek ISPs are required by law to provide the VOIP credentials towards their clients.
+> Therefore there's no reason for further development
+
 # Sercomm H300s Voip and DSL Credentials Recovery
 Recover VOIP Credentials and DSL settings from Sercomm H300s router.
 
